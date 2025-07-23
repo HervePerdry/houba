@@ -380,14 +380,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // setdims
-void setdims(SEXP pM, std::string datatype, Rcpp::IntegerVector Dims);
-RcppExport SEXP _houba_setdims(SEXP pMSEXP, SEXP datatypeSEXP, SEXP DimsSEXP) {
+void setdims(SEXP pM, std::string datatype, Rcpp::IntegerVector value);
+RcppExport SEXP _houba_setdims(SEXP pMSEXP, SEXP datatypeSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
     Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type Dims(DimsSEXP);
-    setdims(pM, datatype, Dims);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type value(valueSEXP);
+    setdims(pM, datatype, value);
     return R_NilValue;
 END_RCPP
 }
