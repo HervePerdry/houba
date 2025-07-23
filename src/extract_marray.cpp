@@ -1,4 +1,4 @@
-#include "MMatrix_methods.h"
+#include "MMatrix.h"
 #include <iostream>
 #include <Rcpp.h>
 #include "list2vec.h"

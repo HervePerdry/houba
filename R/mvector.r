@@ -1,4 +1,5 @@
 #' @rdname marray
+#' @return the newly created \link{mvector-class}.
 #' @export
 mvector <- function(type = c("double", "float", "int"), length, filename, readonly) {
   type <- match.arg(type)

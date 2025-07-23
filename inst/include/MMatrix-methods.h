@@ -8,7 +8,6 @@
 #include <system_error> // for std::error_code
 
 #include "mio.hpp"
-#include "MMatrix.h"
 
 // Helper function for the c°
 template <typename T>

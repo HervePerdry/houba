@@ -13,7 +13,7 @@
 #' An integer vector giving the dimensions of the mmatrix
 #' @slot datatype
 #' \code{character} giving the C++ underlying datatype.
-#' @slot readonly \code{logical} Indicates if the array if read-only.
+#' @slot readonly \code{logical} Indicates if the array is read-only.
 #' 
 #' @section Objects from the Class:
 #' Objects can be created by calling \link{mmatrix}.

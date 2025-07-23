@@ -16,5 +16,5 @@ add.descriptor.file(object)
 Descriptor file
 }
 \details{
-Creates a descriptor file, for reading the matrix with the package bigmemory.
+Creates a descriptor file, for reading the matrix with the package bigmemory or the \link{read.descriptor} function.
 }

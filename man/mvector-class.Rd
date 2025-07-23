@@ -6,7 +6,6 @@
 \title{Class \code{mvector}}
 \description{
 S4 class for manipulating memory-mapped files as vectors
-
 }
 \section{Slots}{
 
@@ -20,7 +19,6 @@ S4 class for manipulating memory-mapped files as vectors
 \item{\code{datatype}}{\code{character} giving the C++ underlying datatype.}
 
 \item{\code{readonly}}{\code{logical} Indicates if the vector if read-only.}
-
 }}
 
 \section{Objects from the Class}{
@@ -30,5 +28,4 @@ Objects can be created by calling \link{mvector}.
 
 \seealso{
 \link{marray-class}, \link{mmatrix-class}
-
 }

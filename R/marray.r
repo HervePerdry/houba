@@ -19,7 +19,7 @@
 #' @details If \code{filename} is missing, a temporary filename will be generated using \code{tempfile}.
 #' In the contrary case, is the file exists, it will be opened (if its size is compatible with the dimension
 #' of the object); if the file does not exist, it will be created.
-#' @details If \code{readonly} is missng, it will be set to \code{TRUE} when opening an existing file, and
+#' @details If \code{readonly} is missing, it will be set to \code{TRUE} when opening an existing file, and
 #' to \code{FALSE} when the file is created by the function.
 #' 
 #' @export

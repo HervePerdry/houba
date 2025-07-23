@@ -1,4 +1,4 @@
-#include "MMatrix_methods.h"
+#include "MMatrix.h"
 #include <iostream>
 #include <cstdint> // for int16_t
 #include <Rcpp.h>

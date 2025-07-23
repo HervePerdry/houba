@@ -4,11 +4,12 @@
 #' @name dim
 #'
 #' @param x a memory mapped object
-#' @param value new dimensions
+#' @param value or \code{NULL} new dimensions
 #'
 #' @details The new dimensions must match the object size. This function can
 #' change the class of the object, e.g. from mvector to mmatrix or the reverse.
 #'
+#' @details If the value is \code{NULL}, then \code{x} is translated to a \code{mvector}.
 #' @examples x <- mvector("int", 6)
 #' x[] <- 1:6
 #' x

@@ -1,4 +1,4 @@
-#include "MMatrix_methods.h"
+#include "MMatrix.h"
 #include <stdexcept> // for std::runtime_error
 #include <Rcpp.h>
 

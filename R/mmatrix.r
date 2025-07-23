@@ -3,13 +3,14 @@
 #' indicated types and dimension.
 #' @details By default, the \code{mmatrix-class} is filled with 0.
 #' This function is kind of acting as a manual constructor for \code{mmatrix-class}.
-#' If you want to instanciate a \code{mmatrix-class} from a file, check \link{read.mmatrix}.
+#' If you want to instanciate a \code{mmatrix-class} from a descriptor file, check \link{read.descriptor}.
 #' @param type can be \code{double}, \code{float}, \code{int}, \code{short}
-#' @param nrow number of rows in the future 
+#' @param nrow number of rows
 #' @param ncol number of columns
 #' @param filename (optional)
 #' the relative or absolute path to the file you want to store your \code{mmatrix-class}.
 #' If omitted, \link{tempfile} is used to generate a file name for a temporary file.
+#' @param readonly \code{logical} Indicates if the array is read-only.
 #' @return the newly created \link{mmatrix-class}.
 #' @export
 mmatrix <- function(type = c("double", "float", "int", "short"), nrow, ncol, filename, readonly) {

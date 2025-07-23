@@ -1,4 +1,4 @@
-#include "MMatrix_methods.h"
+#include "MMatrix.h"
 #include <Rcpp.h>
 
 // [[Rcpp::export]]

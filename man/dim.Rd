@@ -13,7 +13,7 @@
 \arguments{
 \item{x}{a memory mapped object}
 
-\item{value}{new dimensions}
+\item{value}{or \code{NULL} new dimensions}
 }
 \description{
 Change object dimensions
@@ -21,6 +21,8 @@ Change object dimensions
 \details{
 The new dimensions must match the object size. This function can
 change the class of the object, e.g. from mvector to mmatrix or the reverse.
+
+If the value is \code{NULL}, then \code{x} is translated to a \code{mvector}.
 }
 \examples{
 x <- mvector("int", 6)

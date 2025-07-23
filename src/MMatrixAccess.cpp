@@ -1,7 +1,7 @@
 // small test function
 // sends back as an R object (NOT mmatrix)
 // the data specified in List
-#include "MMatrix_methods.h"
+#include "MMatrix.h"
 #include <iostream>
 #include <Rcpp.h>
 
