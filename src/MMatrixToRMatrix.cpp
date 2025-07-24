@@ -1,5 +1,4 @@
 #include "MMatrix.h"
-#include <iostream>
 #include <Rcpp.h>
 
 // I have to use SEXP as an argument because I don't 

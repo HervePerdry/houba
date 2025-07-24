@@ -1,7 +1,6 @@
 #ifndef MMATRIX_METHOD_H
 #define MMATRIX_METHOD_H
 
-#include <cassert>
 #include <fstream> // for ofstream, loading the file
 #include <sstream> // for verbosout
 #include <stdexcept>

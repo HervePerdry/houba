@@ -1,5 +1,4 @@
 #include "MMatrix.h"
-#include <iostream>
 #include <Rcpp.h>
 
 // pour celui ci target est un vecteur R du bon type

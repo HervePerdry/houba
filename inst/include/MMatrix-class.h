@@ -1,10 +1,7 @@
 #ifndef MMATRIX_CLASS_H
 #define MMATRIX_CLASS_H
 
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <system_error>
+#include <sstream> // for std::ostringstream verbosout_
 #include <vector>
 
 #include "mio.hpp"

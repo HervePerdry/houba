@@ -1,5 +1,4 @@
 #include "MMatrix.h"
-#include <iostream>
 #include <Rcpp.h>
 
 // ici values est un R vector

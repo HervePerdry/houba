@@ -1,6 +1,6 @@
 Package: houba
 Type: Package
-Title: Manipulation of (large) memory-mapped objects (vectors, matrices and arrays)
+Title: Manipulation of (Large) Memory-Mapped Objects (Vectors, Matrices and Arrays)
 Version: 0.1.0
 Authors@R: c(
     person("Hervé", "Perdry", 

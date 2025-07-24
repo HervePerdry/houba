@@ -10,19 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// MMatrixAccess
-SEXP MMatrixAccess(SEXP pM, std::string datatype, Rcpp::IntegerVector I);
-RcppExport SEXP _houba_MMatrixAccess(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
-    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type I(ISEXP);
-    rcpp_result_gen = Rcpp::wrap(MMatrixAccess(pM, datatype, I));
-    return rcpp_result_gen;
-END_RCPP
-}
 // MMatrixToRArray
 SEXP MMatrixToRArray(SEXP pM, std::string datatype);
 RcppExport SEXP _houba_MMatrixToRArray(SEXP pMSEXP, SEXP datatypeSEXP) {
@@ -393,7 +380,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_houba_MMatrixAccess", (DL_FUNC) &_houba_MMatrixAccess, 3},
     {"_houba_MMatrixToRArray", (DL_FUNC) &_houba_MMatrixToRArray, 2},
     {"_houba_MMatrixToRMatrix", (DL_FUNC) &_houba_MMatrixToRMatrix, 2},
     {"_houba_copy_values_", (DL_FUNC) &_houba_copy_values_, 3},
