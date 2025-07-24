@@ -3,14 +3,17 @@
 \name{add.descriptor.file}
 \alias{add.descriptor.file}
 \alias{add.descriptor.file,mmatrix-method}
+\alias{add.descriptor.file,mvector-method}
 \title{Descriptor file}
 \usage{
 add.descriptor.file(object)
 
 \S4method{add.descriptor.file}{mmatrix}(object)
+
+\S4method{add.descriptor.file}{mvector}(object)
 }
 \arguments{
-\item{object}{a mmatrix object}
+\item{object}{a mmatrix or mvector object}
 }
 \description{
 Descriptor file

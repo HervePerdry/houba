@@ -46,4 +46,10 @@ add.descriptor.file(C)
 
 D <- read.descriptor(C@file)
 stopifnot( all(as.matrix(C) == as.matrix(D)))
-           
+
+#descriptor for mvector
+add.descriptor.file(V)
+Vbis <- read.descriptor(V@file, FALSE) #so NOT read-only
+Vbis[,] <- 0
+#modified V in place through Vbis
+stopifnot( all(as.vector(V) == 0) )

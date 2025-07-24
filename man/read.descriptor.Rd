@@ -4,16 +4,18 @@
 \alias{read.descriptor}
 \title{Read big memory descriptor file}
 \usage{
-read.descriptor(basename)
+read.descriptor(basename, readonly)
 }
 \arguments{
 \item{basename}{basename of the file}
+
+\item{readonly}{\code{TRUE} by default, specifies if the object should be readonly}
 }
 \description{
 Read big memory descriptor file
 }
 \details{
-Creates a mmatrix by reading a 'bigmemory' descriptor file.
+Creates a \code{mmatrix} or a \code{mvector} by reading a 'bigmemory' descriptor file.
 The descriptor file name is obtained by appending ".desc" to the basename.
 }
 \seealso{
