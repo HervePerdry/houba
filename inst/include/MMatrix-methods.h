@@ -308,8 +308,10 @@ template <typename T>
 template <typename Tvec>
 void MMatrix<T>::copy_values(Tvec & values) {
   size_t vs = values.size();
+#pragma omp parallel for
   for(size_t i = 0; i < size_; i++) {
-    if(i >= size_) throw std::out_of_range("Index out of range");
+    // unused check, i < size_
+    //if(i >= size_) throw std::out_of_range("Index out of range");
     data_ptr_[i] = values[ i % vs ];
   }
 }
