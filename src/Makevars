@@ -1,3 +1,1 @@
-CXX_STD = CXX11 
-PKG_CPPFLAGS = -I ../inst/include/
-CXX11FLAGS = -O0 -Wall
+PKG_CPPFLAGS = -I ../inst/include/ -Wall
