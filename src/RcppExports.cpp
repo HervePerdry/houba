@@ -261,6 +261,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// flush_
+void flush_(SEXP pM, std::string datatype);
+RcppExport SEXP _houba_flush_(SEXP pMSEXP, SEXP datatypeSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    flush_(pM, datatype);
+    return R_NilValue;
+END_RCPP
+}
 // isnullptr
 bool isnullptr(SEXP pointer);
 RcppExport SEXP _houba_isnullptr(SEXP pointerSEXP) {
@@ -400,6 +411,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_houba_extract_mmatrix_to_mmatrix", (DL_FUNC) &_houba_extract_mmatrix_to_mmatrix, 5},
     {"_houba_extract_mvector_to_R", (DL_FUNC) &_houba_extract_mvector_to_R, 4},
     {"_houba_extract_mvector_to_mvector", (DL_FUNC) &_houba_extract_mvector_to_mvector, 4},
+    {"_houba_flush_", (DL_FUNC) &_houba_flush_, 2},
     {"_houba_isnullptr", (DL_FUNC) &_houba_isnullptr, 1},
     {"_houba_link_marray", (DL_FUNC) &_houba_link_marray, 3},
     {"_houba_link_mmatrix", (DL_FUNC) &_houba_link_mmatrix, 4},

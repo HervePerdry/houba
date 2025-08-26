@@ -81,6 +81,10 @@ extract_mvector_to_mvector <- function(pM, datatype, I, target) {
     invisible(.Call(`_houba_extract_mvector_to_mvector`, pM, datatype, I, target))
 }
 
+flush_ <- function(pM, datatype) {
+    invisible(.Call(`_houba_flush_`, pM, datatype))
+}
+
 isnullptr <- function(pointer) {
     .Call(`_houba_isnullptr`, pointer)
 }

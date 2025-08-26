@@ -14,6 +14,11 @@
 template <typename T>
 class MMatrix
 {
+protected:
+    // this is a function called by the constructor to create a file of the good size 
+    // check if it exists / resize it - if authorize_resize == true
+    void FileHandler(std::string path, size_t matrix_size, bool verbose, bool authorize_resize);
+
 public:
     // Constructor opening the file containing the matrix
     // if path exists else creating one.
@@ -22,11 +27,6 @@ public:
     MMatrix(std::string path, std::vector<size_t> dims, bool verbose = true, bool authorize_resize = false);
     // Destructor flushing changes to disk before unmapping
     ~MMatrix();
-
-protected:
-    // this is a function called by the constructor to create a file of the good size 
-    // check if it exists / resize it - if authorize_resize == true
-    void FileHandler(std::string path, size_t matrix_size, bool verbose, bool authorize_resize);
 
 public:
     // Getters
@@ -105,6 +105,8 @@ public:
     void cw_div(Tvec & e2);
     void cw_inverse();
     void cw_opposite();
+
+    void flush();
 
 private:
     // auxiliary function for extract_array

@@ -44,7 +44,7 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose,
         if (stat(path_c, &buf) != 0) {
             throw std::runtime_error("Failed to analyse file: " + path);
         }
-        off_t file_size = buf.st_size;
+        size_t file_size = buf.st_size; // casted from off_t to size_t
         if (file_size != matrix_size) {
             if (!authorize_resize) throw std::runtime_error("The file size doesn't match the matrix size ! Use the \"authorise_resize\" to force a resize.");
             if (verbose) {
@@ -96,7 +96,7 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose,
 // TODO : check if logical sense for nrow first and ncol last ?
 template <typename T>
 MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose, bool authorize_resize)
-    : ncol_(ncol), nrow_(nrow), path_(path), verbose_(verbose), dim_{nrow, ncol}
+    : ncol_(ncol), nrow_(nrow), dim_{nrow, ncol}, path_(path), verbose_(verbose)
 {
     size_ = ncol * nrow;
     if (!size_) throw std::invalid_argument("Ncol or Nrow is equal to 0, cannot map an empty file !");
@@ -109,7 +109,7 @@ MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose, bo
 template <typename T>
 MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool verbose, bool authorize_resize) 
 // ! if it is not a matrix (dim.size != 2) ncol & nrow ARE NOT USED !!!
-: ncol_(0), nrow_(0), path_(path), dim_{dims}, verbose_(verbose)
+: ncol_(0), nrow_(0), dim_{dims}, path_(path), verbose_(verbose)
 {
     size_ = 1;
     for (size_t d : dims) {
@@ -167,13 +167,13 @@ std::string MMatrix<T>::path() const
     return path_;
 }
 template <typename T>
+std::vector<size_t> MMatrix<T>::dim() const {
+    return dim_;
+}
+template <typename T>
 T *MMatrix<T>::data() const
 {
     return data_ptr_;
-}
-template <typename T>
-std::vector<size_t> MMatrix<T>::dim() const {
-    return dim_;
 }
 template <typename T>
 bool MMatrix<T>::verbose() const
@@ -308,14 +308,12 @@ template <typename T>
 template <typename Tvec>
 void MMatrix<T>::copy_values(Tvec & values) {
   size_t vs = values.size();
-#pragma omp parallel for
-  for(size_t i = 0; i < size_; i++) {
+for(size_t i = 0; i < size_; i++) {
     // unused check, i < size_
-    //if(i >= size_) throw std::out_of_range("Index out of range");
+    // if(i >= size_) throw std::out_of_range("Index out of range");
     data_ptr_[i] = values[ i % vs ];
   }
 }
- 
 
 // ------------------- set values ---------------------
 // matrix
@@ -400,8 +398,8 @@ void MMatrix<T>::extract_array(const std::vector<intVec> & I, targetVec & target
   // first check target dimensions
   size_t le = 1;
   for(size_t i = 0; i < D; i++) le *= I[i].size();
-  if(le != target.size())
-    throw std::runtime_error("Bad target size");
+  if(target.size() <= 0 || le != static_cast<size_t>(target.size())) // CASTING DONE => as long as target.size() > 0 should be safe
+    throw std::runtime_error("Bad target size");                     // added a check just in case
 
   std::vector<size_t> ind;
   indices(I, ind);
@@ -501,6 +499,21 @@ void MMatrix<T>::cw_opposite() {
 }
 
 // ------------------------------------------------------------
+
+template <typename T>
+void MMatrix<T>::flush() {
+  std::error_code error;
+  if (matrix_file_.is_mapped()) {
+      matrix_file_.sync(error);
+      if (error)
+      {
+        throw std::runtime_error("Failed to flush changes to the file " + path_ + ": " + error.message());
+      }
+  } else {
+  verbosout_ << "ERROR : cannot call the sync process because the file is not mapped !\n";
+  }
+}
+
 // UNSAFE, calling ()
 template <typename T>
 template <typename U>
