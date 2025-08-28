@@ -6,38 +6,63 @@
 
 #include "mio.hpp"
 
-/*
- The goal of this class is to add the possibility for big matrices
- to become a memory mapped file using mio library 
- IT IS COLUMN MAJOR !
+/**
+ * @file MMatrix-class.h
+ * @class MMatrix MMatrix-class.h
+ * @brief Handling a memory mapped file as a big matrix, using mio library.
+ *        It is column major.
  */
 template <typename T>
 class MMatrix
 {
 protected:
-    // this is a function called by the constructor to create a file of the good size 
-    // check if it exists / resize it - if authorize_resize == true
+    /**
+     * @fn void FileHandler(std::string path, size_t matrix_size, bool verbose, bool authorize_resize)
+     * @brief Helper function called by the constructor to open (and potentially resize) or create a file, after checking it's existence and validity
+     *
+     * @param path an std::string referencing the absolute path to the file in need of checking
+     * @param matrix_size a size_t containing the size of the MMatrix's data in bytes
+     * @param verbose a boolean used to silence the class (if true, will add logs to verbosout_)
+     * @param authorize_resize a boolean used to allow resizing of the file if it is smaller or greater than matrix_size
+     */
     void FileHandler(std::string path, size_t matrix_size, bool verbose, bool authorize_resize);
 
 public:
-    // Constructor opening the file containing the matrix
-    // if path exists else creating one.
+    /** Constructor for a "matrix-style" call
+     * @brief Constructor only for 2 dimensions matrices, opening or creating the file before mapping it.
+     *
+     * @param path an std::string referencing the absolute path to the file
+     * @param nrow a size_t
+     * @param ncol a size_t
+     * @param verbose a boolean true by default used to silence the class (if true, will add logs to verbosout_)
+     * @param authorize_resize a boolean false by default used to allow resizing of the file if it is smaller or greater than matrix_size
+     */
     MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose = true, bool authorize_resize = false);
-    // Constructor for a multidimensional matrix / R-style array
+
+    /** Constructor for a "array-style" call
+     * @brief Constructor for multidimensional matrices, opening or creating the file before mapping it.
+     *
+     * @param path an std::string referencing the absolute path to the file
+     * @param dims a std::vector<size_t> 
+     * @param verbose a boolean true by default used to silence the class (if true, will add logs to verbosout_)
+     * @param authorize_resize a boolean false by default used to allow resizing of the file if it is smaller or greater than matrix_size
+     */    
     MMatrix(std::string path, std::vector<size_t> dims, bool verbose = true, bool authorize_resize = false);
-    // Destructor flushing changes to disk before unmapping
+     /** Destructor
+     * @brief Destructor flushing changes to the disk before unmapping
+     **/
     ~MMatrix();
 
 public:
     // Getters
-    size_t nrow() const;
-    size_t ncol() const;
-    size_t size() const;
+    size_t nrow() const; /**< Getter for nrow_. @return size_t */
+    size_t ncol() const; /**< Getter for ncol_. @return size_t */
+    size_t size() const; /**< Getter for size_. @return size_t */
 
-    std::string path() const;
-    std::vector<size_t> dim() const;
-    T *data() const;
-    bool verbose() const;
+    std::string path() const; /**< Getter for path_. @return std::string */
+    std::vector<size_t> dim() const; /**< Getter for dims_. @return std::vector<size_t> */
+    T *data() const; /**< Getter for data_. @return a pointer to the first byte of data*/
+    bool verbose() const; 
     std::string getVerbosout() const;
 
     // Setter for dimension
@@ -124,8 +149,10 @@ protected:
     // but equivalent to dim[0]
     size_t nrow_;
 
-    // product of all dimensions 
-    // (not mapped size in bytes as this also needs sizeof(datatype))
+    /**
+    * product of all dimensions 
+    * (not mapped size in bytes as this also needs sizeof(datatype))
+    */
     size_t size_;
 
     // A vector containing all the dimension sizes
