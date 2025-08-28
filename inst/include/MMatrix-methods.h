@@ -46,12 +46,13 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose,
         }
         size_t file_size = buf.st_size; // casted from off_t to size_t
         if (file_size != matrix_size) {
-            if (!authorize_resize) throw std::runtime_error("The file size doesn't match the matrix size ! Use the \"authorise_resize\" to force a resize.");
+            //if (!authorize_resize) throw std::runtime_error("The file size doesn't match the matrix size ! Use the \"authorise_resize\" to force a resize.");
             if (verbose) {
                 verbosout_ << "Resizing file from " << file_size << " to " << matrix_size << " bytes." << std::endl;
             }
 
             if (matrix_size > file_size) {
+                if (!authorize_resize) throw std::runtime_error("The file size is smaller than the matrix size ! Use the \"authorise_resize\" to force a resize.");
                 std::fstream resize_file(path, std::ios::binary | std::ios::in | std::ios::out );
                 if (!resize_file.is_open()) {
                     throw std::runtime_error("Failed to reopen file for resizing.");
@@ -60,11 +61,15 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose,
                 resize_file.seekp(matrix_size - 1);
                 resize_file.put('\0');
                 resize_file.close();
-            } else {
+            } else if (authorize_resize) {
                 // trim it down
                 if (truncate(path_c, matrix_size) != 0) {
                     throw std::runtime_error("Failed to truncate file: " + path);
                 }
+            } else {
+                if (verbose) {
+                verbosout_ << "Unauthorized to resize the file, keeping it to " << file_size << " bytes, with " << matrix_size << " rewritten." << std::endl;
+            }
             }
         }
     }
@@ -91,9 +96,7 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose,
     }
 }
 
-// Constructor HARDCODED FOR A 2 DIM MMATRIX ! opening the file containing the matrix if path exists, also resizing it accordingly, else
-// creating one. 
-// TODO : check if logical sense for nrow first and ncol last ?
+// Constructor HARDCODED FOR A 2 DIM MMATRIX !
 template <typename T>
 MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose, bool authorize_resize)
     : ncol_(ncol), nrow_(nrow), dim_{nrow, ncol}, path_(path), verbose_(verbose)
