@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['get_5fshared_5fptr_0',['get_shared_ptr',['../classmio_1_1basic__shared__mmap.html#a6f8e8ceb33dcd068474d32f9ce4fb7c1',1,'mio::basic_shared_mmap']]],
-  ['get_5ftype_5fname_1',['get_type_name',['../MMatrix-methods_8h.html#aa8a72a35421f5ce138a724551e155560',1,'MMatrix-methods.h']]],
-  ['getverbosout_2',['getVerbosout',['../classMMatrix.html#adf7a55023f13d8bacc8962af55610303',1,'MMatrix']]]
+  ['ncol_0',['ncol',['../classMMatrix.html#a4948e6fd979e13c0c24a8f7bd77046db',1,'MMatrix']]],
+  ['nrow_1',['nrow',['../classMMatrix.html#a3765c32e770c9555f3033f9cf709c05c',1,'MMatrix']]]
 ];

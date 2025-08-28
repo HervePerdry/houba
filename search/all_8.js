@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['handle_5ftype_0',['handle_type',['../structmio_1_1basic__mmap.html#ab6377be6a7ceff14dce8a517148ecbf6',1,'mio::basic_mmap::handle_type'],['../classmio_1_1basic__shared__mmap.html#a23ac797342b6d4abb8d173aef09634b1',1,'mio::basic_shared_mmap::handle_type']]]
+  ['ncol_0',['ncol',['../classMMatrix.html#a4948e6fd979e13c0c24a8f7bd77046db',1,'MMatrix']]],
+  ['nrow_1',['nrow',['../classMMatrix.html#a3765c32e770c9555f3033f9cf709c05c',1,'MMatrix']]]
 ];

@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['file_5fhandle_0',['file_handle',['../structmio_1_1basic__mmap.html#a8ea08d312571df7e8222e1fa495014a6',1,'mio::basic_mmap::file_handle()'],['../classmio_1_1basic__shared__mmap.html#aec21b04cb63fdb76545c3024ac3d5518',1,'mio::basic_shared_mmap::file_handle()']]],
-  ['file_5fhandle_5ftype_1',['file_handle_type',['../namespacemio.html#ac36e3030653d8535dad19c04ee0850e8',1,'mio']]],
-  ['filehandler_2',['FileHandler',['../classMMatrix.html#a8b49ecdf72ef3efa66080bd7b57de83c',1,'MMatrix']]],
-  ['flush_3',['flush',['../classMMatrix.html#a919d0c0e9f4c0f41a5e1cef4a945f0cb',1,'MMatrix']]],
-  ['flush_2ecpp_4',['flush.cpp',['../flush_8cpp.html',1,'']]],
-  ['flush_5f_5',['flush_',['../flush_8cpp.html#aafcb22043956d06f9f5bf81108199a2b',1,'flush_(SEXP pM, std::string datatype):&#160;flush.cpp'],['../RcppExports_8cpp.html#aafcb22043956d06f9f5bf81108199a2b',1,'flush_(SEXP pM, std::string datatype):&#160;flush.cpp']]]
+  ['is_5fc_5fstr_0',['is_c_str',['../structmio_1_1detail_1_1is__c__str.html',1,'mio::detail']]],
+  ['is_5fc_5fstr_5fhelper_1',['is_c_str_helper',['../structmio_1_1detail_1_1is__c__str__helper.html',1,'mio::detail']]],
+  ['is_5fc_5fstr_5for_5fc_5fwstr_2',['is_c_str_or_c_wstr',['../structmio_1_1detail_1_1is__c__str__or__c__wstr.html',1,'mio::detail']]],
+  ['is_5fmapped_3',['is_mapped',['../structmio_1_1basic__mmap.html#aa4c6fb6a1ded3ac2b77e11b1b36ff32c',1,'mio::basic_mmap']]],
+  ['is_5fopen_4',['is_open',['../structmio_1_1basic__mmap.html#a4f794aca6a1a770a16c0617c2fa6a2d8',1,'mio::basic_mmap::is_open()'],['../classmio_1_1basic__shared__mmap.html#a6ac615a0f31b17f7f1f0b1bf36bc6bfa',1,'mio::basic_shared_mmap::is_open()']]]
 ];

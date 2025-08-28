@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['ncol_0',['ncol',['../classMMatrix.html#a4948e6fd979e13c0c24a8f7bd77046db',1,'MMatrix']]],
-  ['ncol_5f_1',['ncol_',['../classMMatrix.html#ad4b0f951ea86c524908f22ca41709cd9',1,'MMatrix']]],
-  ['nrow_2',['nrow',['../classMMatrix.html#a3765c32e770c9555f3033f9cf709c05c',1,'MMatrix']]],
-  ['nrow_5f_3',['nrow_',['../classMMatrix.html#ab60460a0fb17426c8949bd5f4f51ce63',1,'MMatrix']]]
+  ['size_0',['size',['../structmio_1_1basic__mmap.html#ab024ae1706066753e5163844424d3d7c',1,'mio::basic_mmap::size()'],['../classmio_1_1basic__shared__mmap.html#a2a4b72161b297e1d913127b5b08f245c',1,'mio::basic_shared_mmap::size()'],['../classMMatrix.html#a34a73434ed326bc655df19e1c6eef562',1,'MMatrix::size() const']]],
+  ['size_5f_1',['size_',['../classMMatrix.html#aeaccf32e6db06eddfa8226a1eec5e821',1,'MMatrix']]],
+  ['sync_2',['sync',['../structmio_1_1basic__mmap.html#a22262c5442f25807837417111f40d1e1',1,'mio::basic_mmap::sync()'],['../classmio_1_1basic__shared__mmap.html#a246494fa9c7c317b2b52db036a25ae7c',1,'mio::basic_shared_mmap::sync()']]]
 ];
