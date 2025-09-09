@@ -8,6 +8,8 @@
 
 #include "mio.hpp"
 
+using namespace houba;
+
 // Helper function for the c°
 template <typename T>
 void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose, bool authorize_resize) {

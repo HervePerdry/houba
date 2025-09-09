@@ -7,10 +7,15 @@
 #include "mio.hpp"
 
 /**
+ * @namespace houba
+ */
+namespace houba {
+
+/**
  * @file MMatrix-class.h
  * @class MMatrix MMatrix-class.h
  * @brief Handling a memory mapped file as a big matrix, using mio library.
- *        It is column major.
+ *        It is column major, just like R.
  */
 template <typename T>
 class MMatrix
@@ -55,15 +60,15 @@ public:
 
 public:
     // Getters
-    size_t nrow() const; /**< Getter for nrow_. @return size_t */
-    size_t ncol() const; /**< Getter for ncol_. @return size_t */
-    size_t size() const; /**< Getter for size_. @return size_t */
+    size_t nrow() const; /**< Getter for @ref nrow_. @return size_t */
+    size_t ncol() const; /**< Getter for @ref ncol_. @return size_t */
+    size_t size() const; /**< Getter for @ref size_. @return size_t */
 
-    std::string path() const; /**< Getter for path_. @return std::string */
-    std::vector<size_t> dim() const; /**< Getter for dims_. @return std::vector<size_t> */
-    T *data() const; /**< Getter for data_. @return a pointer to the first byte of data*/
-    bool verbose() const; 
-    std::string getVerbosout() const;
+    std::string path() const; /**< Getter for @ref path_. @return std::string */
+    std::vector<size_t> dim() const; /**< Getter for @ref dims_. @return std::vector<size_t> */
+    T *data() const; /**< Getter for @ref data_. @return a pointer to the first byte of data*/
+    bool verbose() const; /**< Getter for @ref verbose_. @return bool */
+    std::string getVerbosout() const; /**< Getter for @ref verbosout_ content. @return std::string */
 
     // Setter for dimension
     template <typename intVec> 
@@ -139,34 +144,47 @@ private:
     void indices(const std::vector<intVec> & I, std::vector<size_t> & ind) const;
 
 protected:
-    // Number of columns of the matrix, (base 1).
-    // hardcoded to simplify the "matrix" use
-    // but equivalent to dim[1]
+
+    /** 
+     * Number of columns of the matrix, (base 1).
+     * @details hardcoded to simplify the "matrix" use but equivalent to dim[1] 
+     * */
     size_t ncol_;
 
-    // Number of rows of the matrix (base 1).
-    // hardcoded to simplify the "matrix" use
-    // but equivalent to dim[0]
+    /**
+    * Number of rows of the matrix (base 1).
+    * @details hardcoded to simplify the "matrix" use but equivalent to dim[0]
+    * */
     size_t nrow_;
 
     /**
-    * product of all dimensions 
-    * (not mapped size in bytes as this also needs sizeof(datatype))
+    * Product of all dimensions of the MMatrix
+    * @details It is NOT the mapped size in bytes as this also needs sizeof(datatype))
     */
     size_t size_;
 
-    // A vector containing all the dimension sizes
-    // to mimic an R-style array
-    // TO THINK : should dim_ be a template ? 
+    /**
+     * A vector containing all the dimension in order, to mimic an R-style array
+     * @details stopping at @ref nrow for dim[0] and @ref ncol for dim[1] if the matrix is of 2 dimensions.  
+     */ 
     std::vector<size_t> dim_;
 
-    // (Relative ?) path of the file containing the matrix
+    /**
+     * Path of the file containing the MMatrix data
+     * @details can be relative to where the program is being run or absolute
+     */
     std::string path_;
 
-    // Mio object handling the matrix.
+    /**
+     * Mio object handling the file behind the matrix
+     * @details read and write, see more on @ref mio::mmap_sink
+     */
     mio::mmap_sink matrix_file_;
 
-    // type T pointer to the first byte of data in matrix_file_
+    /**
+     * A pointer of type T, to the first data in matrix_file_
+     * @details read and write also
+     */
     T *data_ptr_;
 
     // Boolean used to silence the class 
@@ -175,5 +193,7 @@ protected:
     // used for logging
     std::ostringstream verbosout_;
 };
+
+}
 
 #endif // MMATRIX_CLASS_H
