@@ -18,7 +18,7 @@ setMethod("flush", signature(con="marray"),
     if(isnullptr(con@ptr)) {
       stop("This marray has a broken ptr ! Try using restore()")
     } else if(con@readonly) {
-        stop("Read-only object")
+      stop("Read-only object")
     } else {
       flush_(con@ptr, con@datatype)
     }
@@ -32,7 +32,7 @@ setMethod("flush", signature(con="mmatrix"),
     if(isnullptr(con@ptr)) {
       stop("This mmatrix has a broken ptr ! Try using restore()")
     } else if(con@readonly) {
-        stop("Read-only object")
+      stop("Read-only object")
     } else {
       flush_(con@ptr, con@datatype)
     }
@@ -46,7 +46,7 @@ setMethod("flush", signature(con="mvector"),
     if(isnullptr(con@ptr)) {
       stop("This mvector has a broken ptr ! Try using restore()")
     } else if(con@readonly) {
-        stop("Read-only object")
+      stop("Read-only object")
     } else {
       flush_(con@ptr, con@datatype)
     }

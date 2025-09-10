@@ -22,15 +22,14 @@ class MMatrix
 {
 protected:
     /**
-     * @fn void FileHandler(std::string path, size_t matrix_size, bool verbose, bool authorize_resize)
+     * @fn void FileHandler(std::string path, size_t matrix_size, bool authorize_resize)
      * @brief Helper function called by the constructor to open (and potentially resize) or create a file, after checking it's existence and validity
      *
      * @param path an std::string referencing the absolute path to the file in need of checking
      * @param matrix_size a size_t containing the size of the MMatrix's data in bytes
-     * @param verbose a boolean used to silence the class (if true, will add logs to verbosout_)
      * @param authorize_resize a boolean used to allow resizing of the file if it is smaller or greater than matrix_size
      */
-    void FileHandler(std::string path, size_t matrix_size, bool verbose, bool authorize_resize);
+    void FileHandler(std::string path, size_t matrix_size, bool authorize_resize);
 
 public:
     /** Constructor for a "matrix-style" call
@@ -193,6 +192,6 @@ protected:
     std::ostringstream verbosout_;
 };
 
-}
+} // end namespace houba
 
 #endif // MMATRIX_CLASS_H

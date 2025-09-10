@@ -5,8 +5,8 @@
 // [[Rcpp::export]]
 SEXP MMatrixToRArray(SEXP pM, std::string datatype) {
   if (datatype == "float") { 
-    // comment faire un check plus délicat sur la validité du ptr vers la MMatrix ?
-    Rcpp::XPtr<MMatrix<float>> instanc(pM);
+    // comment faire un check plus délicat sur la validité du ptr vers la houba::MMatrix ?
+    Rcpp::XPtr<houba::MMatrix<float>> instanc(pM);
 
     unsigned int s = instanc->size();
     Rcpp::NumericVector R(s);
@@ -17,7 +17,7 @@ SEXP MMatrixToRArray(SEXP pM, std::string datatype) {
 
     return R;
   } else if (datatype == "double") {
-    Rcpp::XPtr<MMatrix<double>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
 
     unsigned int s = instanc->size();
     Rcpp::NumericVector R(s);
@@ -28,7 +28,7 @@ SEXP MMatrixToRArray(SEXP pM, std::string datatype) {
 
     return R;
   } else if (datatype == "int") {
-    Rcpp::XPtr<MMatrix<int>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
 
     unsigned int s = instanc->size();
     Rcpp::IntegerVector R(s);
@@ -39,7 +39,7 @@ SEXP MMatrixToRArray(SEXP pM, std::string datatype) {
 
     return R;
   } else if (datatype == "short") {
-    Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<int16_t>> instanc(pM);
 
     unsigned int s = instanc->size();
     Rcpp::IntegerVector R(s);

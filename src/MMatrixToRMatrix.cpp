@@ -2,13 +2,13 @@
 #include <Rcpp.h>
 
 // I have to use SEXP as an argument because I don't 
-// know which type MMatrix is templated into...
+// know which type houba::MMatrix is templated into...
 
 // [[Rcpp::export]]
 SEXP MMatrixToRMatrix(SEXP pM, std::string datatype) {
   if (datatype == "float") { 
-    // comment faire un check plus délicat sur la validité du ptr vers la MMatrix ?
-    Rcpp::XPtr<MMatrix<float>> instanc(pM);
+    // comment faire un check plus délicat sur la validité du ptr vers la houba::MMatrix ?
+    Rcpp::XPtr<houba::MMatrix<float>> instanc(pM);
     unsigned int ncol = instanc->ncol();
     unsigned int nrow = instanc->nrow();
     Rcpp::NumericMatrix R(nrow, ncol);
@@ -20,7 +20,7 @@ SEXP MMatrixToRMatrix(SEXP pM, std::string datatype) {
     }
     return R;
   } else if (datatype == "double") {
-    Rcpp::XPtr<MMatrix<double>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     unsigned int ncol = instanc->ncol();
     unsigned int nrow = instanc->nrow();
     Rcpp::NumericMatrix R(nrow, ncol);
@@ -32,7 +32,7 @@ SEXP MMatrixToRMatrix(SEXP pM, std::string datatype) {
     }
     return R;
   } else if (datatype == "int") {
-    Rcpp::XPtr<MMatrix<int>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     unsigned int ncol = instanc->ncol();
     unsigned int nrow = instanc->nrow();
     Rcpp::IntegerMatrix R(nrow, ncol);
@@ -44,7 +44,7 @@ SEXP MMatrixToRMatrix(SEXP pM, std::string datatype) {
     }
     return R;
   } else if (datatype == "short") {
-    Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<int16_t>> instanc(pM);
     unsigned int ncol = instanc->ncol();
     unsigned int nrow = instanc->nrow();
     Rcpp::IntegerMatrix R(nrow, ncol);

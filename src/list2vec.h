@@ -1,5 +1,8 @@
 #include <Rcpp.h>
 
+// L = Rcpp::List dont tous les éléments sont des Rcpp::IntegerVector
+// R = std::vector de Rcpp::IntegerVector
+
 // copie L dans R et renvoie la dimension du résultat
 inline Rcpp::IntegerVector list2vec_dim(Rcpp::List L, std::vector<Rcpp::IntegerVector> & R) {
   R.clear();
