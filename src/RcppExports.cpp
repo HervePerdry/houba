@@ -34,6 +34,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// colSums_R
+void colSums_R(SEXP pM, std::string datatype, SEXP result);
+RcppExport SEXP _houba_colSums_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP resultSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type result(resultSEXP);
+    colSums_R(pM, datatype, result);
+    return R_NilValue;
+END_RCPP
+}
 // copy_values_
 void copy_values_(SEXP pM, std::string datatype, SEXP values);
 RcppExport SEXP _houba_copy_values_(SEXP pMSEXP, SEXP datatypeSEXP, SEXP valuesSEXP) {
@@ -393,6 +405,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_houba_MMatrixToRArray", (DL_FUNC) &_houba_MMatrixToRArray, 2},
     {"_houba_MMatrixToRMatrix", (DL_FUNC) &_houba_MMatrixToRMatrix, 2},
+    {"_houba_colSums_R", (DL_FUNC) &_houba_colSums_R, 3},
     {"_houba_copy_values_", (DL_FUNC) &_houba_copy_values_, 3},
     {"_houba_copy_values_mm_", (DL_FUNC) &_houba_copy_values_mm_, 4},
     {"_houba_cw_inverse", (DL_FUNC) &_houba_cw_inverse, 2},

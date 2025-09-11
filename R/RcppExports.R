@@ -9,6 +9,10 @@ MMatrixToRMatrix <- function(pM, datatype) {
     .Call(`_houba_MMatrixToRMatrix`, pM, datatype)
 }
 
+colSums_R <- function(pM, datatype, result) {
+    invisible(.Call(`_houba_colSums_R`, pM, datatype, result))
+}
+
 copy_values_ <- function(pM, datatype, values) {
     invisible(.Call(`_houba_copy_values_`, pM, datatype, values))
 }

@@ -123,6 +123,10 @@ public:
     template <typename intVec, typename targetVec>
     void extract_array(const std::vector<intVec> & I, targetVec & target) const;
 
+    // colSums
+    template <typename resultVec>
+    void colSums(resultVec & result) const;
+
     // component wise arithmetic
     template <typename Tvec>
     void cw_sum(Tvec & e2);
