@@ -13,6 +13,10 @@ colSums_R <- function(pM, datatype, result) {
     invisible(.Call(`_houba_colSums_R`, pM, datatype, result))
 }
 
+colSums_mvector <- function(pM, datatype, result, restype) {
+    invisible(.Call(`_houba_colSums_mvector`, pM, datatype, result, restype))
+}
+
 copy_values_ <- function(pM, datatype, values) {
     invisible(.Call(`_houba_copy_values_`, pM, datatype, values))
 }
