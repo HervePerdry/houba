@@ -23,7 +23,7 @@
 #' 
 #' @export
 setMethod("apply", c(X = "mmatrix"), 
-   function(X, MARGIN, FUN, ..., simplify = TRUE) { browser()
+   function(X, MARGIN, FUN, ..., simplify = TRUE) {
      FUN <- match.fun(FUN)
      simplify <- isTRUE(simplify)
      d <- dim(X)
