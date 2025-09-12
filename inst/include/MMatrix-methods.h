@@ -5,6 +5,7 @@
 #include <sstream> // for verbosout
 #include <stdexcept>
 #include <system_error> // for std::error_code
+#include <filesystem>
 
 #include "mio.hpp"
 
@@ -15,65 +16,39 @@ template <typename T>
 void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool authorize_resize) {
   /* FIRST : check if file exists, if it does not, create one of the good size*/
   const char * path_c = path.c_str();
-  FILE *check = fopen(path_c, "rb"); // open en readonly 
+  std::FILE * check = std::fopen(path_c, "rb"); // open en readonly 
 
-  if (!check)
-  {
+  if (!check) { // file does not exist, create it and set its size 
     if(verbose_) {
       verbosout_ << "The file " << path << " does not exist, creating one ...  ";
     }
     std::ofstream newfile(path, std::ios::binary); // to load with \0
     if (!newfile || !newfile.is_open())
       throw std::runtime_error("Failed to open the file;");
-    /* Writing a null byte to the end of the file
-    after using seekp to the before last byte will
-    ensure we have a non-empty file of the desired size
-    without loading it into memory */
+    /* Writing a null byte to the end of the file after using seekp to the before last byte will
+    ensure we have a non-empty file of the desired size */
     newfile.seekp(matrix_size - 1);
     newfile.put('\0');
     // mio will reopen it
     newfile.close();
     if (verbose_) verbosout_ << "Done !" << std::endl;
   } else {
+    // file does exist !
+    std::fclose(check); // closed
     if (verbose_) {
       verbosout_ << "Using and potentially overwritting already existing " << path << std::endl;
     }
-    fclose(check);
-
-    // from https://stackoverflow.com/questions/238603/how-can-i-get-a-files-size-in-c
-    struct stat buf;
-    if (stat(path_c, &buf) != 0)
-      throw std::runtime_error("Failed to analyse file: " + path);
-    size_t file_size = buf.st_size; // casted from off_t to size_t
+    // get its size
+    size_t file_size = std::filesystem::file_size(path);
+    
     if (file_size != matrix_size) {
-      // if (!authorize_resize) 
-      // throw std::runtime_error("The file size doesn't match the matrix size ! Use the \"authorise_resize\" to force a resize.");
+      if (!authorize_resize) 
+         throw std::runtime_error("The file size doesn't match the matrix size. Use the \"authorise_resize\" to force a resize.");
+      // we are authorized to resize file
       if (verbose_) {
         verbosout_ << "Resizing file from " << file_size << " to " << matrix_size << " bytes." << std::endl;
       }
-
-      if (matrix_size > file_size) {
-        if (!authorize_resize)
-          throw std::runtime_error("The file size is smaller than the matrix size ! Use the \"authorise_resize\" to force a resize.");
-        std::fstream resize_file(path, std::ios::binary | std::ios::in | std::ios::out );
-        if (!resize_file.is_open()) {
-            throw std::runtime_error("Failed to reopen file for resizing.");
-        }
-        //same as creating one with good size
-        resize_file.seekp(matrix_size - 1);
-        resize_file.put('\0');
-        resize_file.close();
-      } else if (authorize_resize) {
-        // trim it down
-        if (truncate(path_c, matrix_size) != 0) {
-          throw std::runtime_error("Failed to truncate file: " + path);
-        }
-      } else {
-        if (verbose_) {
-          verbosout_ << "Unauthorized to resize the file, keeping it to " << file_size << " bytes, with ";
-          verbosout_ << matrix_size << " rewritten." << std::endl;
-        }
-      }
+      std::filesystem::resize_file(path, matrix_size);
     }
   }
 
