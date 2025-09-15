@@ -34,15 +34,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// colSums_R
-void colSums_R(SEXP pM, std::string datatype, SEXP result);
-RcppExport SEXP _houba_colSums_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP resultSEXP) {
+// colSums_R_double
+void colSums_R_double(SEXP pM, std::string datatype, Rcpp::NumericVector result);
+RcppExport SEXP _houba_colSums_R_double(SEXP pMSEXP, SEXP datatypeSEXP, SEXP resultSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
     Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type result(resultSEXP);
-    colSums_R(pM, datatype, result);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type result(resultSEXP);
+    colSums_R_double(pM, datatype, result);
+    return R_NilValue;
+END_RCPP
+}
+// colSums_R_int
+void colSums_R_int(SEXP pM, std::string datatype, Rcpp::IntegerVector result);
+RcppExport SEXP _houba_colSums_R_int(SEXP pMSEXP, SEXP datatypeSEXP, SEXP resultSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type result(resultSEXP);
+    colSums_R_int(pM, datatype, result);
     return R_NilValue;
 END_RCPP
 }
@@ -346,6 +358,43 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// rowSums_R_double
+void rowSums_R_double(SEXP pM, std::string datatype, Rcpp::NumericVector result);
+RcppExport SEXP _houba_rowSums_R_double(SEXP pMSEXP, SEXP datatypeSEXP, SEXP resultSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type result(resultSEXP);
+    rowSums_R_double(pM, datatype, result);
+    return R_NilValue;
+END_RCPP
+}
+// rowSums_R_int
+void rowSums_R_int(SEXP pM, std::string datatype, Rcpp::IntegerVector result);
+RcppExport SEXP _houba_rowSums_R_int(SEXP pMSEXP, SEXP datatypeSEXP, SEXP resultSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type result(resultSEXP);
+    rowSums_R_int(pM, datatype, result);
+    return R_NilValue;
+END_RCPP
+}
+// rowSums_mvector
+void rowSums_mvector(SEXP pM, std::string datatype, SEXP result, std::string restype);
+RcppExport SEXP _houba_rowSums_mvector(SEXP pMSEXP, SEXP datatypeSEXP, SEXP resultSEXP, SEXP restypeSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type result(resultSEXP);
+    Rcpp::traits::input_parameter< std::string >::type restype(restypeSEXP);
+    rowSums_mvector(pM, datatype, result, restype);
+    return R_NilValue;
+END_RCPP
+}
 // set_values_marray
 void set_values_marray(SEXP pM, std::string datatype, Rcpp::List L, SEXP values);
 RcppExport SEXP _houba_set_values_marray(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP, SEXP valuesSEXP) {
@@ -418,7 +467,8 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_houba_MMatrixToRArray", (DL_FUNC) &_houba_MMatrixToRArray, 2},
     {"_houba_MMatrixToRMatrix", (DL_FUNC) &_houba_MMatrixToRMatrix, 2},
-    {"_houba_colSums_R", (DL_FUNC) &_houba_colSums_R, 3},
+    {"_houba_colSums_R_double", (DL_FUNC) &_houba_colSums_R_double, 3},
+    {"_houba_colSums_R_int", (DL_FUNC) &_houba_colSums_R_int, 3},
     {"_houba_colSums_mvector", (DL_FUNC) &_houba_colSums_mvector, 4},
     {"_houba_copy_values_", (DL_FUNC) &_houba_copy_values_, 3},
     {"_houba_copy_values_mm_", (DL_FUNC) &_houba_copy_values_mm_, 4},
@@ -443,6 +493,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_houba_link_marray", (DL_FUNC) &_houba_link_marray, 3},
     {"_houba_link_mmatrix", (DL_FUNC) &_houba_link_mmatrix, 4},
     {"_houba_print_debug", (DL_FUNC) &_houba_print_debug, 2},
+    {"_houba_rowSums_R_double", (DL_FUNC) &_houba_rowSums_R_double, 3},
+    {"_houba_rowSums_R_int", (DL_FUNC) &_houba_rowSums_R_int, 3},
+    {"_houba_rowSums_mvector", (DL_FUNC) &_houba_rowSums_mvector, 4},
     {"_houba_set_values_marray", (DL_FUNC) &_houba_set_values_marray, 4},
     {"_houba_set_values_marray_ma", (DL_FUNC) &_houba_set_values_marray_ma, 5},
     {"_houba_set_values_mmatrix", (DL_FUNC) &_houba_set_values_mmatrix, 5},

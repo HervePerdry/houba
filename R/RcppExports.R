@@ -9,8 +9,12 @@ MMatrixToRMatrix <- function(pM, datatype) {
     .Call(`_houba_MMatrixToRMatrix`, pM, datatype)
 }
 
-colSums_R <- function(pM, datatype, result) {
-    invisible(.Call(`_houba_colSums_R`, pM, datatype, result))
+colSums_R_double <- function(pM, datatype, result) {
+    invisible(.Call(`_houba_colSums_R_double`, pM, datatype, result))
+}
+
+colSums_R_int <- function(pM, datatype, result) {
+    invisible(.Call(`_houba_colSums_R_int`, pM, datatype, result))
 }
 
 colSums_mvector <- function(pM, datatype, result, restype) {
@@ -107,6 +111,18 @@ link_mmatrix <- function(datatype, file, nrow, ncol) {
 
 print_debug <- function(pM, datatype) {
     invisible(.Call(`_houba_print_debug`, pM, datatype))
+}
+
+rowSums_R_double <- function(pM, datatype, result) {
+    invisible(.Call(`_houba_rowSums_R_double`, pM, datatype, result))
+}
+
+rowSums_R_int <- function(pM, datatype, result) {
+    invisible(.Call(`_houba_rowSums_R_int`, pM, datatype, result))
+}
+
+rowSums_mvector <- function(pM, datatype, result, restype) {
+    invisible(.Call(`_houba_rowSums_mvector`, pM, datatype, result, restype))
 }
 
 set_values_marray <- function(pM, datatype, L, values) {

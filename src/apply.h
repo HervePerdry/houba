@@ -8,27 +8,25 @@
 
 // pM = pointeur vers une MMatrix
 // datatype = type de cette MMatrix
-// r_vector = un vecteur de type compatible (float ou ind)
+// TSXP = un entier définissant le type de vecteur (REALSXP ou INTSXP)
+// r_vector = un vecteur de type compatible avec la méthode à appeler (float ou ind)
 // F = un objet avec un operateur ()(MMatrix, Vector) [templated] (cf exemple dans colSums.cpp)
 // qui applique la méthode voulue...
-template<typename FTYPE>
-inline void apply_R(SEXP pM, std::string datatype, SEXP r_vector, FTYPE F) {
+// ie appele F( M, r_vector ) avec M la matrice pointée par pM
+template<typename FTYPE, int TSXP>
+inline void apply_R(SEXP pM, std::string datatype, Rcpp::Vector<TSXP> r_vector, FTYPE F) {
   if (datatype == "float") { 
     Rcpp::XPtr<houba::MMatrix<float>> instanc(pM);
-    Rcpp::NumericVector r(r_vector);
-    F(instanc, r);
+    F(instanc, r_vector);
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
-    Rcpp::NumericVector r(r_vector);
-    F(instanc, r);
+    F(instanc, r_vector);
   } else if (datatype == "int") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
-    Rcpp::IntegerVector r(r_vector);
-    F(instanc, r);
+    F(instanc, r_vector);
   } else if (datatype == "short") {
     Rcpp::XPtr<houba::MMatrix<int16_t>> instanc(pM);
-    Rcpp::IntegerVector r(r_vector);
-    F(instanc, r);
+    F(instanc, r_vector);
   } else {
     throw std::runtime_error("Unsupported datatype for now !");
   }
@@ -38,7 +36,8 @@ inline void apply_R(SEXP pM, std::string datatype, SEXP r_vector, FTYPE F) {
 // datatype = type de cette MMatrix
 // pM2 = pointeur vers une MMatrix
 // datatype2 = type de cette MMatrix
-// F = un objet avec un operateur ()(MMatrix, MMatrix) [templated] (cf exemple dans colSums.cpp)
+// F = un objet avec un operateur ()(MMatrix, MMatrix) [templated] (cf exemple dans colSums.cpp)a
+// le template va appeler F( M, M2 ) avec M et M2 les matrices pointées par pM et pM2
 template<typename FTYPE>
 inline void apply_mmatrix(SEXP pM, std::string datatype, SEXP pM2, std::string datatype2, FTYPE F) {
   if (datatype == "float") { 
@@ -59,6 +58,7 @@ inline void apply_mmatrix(SEXP pM, std::string datatype, SEXP pM2, std::string d
 }
 
 // dispatcher utilisé dans le template précédent
+// le dispatching est maintenant fait sur le type de la deuxième MMatrix
 template<typename T, typename FTYPE>
 inline void apply_mmatrix_2(Rcpp::XPtr<houba::MMatrix<T>> instanc, SEXP pM2, std::string datatype2, FTYPE F) {
   if(datatype2 == "float") {

@@ -127,6 +127,10 @@ public:
     template <typename resultVec>
     void colSums(resultVec & result) const;
 
+    // rowSums
+    template <typename resultVec>
+    void rowSums(resultVec & result) const;
+
     // component wise arithmetic
     template <typename Tvec>
     void cw_sum(Tvec & e2);

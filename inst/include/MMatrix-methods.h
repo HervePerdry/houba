@@ -424,10 +424,12 @@ void MMatrix<T>::indices(const std::vector<intVec> & I, std::vector<size_t> & in
 }
 
 
-// ------------ colSums, rowSums, colMeans, rowMeans --------------
+// ------------ colSums, rowSums --------------
 //
 // for matrix only
-// result is a vector of the good size
+// result is a vector of the good size 
+// it is assumed to be filled with zeros (or you can use the method tp
+// add to existent values)
 template <typename T>
 template <typename resultVec>
 void MMatrix<T>::colSums(resultVec & result) const {
@@ -438,9 +440,23 @@ void MMatrix<T>::colSums(resultVec & result) const {
     throw std::runtime_error("Bad target size");
 
   for(size_t i = 0; i < ncol_; i++) {
-    result[i] = 0;
     for(size_t j = 0; j < nrow_; j++) 
       result[i] += (*this)(j, i);   // row j, col i
+  }
+}
+
+template <typename T>
+template <typename resultVec>
+void MMatrix<T>::rowSums(resultVec & result) const {
+  if(!ncol_ || !nrow_)
+    throw std::runtime_error("Not a matrix");
+
+  if(result.size() != nrow_)
+    throw std::runtime_error("Bad target size");
+  
+  for(size_t i = 0; i < ncol_; i++) {
+    for(size_t j = 0; j < nrow_; j++) 
+      result[j] += (*this)(j, i);   // row j, col i
   }
 }
 

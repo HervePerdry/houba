@@ -1,26 +1,29 @@
-#' @title Row and Columns sums and meands
+#' @title Row and Columns sums and means
+#' @name colSums
 #'
 #' @description Methods generalizing the base methods to mmatrix objects
 #'
 #' @param x a dual matrix or array
-#' @param na.rm if 'TRUE', missing values are removed
-#' @param dims which dimensions are regarded as rows and cols
-#' @param ... extra parameters (ignored)
+#' @param output.type type of the result, if it's a mvector (see details)
 #'
 #'
 #' @details If the size of the result is greater
 #' than \code{houba(max.size)}, then it will be a mvector instead of R object.
+#' In this case its type will be determined using 'output.type'. If 'output.type'
+#' is missing, a coherent choice will be made.
 #'
 #' @export
 setMethod("colSums", c(x = "mmatrix"), 
-   function(x, output.type) { browser()
+   function(x, output.type) { 
      nc <- ncol(x)
      if(houba("max.size") > nc){
-       if(type(x) %in% c("int","short"))
+       if(type(x) %in% c("int","short")) {
          ans <- integer(nc)
-       else
+         colSums_R_int(x@ptr, x@datatype, ans)
+       } else {
          ans <- numeric(nc)
-       colSums_R(x@ptr, x@datatype, ans)
+         colSums_R_double(x@ptr, x@datatype, ans)
+       }
      } else {
        if(!missing(output.type)) 
          ty <- output.type 
