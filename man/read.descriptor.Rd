@@ -11,6 +11,9 @@ read.descriptor(basename, readonly)
 
 \item{readonly}{\code{TRUE} by default, specifies if the object should be readonly}
 }
+\value{
+a mvector or a mmatrix
+}
 \description{
 Read big memory descriptor file
 }
@@ -18,6 +21,21 @@ Read big memory descriptor file
 Creates a \code{mmatrix} or a \code{mvector} by reading a 'bigmemory' descriptor file.
 The descriptor file name is obtained by appending ".desc" to the basename.
 }
+\examples{
+A <- mmatrix("short", 10, 20)
+A[] <- sample.int(200)
+
+# create descriptor file 
+descriptor.file(A)
+
+# linking it to other object
+B <- read.descriptor(A@file, readonly = FALSE)
+all(as.matrix(A) == as.matrix(B)) # TRUE
+
+B[1:10] <- 0
+all(A[1:10] == 0) # TRUE
+
+}
 \seealso{
-\link{add.descriptor.file}
+\link{descriptor.file}
 }

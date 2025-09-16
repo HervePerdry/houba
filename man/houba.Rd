@@ -10,6 +10,9 @@ houba(...)
 \item{...}{options to be defined, using 'name = value', or name(s) of 
 option(s) to get.}
 }
+\value{
+a named list with options values, or a single option value.
+}
 \description{
 Options for package houba
 }
@@ -27,6 +30,7 @@ The default value is 1e6.
 Set `max.size` to `0` to always get a memory mapped object and to `Inf` to always get a R object.
 }
 \examples{
+houba()
 houba("maxsize")
 
 }

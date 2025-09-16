@@ -1,5 +1,5 @@
 #' @title Row and Columns sums and means
-#' @name colSums
+#' @rdname colSums
 #'
 #' @description Methods generalizing the base methods to mmatrix objects
 #'
@@ -12,12 +12,17 @@
 #' In this case its type will be determined using 'output.type'. If 'output.type'
 #' is missing, a coherent choice will be made.
 #'
+#' @examples a <- matrix(1:20, 4, 5)
+#' A <- as.mmatrix(a, "float")
+#' colMeans(A)
+#' rowSums(A)
+#' 
 #' @export
 setMethod("colSums", c(x = "mmatrix"), 
    function(x, output.type) { 
      nc <- ncol(x)
      if(houba("max.size") > nc){
-       if(type(x) %in% c("int","short")) {
+       if(type(x) %in% integer_types) {
          ans <- integer(nc)
          colSums_R_int(x@ptr, x@datatype, ans)
        } else {
@@ -27,7 +32,7 @@ setMethod("colSums", c(x = "mmatrix"),
      } else {
        if(!missing(output.type)) 
          ty <- output.type 
-       else if(type(x) %in% c("int","short"))
+       else if(type(x) %in% integer_types)
          ty <- "int"
        else
          ty <- x@datatype

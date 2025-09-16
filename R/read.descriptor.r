@@ -6,8 +6,23 @@
 #' @details Creates a \code{mmatrix} or a \code{mvector} by reading a 'bigmemory' descriptor file.
 #' The descriptor file name is obtained by appending ".desc" to the basename.
 #' 
-#' @seealso \link{add.descriptor.file}
+#' @seealso \link{descriptor.file}
+#'
+#' @return a mvector or a mmatrix
+#'
+#' @examples A <- mmatrix("short", 10, 20)
+#' A[] <- sample.int(200)
 #' 
+#' # create descriptor file 
+#' descriptor.file(A)
+#' 
+#' # linking it to other object
+#' B <- read.descriptor(A@file, readonly = FALSE)
+#' all(as.matrix(A) == as.matrix(B)) # TRUE
+#' 
+#' B[1:10] <- 0
+#' all(A[1:10] == 0) # TRUE
+#'
 #' @export
 read.descriptor <- function(basename, readonly) {
     desc <- path.expand(paste0(basename, ".desc"))
@@ -24,14 +39,21 @@ read.descriptor <- function(basename, readonly) {
     if (file != basename) {
         file = basename
     }
-    dim <- as.integer(c(parsed_desc$nrow, parsed_desc$ncol))
-    # I chose to send basename (and not file) bcos a check was made on it
-    ptr <- link_mmatrix(datatype, basename, dim[1], dim[2])
+    if("dim" %in% names(parsed_desc)) 
+      dim <- as.integer(parsed_desc$dim)
+    else
+      dim <- as.integer(c(parsed_desc$nrow, parsed_desc$ncol))
+ 
+    ptr <- link_marray(datatype, basename, dim)
+    # ptr <- link_mmatrix(datatype, basename, dim[1], dim[2])
+
     if (isnullptr(ptr)) stop("Failed to map the memory mapped object !")
     # if matrix with 1 col, I open it as a mvector
-    if (dim[2] == 1L) {
-        new("mvector", ptr = ptr, file = basename, length = dim[1], datatype = datatype, readonly = readonly)
+    if(length(dim) > 2) {
+      new("marray", ptr = ptr, file = basename, dim = dim, datatype = datatype, readonly = readonly)
+    } else if(dim[2] == 1L) {
+      new("mvector", ptr = ptr, file = basename, length = dim[1], datatype = datatype, readonly = readonly)
     } else {
-        new("mmatrix", ptr = ptr, file = basename, dim = dim, datatype = datatype, readonly = readonly)
+      new("mmatrix", ptr = ptr, file = basename, dim = dim, datatype = datatype, readonly = readonly)
     }
 }

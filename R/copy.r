@@ -6,7 +6,14 @@
 #' @param x a memory mapped object
 #' @param filename (optional) a file name for the new object
 #' 
-#' @details Creates a new memory mapped object, indentical to \code{x}.
+#' @details Creates a new memory mapped object, identical to \code{x}.
+#'
+#' @return A memory mapped object.
+#'
+#' @examples a <- as.mvector(1:4)
+#' b <- copy(a)
+#' a
+#' b
 #' 
 #' @export 
 copy <- function(x, filename) UseMethod("copy")

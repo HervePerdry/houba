@@ -2,26 +2,28 @@
 % Please edit documentation in R/method-flush.r
 \name{flush}
 \alias{flush}
-\alias{flush,marray-method}
-\alias{flush,mmatrix-method}
-\alias{flush,mvector-method}
+\alias{flush,memoryMapped-method}
 \title{Flushes changes from a memory-mapped matrix}
 \usage{
 flush(con)
 
-\S4method{flush}{marray}(con)
-
-\S4method{flush}{mmatrix}(con)
-
-\S4method{flush}{mvector}(con)
+\S4method{flush}{memoryMapped}(con)
 }
 \arguments{
-\item{object}{a memory mapped matrix}
+\item{com}{a memory mapped object}
+}
+\value{
+None
 }
 \description{
-This will sync the content written to the file,
-ensuring the changes are saved.
+Sync makes sure that the data written to the file linked with the object.
 }
 \details{
-will only work if the object is not read-only
+An error will be raised if the object is read-only, or if the operation failed.
+}
+\examples{
+x <- as.mvector(1:50)
+x <- x + 1
+flush(x)
+
 }

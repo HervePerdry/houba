@@ -1,2 +1,12 @@
 
 - généraliser usage des templates dans apply.h dans tout le code C++
+  Note : MMatrixToRMatrix est inutile on peut toujours appeler MMatrixToRArray
+         pour pouvoir fonctionner comme dans colSums il faudra faire deux fonctions
+         et créer un objet depuis le code R, et appeler la bonne fonction
+
+- ajouter des types / généraliser l'usage de integer_types dans le code R 
+  (grep short *.r pour voir les fonctions concernées)
+
+- operateurs de test ? (comparer deux mvecteurs ou un mvecteur / un Rvecteur, avec recyclage...)
+  [pour cela prévoir le type booléen...]
+

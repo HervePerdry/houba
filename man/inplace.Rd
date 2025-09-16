@@ -59,5 +59,14 @@ These functions will modify \code{x} in-place, performing
 the operation indicated by their name.
 }
 \examples{
-# 
+x <- as.mvector( 2**(1:3) )
+inplace.inverse(x)
+inplace.opposite(x)
+inplace.sum(x, 0.5)
+inplace.prod(x, 8)
+x
+y <- copy(x)
+inplace.prod(x, y)
+x
+
 }

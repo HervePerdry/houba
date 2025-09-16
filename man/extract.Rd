@@ -113,3 +113,12 @@ a R object or a memory-mapped object (depending on \code{houba("max.size")})
 \description{
 Read/write access to memory-mapped objects
 }
+\examples{
+a <- matrix(1:6, 2, 3)
+A <- as.mmatrix(a)
+A[1,]
+A[2,] <- A[1,] * 2
+A[,3] <- 6:7
+A
+
+}

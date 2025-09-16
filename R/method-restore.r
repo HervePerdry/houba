@@ -7,6 +7,15 @@
 #'
 #' @return a memory-mapped object
 #'
+#' @examples a <- matrix(1:24, 4, 6)
+#' A <- as.mmatrix(a, "float")
+#' rdsfile <- tempfile(fileext = ".rds")
+#' saveRDS(A, rdsfile)
+#' A <- readRDS(rdsfile)
+#' A
+#' A <- restore(A)
+#' A
+#' 
 #' @export
 setGeneric("restore", function(object) standardGeneric("restore"))
 

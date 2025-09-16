@@ -520,11 +520,9 @@ void MMatrix<T>::flush() {
   if (matrix_file_.is_mapped()) {
     matrix_file_.sync(error);
     if (error)
-    {
       throw std::runtime_error("Failed to flush changes to the file " + path_ + ": " + error.message());
-    }
   } else if(verbose_) {
-      verbosout_ << "ERROR : cannot call the sync process because the file is not mapped !\n";
+    verbosout_ << "ERROR : cannot call the sync process because the file is not mapped !\n";
   }
 }
 

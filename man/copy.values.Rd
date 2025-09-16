@@ -17,10 +17,21 @@ copy.values(x, values)
 
 \item{values}{a R object or a memory mmaped object}
 }
+\value{
+None.
+}
 \description{
 Copy values to memory mapped object
 }
 \details{
 Copy \code{values} to \code{x}, recycling if necessary. This
 function modifies \code{x} in-place.
+}
+\examples{
+A <- mvector("double", 3)
+copy.values(A, 1:3)
+B <- mvector("double", 6)
+copy.values(B, A)
+B
+
 }

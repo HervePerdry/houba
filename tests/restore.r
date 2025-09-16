@@ -1,0 +1,8 @@
+require(houba)
+a <- matrix(1:24, 4, 6)
+A <- as.mmatrix(a, "float")
+rdsfile <- tempfile(fileext = ".rds")
+saveRDS(A, rdsfile)
+A <- readRDS(rdsfile)
+A <- restore(A)
+stopifnot(all(a == A[]))

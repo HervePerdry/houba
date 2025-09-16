@@ -33,6 +33,13 @@ or a mmatrix). If 'simplify' is FALSE, the result is a list.
 The function extracts the rows or the columns of 'X' one by one, to a R
 object, which is passed to 'FUN'.
 }
+\examples{
+a <- matrix(1:6, 2, 3)
+A <- as.mmatrix(a)
+apply(A, 1, var)
+apply(A, 2, var)
+
+}
 \seealso{
-\code{\link{apply}}
+\code{\link{base::apply}}
 }

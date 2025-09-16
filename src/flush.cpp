@@ -1,21 +1,21 @@
 #include "MMatrix.h"
 #include <Rcpp.h>
+#include "apply.h"
+
+class _fl_ {
+  public:
+    // pour pouvoir utiliser le template apply_R, il faut prendre un 2e argument
+    // qu'on ne va pas utiliser
+    template<typename T>
+    inline void operator()(Rcpp::XPtr<houba::MMatrix<T>> M, Rcpp::IntegerVector) {
+      M->flush();
+    }
+};
 
 // [[Rcpp::export]]
 void flush_(SEXP pM, std::string datatype) {
-    if (datatype == "float") { 
-    Rcpp::XPtr<houba::MMatrix<float>> instanc(pM);
-    instanc->flush();
-  } else if (datatype == "double") {
-    Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
-    instanc->flush();
-  } else if (datatype == "int") {
-    Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
-    instanc->flush();
-  } else if (datatype == "short") {
-    Rcpp::XPtr<houba::MMatrix<int16_t>> instanc(pM);
-    instanc->flush();
-  } else {
-    throw std::runtime_error("Unsupported datatype for now !");
-  }
+  _fl_ x;
+  Rcpp::IntegerVector dummy(0); // juste à cause du format du template, il faut un argument de plus
+  apply_R(pM, datatype, dummy, x);
 }
+

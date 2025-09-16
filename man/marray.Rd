@@ -6,49 +6,47 @@
 \alias{mvector}
 \title{Creation of memory mapped objects}
 \usage{
-marray(type = c("double", "float", "int", "short"), dim, filename, readonly)
+marray(
+  datatype = c("double", "float", "int", "short"),
+  dim,
+  filename,
+  readonly
+)
 
 mmatrix(
-  type = c("double", "float", "int", "short"),
+  datatype = c("double", "float", "int", "short"),
   nrow,
   ncol,
   filename,
   readonly
 )
 
-mvector(type = c("double", "float", "int"), length, filename, readonly)
+mvector(datatype = c("double", "float", "int"), length, filename, readonly)
 }
 \arguments{
-\item{type}{can be \code{double}, \code{float}, \code{int}, \code{short}}
+\item{datatype}{the data type}
 
 \item{dim}{dimension of marray}
 
-\item{filename}{(optional)
-the relative or absolute path to the file you want to store your \code{mmatrix-class}.
-If omitted, \link{tempfile} is used to generate a file name for a temporary file.}
+\item{filename}{(optional) path to file}
 
-\item{readonly}{\code{logical} Indicates if the array is read-only.}
+\item{readonly}{(optional) if \code{TRUE}, the object will be read-only.}
 
-\item{nrow}{number of rows}
+\item{nrow}{number of rows of mmatrix}
 
-\item{ncol}{number of columns}
+\item{ncol}{number of columns of mmatrix}
 
 \item{length}{length of mvector}
 }
 \value{
-the newly created \link{mmatrix-class}.
-
-the newly created \link{mvector-class}.
+a memory mapped object, of class 'mvector', 'mmatrix' or 'marray'
 }
 \description{
 These functions create memory mapped vectors, matrices or arrays, 
 possibly from an existing file.
-
-The \code{mmatrix} function creates an object of class \link{mmatrix-class}, of
-indicated types and dimension.
 }
 \details{
-Currently \code{type} can only be double, float, int, or short. Short will always be a 16 bits 
+Currently \code{datatype} can only be double, float, int, or short. Short will always be a 16 bits 
 integer (int16_t).
 
 If \code{filename} is missing, a temporary filename will be generated using \code{tempfile}.
@@ -57,8 +55,10 @@ of the object); if the file does not exist, it will be created.
 
 If \code{readonly} is missing, it will be set to \code{TRUE} when opening an existing file, and
 to \code{FALSE} when the file is created by the function.
+}
+\examples{
+a <- mmatrix("float", 4, 3)
+a[] <- 1:12
+a[1,]
 
-By default, the \code{mmatrix-class} is filled with 0.
-This function is kind of acting as a manual constructor for \code{mmatrix-class}.
-If you want to instanciate a \code{mmatrix-class} from a descriptor file, check \link{read.descriptor}.
 }

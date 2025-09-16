@@ -15,7 +15,10 @@
 #' The default value is 1e6.
 #' Set `max.size` to `0` to always get a memory mapped object and to `Inf` to always get a R object.
 #'
-#' @examples houba("maxsize")
+#' @return a named list with options values, or a single option value.
+#'
+#' @examples houba()
+#' houba("maxsize")
 #'
 #' @export
 houba <- function(...) {

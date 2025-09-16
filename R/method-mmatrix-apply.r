@@ -19,7 +19,12 @@
 #' @return If 'simplify' is TRUE, a matrix (or a mmatrix) or a vector (or a mvector). 
 #' If 'simplify' is FALSE, a list.
 #'
-#' @seealso \code{\link{apply}}
+#' @examples a <- matrix(1:6, 2, 3)
+#' A <- as.mmatrix(a)
+#' apply(A, 1, var)
+#' apply(A, 2, var)
+#'
+#' @seealso \code{\link{base::apply}}
 #' 
 #' @export
 setMethod("apply", c(X = "mmatrix"), 

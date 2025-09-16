@@ -26,6 +26,16 @@
 
 \item{mode}{the mode oh the created vector}
 }
+\value{
+an array
+}
 \description{
 Converting memory-mapped objects to R objects
+}
+\examples{
+a <- array( 1:24, c(2,3,4) )
+A <- as.marray(a)
+all(as.array(A) == a)
+as.vector(A)
+
 }

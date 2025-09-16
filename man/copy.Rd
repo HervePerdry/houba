@@ -20,9 +20,19 @@ copy(x, filename)
 
 \item{filename}{(optional) a file name for the new object}
 }
+\value{
+A memory mapped object.
+}
 \description{
 Copy memory mapped object
 }
 \details{
-Creates a new memory mapped object, indentical to \code{x}.
+Creates a new memory mapped object, identical to \code{x}.
+}
+\examples{
+a <- as.mvector(1:4)
+b <- copy(a)
+a
+b
+
 }

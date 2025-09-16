@@ -4,7 +4,7 @@
 %   R/method-mmatrix-rowSums.r
 \name{colMeans,mmatrix-method}
 \alias{colMeans,mmatrix-method}
-\alias{colSums}
+\alias{colSums,mmatrix-method}
 \alias{rowMeans,mmatrix-method}
 \alias{rowSums,mmatrix-method}
 \title{Row and Columns sums and means}
@@ -30,4 +30,11 @@ If the size of the result is greater
 than \code{houba(max.size)}, then it will be a mvector instead of R object.
 In this case its type will be determined using 'output.type'. If 'output.type'
 is missing, a coherent choice will be made.
+}
+\examples{
+a <- matrix(1:20, 4, 5)
+A <- as.mmatrix(a, "float")
+colMeans(A)
+rowSums(A)
+
 }

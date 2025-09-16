@@ -26,6 +26,10 @@ same.dim <- function(d1, d2) {
 #' @return an object of class mvector, mmatrix or marray depending on 
 #' the operand classes.
 #'
+#' @examples x <- as.mvector(2**(1:4))
+#' y <- 2*x
+#' x <- x/2
+#' x + c(1,2) / y
 #' @seealso \link{inplace}
 #'
 NULL

@@ -6,6 +6,13 @@
 #' @param mode the mode oh the created vector
 #' @param ... extra parameters (ignored)
 #'
+#' @return an array
+#' 
+#' @examples a <- array( 1:24, c(2,3,4) )
+#' A <- as.marray(a)
+#' all(as.array(A) == a)
+#' as.vector(A)
+#'
 #' @exportS3Method as.array marray
 as.array.marray <- function(x, ...) {
   if(isnullptr(x@ptr)) {

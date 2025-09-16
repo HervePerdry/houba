@@ -25,3 +25,14 @@ a memory-mapped object
 When the external pointer is broken, 
 attempt to recreate a valid object, if the file still exists.
 }
+\examples{
+a <- matrix(1:24, 4, 6)
+A <- as.mmatrix(a, "float")
+rdsfile <- tempfile(fileext = ".rds")
+saveRDS(A, rdsfile)
+A <- readRDS(rdsfile)
+A
+A <- restore(A)
+A
+
+}

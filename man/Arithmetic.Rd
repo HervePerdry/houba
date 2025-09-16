@@ -127,6 +127,12 @@ data type as the operand. If both operand are memory mapped objects with differe
 data types, the result will be a memory mapped object with the same data type than
 the left operand.
 }
+\examples{
+x <- as.mvector(2**(1:4))
+y <- 2*x
+x <- x/2
+x + c(1,2) / y
+}
 \seealso{
 \link{inplace}
 }

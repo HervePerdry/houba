@@ -11,6 +11,13 @@
 #'
 #' @return a R object or a memory-mapped object (depending on \code{houba("max.size")})
 #'
+#' @examples a <- matrix(1:6, 2, 3)
+#' A <- as.mmatrix(a)
+#' A[1,]
+#' A[2,] <- A[1,] * 2
+#' A[,3] <- 6:7
+#' A
+#' 
 NULL
 
 replace_value_marray <- function(x, L, value) {

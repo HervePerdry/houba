@@ -1,6 +1,7 @@
+# Various tests about object creation and manipulation
 require(houba)
 
-# float matrix
+# float mmatrix ------------------------
 A <- mmatrix("float", 10, 20)
 a <- as.matrix(A)
 stopifnot(typeof(a) == "double")
@@ -15,7 +16,7 @@ A[1,1] <- 12
 A[3,] <- 1.34
 stopifnot( all(abs(as.matrix(A[1:3, 1:2] - c(12, 0, 1.34, 0, 0, 1.34))) < 1e-6)  )
 
-# int matrix
+# int mmatrix ---------------------------
 B <- mmatrix("int", 10, 20)
 b <- as.matrix(B)
 stopifnot(typeof(b) == "integer")
@@ -30,26 +31,31 @@ houba(max.size = 0) # force non conversion to R
 B[2,] <- A[3,]
 stopifnot( all(as.vector(B[2, 1:4]) == c(1L, 1L, 1L, 1L)) )
 
-# double vector
+# double mvector -------------------------
 V <- mvector("double", 10)
 v <- as.vector(V)
 V[1:4] <- pi
 stopifnot( all(as.vector(V[3:6]) == c(pi, pi, 0, 0)) ) 
 
 
-# int_16 matrix
+# int16 mmatrix ----------------------
 C <- mmatrix("short", 10, 20)
-C[1, ] <- 1
-C[2, ] <- 2
-C[3, ] <- 3
-add.descriptor.file(C)
+C[] <- sample.int(200)
 
+# create descriptor file 
+descriptor.file(C)
+
+# linking it to other object
 D <- read.descriptor(C@file)
 stopifnot( all(as.matrix(C) == as.matrix(D)))
 
-#descriptor for mvector
-add.descriptor.file(V)
+# descriptor for mvector ----------------
+descriptor.file(V)
+
+# reading it
 Vbis <- read.descriptor(V@file, FALSE) #so NOT read-only
-Vbis[,] <- 0
-#modified V in place through Vbis
-stopifnot( all(as.vector(V) == 0) )
+
+# modified V through Vbis
+Vbis[,] <- pi
+flush(Vbis)
+stopifnot( all(as.vector(V) == pi) )
