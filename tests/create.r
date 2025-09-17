@@ -43,17 +43,17 @@ C <- mmatrix("short", 10, 20)
 C[] <- sample.int(200)
 
 # create descriptor file 
-descriptor.file(C)
+dsc <- descriptor.file(C)
 
 # linking it to other object
-D <- read.descriptor(C@file)
+D <- read.descriptor(dsc)
 stopifnot( all(as.matrix(C) == as.matrix(D)))
 
 # descriptor for mvector ----------------
-descriptor.file(V)
+dsc <- descriptor.file(V)
 
 # reading it
-Vbis <- read.descriptor(V@file, FALSE) #so NOT read-only
+Vbis <- read.descriptor(dsc, FALSE) #so NOT read-only
 
 # modified V through Vbis
 Vbis[,] <- pi

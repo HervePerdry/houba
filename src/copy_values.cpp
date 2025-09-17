@@ -13,7 +13,7 @@ void copy_values_(SEXP pM, std::string datatype, SEXP values) {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::NumericVector val(values);
     instanc->copy_values(val);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector val(values);
     instanc->copy_values(val);
@@ -38,7 +38,7 @@ inline void copy_val(T instanc, SEXP values, std::string valtype) {
   } else if(valtype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> val(values);
     instanc->copy_values(*val);
-  } else if(valtype == "int") {
+  } else if(valtype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> val(values);
     instanc->copy_values(*val);
   } else if (valtype == "short") {
@@ -57,7 +57,7 @@ void copy_values_mm_(SEXP pM, std::string datatype, SEXP values, std::string val
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     copy_val(instanc, values, valtype);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     copy_val(instanc, values, valtype);
   } else if (datatype == "short") {

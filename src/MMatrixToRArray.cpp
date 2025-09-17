@@ -27,7 +27,7 @@ SEXP MMatrixToRArray(SEXP pM, std::string datatype) {
     R.attr("dim") = Rcpp::wrap(instanc->dim());
 
     return R;
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
 
     unsigned int s = instanc->size();

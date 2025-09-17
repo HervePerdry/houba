@@ -31,7 +31,7 @@ SEXP MMatrixToRMatrix(SEXP pM, std::string datatype) {
       }
     }
     return R;
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     unsigned int ncol = instanc->ncol();
     unsigned int nrow = instanc->nrow();

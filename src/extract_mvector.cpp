@@ -12,7 +12,7 @@ void extract_mvector_to_R(SEXP pM, std::string datatype, Rcpp::IntegerVector I, 
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::NumericVector tar(target);
     instanc->extract_vector(I, tar);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector tar(target);
     instanc->extract_vector(I, tar);
@@ -36,7 +36,7 @@ void extract_mvector_to_mvector(SEXP pM, std::string datatype, Rcpp::IntegerVect
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::XPtr<houba::MMatrix<double>> tar(target);
     instanc->extract_vector(I, *tar);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::XPtr<houba::MMatrix<int>> tar(target);
     instanc->extract_vector(I, *tar);

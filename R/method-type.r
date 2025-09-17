@@ -5,9 +5,9 @@
 #'
 #' @param x a memory mapped object
 #'
-#' @details Sends back the stored data type (currently "double", "float", "int" or "short").
+#' @details Sends back the stored data type (currently "double", "float", "integer" or "short").
 #'
-#' @examples x <- mvector("int", 6)
+#' @examples x <- mvector("integer", 6)
 #' type(x)
 #'
 #' @export

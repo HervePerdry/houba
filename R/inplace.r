@@ -42,7 +42,7 @@ setMethod("inplace.sum", c(x = "memoryMapped", y = "numeric"),
     if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
       y <- as.double(y)
-    } else if(x@datatype == "int" | x@datatype == "short") {
+    } else if(x@datatype == "integer" | x@datatype == "short") {
       y <- as.integer(y)
     } else {
       stop("Unsupported data type")
@@ -70,7 +70,7 @@ setMethod("inplace.minus", c(x = "memoryMapped", y = "numeric"),
     if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
       y <- as.double(y)
-    } else if(x@datatype == "int" | x@datatype == "short") {
+    } else if(x@datatype == "integer" | x@datatype == "short") {
       y <- as.integer(y)
     } else {
       stop("Unsupported data type")
@@ -98,7 +98,7 @@ setMethod("inplace.prod", c(x = "memoryMapped", y = "numeric"),
     if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
       y <- as.double(y)
-    } else if(x@datatype == "int" | x@datatype == "short") {
+    } else if(x@datatype == "integer" | x@datatype == "short") {
       y <- as.integer(y)
     } else {
       stop("Unsupported data type")
@@ -125,7 +125,7 @@ setMethod("inplace.div", c(x = "memoryMapped", y = "numeric"),
     if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
       y <- as.double(y)
-    } else if(x@datatype == "int" | x@datatype == "short") {
+    } else if(x@datatype == "integer" | x@datatype == "short") {
       y <- as.integer(y)
     } else {
       stop("Unsupported data type")

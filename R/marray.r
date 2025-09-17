@@ -29,7 +29,7 @@
 #' a[1,]
 #'
 #' @export
-marray <- function(datatype = c("double", "float", "int", "short"), dim, filename, readonly) {
+marray <- function(datatype = c("double", "float", "integer", "short"), dim, filename, readonly) {
   datatype <- match.arg(datatype)
   if(missing(filename)) filename <- tempfile("mmatrix")
   if(missing(readonly)) readonly <- file.exists(filename)

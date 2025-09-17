@@ -6,7 +6,7 @@ setGeneric("as.marray", function(x, datatype, filename) standardGeneric("as.marr
 setMethod("as.marray", "array",
    function(x, datatype, filename) { 
      if(missing(datatype)) {
-       datatype <- if(typeof(x) == "double") "double" else "int"
+       datatype <- if(typeof(x) == "double") "double" else "integer"
      }
      r <- marray(datatype, dim(x), filename)
      copy_values(r, x)

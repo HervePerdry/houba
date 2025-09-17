@@ -10,7 +10,7 @@ void print_debug(SEXP pM, std::string datatype) {
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::Rcout << instanc->getVerbosout();
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::Rcout << instanc->getVerbosout();
   } else if (datatype == "short") {

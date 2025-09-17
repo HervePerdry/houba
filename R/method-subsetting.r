@@ -10,7 +10,7 @@ extract_mmatrix <- function(x, i, j, drop = TRUE) {
   } else {
     if(x@datatype == "float" | x@datatype == "double") {
       T <- matrix(NA_real_, length(I), length(J))
-    } else if(x@datatype == "int" | x@datatype == "short") {
+    } else if(x@datatype == "integer" | x@datatype == "short") {
       T <- matrix(NA_integer_, length(I), length(J))
     } else {
       stop("Unsupported data type")
@@ -34,7 +34,7 @@ extract_mvector <- function(x, i) {
   } else {
     if(x@datatype == "float" | x@datatype == "double") {
       T <- numeric(tsize)
-    } else if(x@datatype == "int" | x@datatype == "short") {
+    } else if(x@datatype == "integer" | x@datatype == "short") {
       T <- integer(tsize)
     } else {
       stop("Unsupported data type")

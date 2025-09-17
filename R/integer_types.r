@@ -1,1 +1,1 @@
-integer_types <- c("int", "short")
+integer_types <- c("integer", "short")

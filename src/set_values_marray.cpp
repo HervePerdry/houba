@@ -17,7 +17,7 @@ void set_values_marray(SEXP pM, std::string datatype, Rcpp::List L, SEXP values)
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::NumericVector val(values);
     instanc->set_values_array(IND, val);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector val(values);
     instanc->set_values_array(IND, val);
@@ -44,7 +44,7 @@ void set_values_marray_ma(SEXP pM, std::string datatype, Rcpp::List L, SEXP valu
     } else if(valtype == "double") {
       Rcpp::XPtr<houba::MMatrix<double>> val(values);
       instanc->set_values_array(IND, *val);
-    } else if(valtype == "int") {
+    } else if(valtype == "integer") {
       Rcpp::XPtr<houba::MMatrix<int>> val(values);
       instanc->set_values_array(IND, *val);
     } else if (valtype == "short") {
@@ -61,7 +61,7 @@ void set_values_marray_ma(SEXP pM, std::string datatype, Rcpp::List L, SEXP valu
     } else if(valtype == "double") {
       Rcpp::XPtr<houba::MMatrix<double>> val(values);
       instanc->set_values_array(IND, *val);
-    } else if(valtype == "int") {
+    } else if(valtype == "integer") {
       Rcpp::XPtr<houba::MMatrix<int>> val(values);
       instanc->set_values_array(IND, *val);
     } else if (valtype == "short") {
@@ -70,7 +70,7 @@ void set_values_marray_ma(SEXP pM, std::string datatype, Rcpp::List L, SEXP valu
     } else {
       throw std::runtime_error("Unsupported datatype for values for now !");
     }
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     if(valtype == "float") {
       Rcpp::XPtr<houba::MMatrix<float>> val(values);
@@ -78,7 +78,7 @@ void set_values_marray_ma(SEXP pM, std::string datatype, Rcpp::List L, SEXP valu
     } else if(valtype == "double") {
       Rcpp::XPtr<houba::MMatrix<double>> val(values);
       instanc->set_values_array(IND, *val);
-    } else if(valtype == "int") {
+    } else if(valtype == "integer") {
       Rcpp::XPtr<houba::MMatrix<int>> val(values);
       instanc->set_values_array(IND, *val);
     } else if (valtype == "short") {
@@ -95,7 +95,7 @@ void set_values_marray_ma(SEXP pM, std::string datatype, Rcpp::List L, SEXP valu
     } else if(valtype == "double") {
       Rcpp::XPtr<houba::MMatrix<double>> val(values);
       instanc->set_values_array(IND, *val);
-    } else if(valtype == "int") {
+    } else if(valtype == "integer") {
       Rcpp::XPtr<houba::MMatrix<int>> val(values);
       instanc->set_values_array(IND, *val);
     } else if (valtype == "short") {

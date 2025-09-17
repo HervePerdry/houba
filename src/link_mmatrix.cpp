@@ -10,7 +10,7 @@ SEXP link_mmatrix(std::string datatype, std::string file, size_t nrow, size_t nc
     } else if (datatype == "double") {
         Rcpp::XPtr<houba::MMatrix<double>> MMatrix_ptr(new houba::MMatrix<double>(file, nrow, ncol));
         return MMatrix_ptr;
-    } else if (datatype == "int") {
+    } else if (datatype == "integer") {
         Rcpp::XPtr<houba::MMatrix<int>> MMatrix_ptr(new houba::MMatrix<int>(file, nrow, ncol));
         return MMatrix_ptr;
     } else if (datatype == "short") {

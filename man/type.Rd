@@ -16,10 +16,10 @@ type(x)
 Type of a memory-mapped object
 }
 \details{
-Sends back the stored data type (currently "double", "float", "int" or "short").
+Sends back the stored data type (currently "double", "float", "integer" or "short").
 }
 \examples{
-x <- mvector("int", 6)
+x <- mvector("integer", 6)
 type(x)
 
 }

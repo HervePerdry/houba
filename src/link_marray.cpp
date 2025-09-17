@@ -13,7 +13,7 @@ SEXP link_marray(std::string datatype, std::string file, Rcpp::IntegerVector dim
   } else if(datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> MMatrix_ptr(new houba::MMatrix<double>(file, dim_));
     return MMatrix_ptr;
-  } else if(datatype == "int") {
+  } else if(datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> MMatrix_ptr(new houba::MMatrix<int>(file, dim_));
     return MMatrix_ptr;
   } else if(datatype == "short") {

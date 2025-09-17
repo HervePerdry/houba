@@ -1,6 +1,6 @@
 #' @rdname marray
 #' @export
-mvector <- function(datatype = c("double", "float", "int"), length, filename, readonly) {
+mvector <- function(datatype = c("double", "float", "integer"), length, filename, readonly) {
   datatype <- match.arg(datatype)
   if(missing(filename)) filename <- tempfile("mmatrix")
   if(missing(readonly)) readonly <- file.exists(filename)

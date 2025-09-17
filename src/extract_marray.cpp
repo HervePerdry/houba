@@ -19,7 +19,7 @@ void extract_marray_to_R(SEXP pM, std::string datatype, Rcpp::List L, SEXP targe
     Rcpp::NumericVector tar(target);
     instanc->extract_array(IND, tar);
     tar.attr("dim") = dim;
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector tar(target);
     instanc->extract_array(IND, tar);
@@ -47,7 +47,7 @@ void extract_marray_to_marray(SEXP pM, std::string datatype, Rcpp::List L, SEXP 
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::XPtr<houba::MMatrix<double>> tar(target);
     instanc->extract_array(IND, *tar);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::XPtr<houba::MMatrix<int>> tar(target);
     instanc->extract_array(IND, *tar);

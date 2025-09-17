@@ -7,21 +7,21 @@
 \title{Creation of memory mapped objects}
 \usage{
 marray(
-  datatype = c("double", "float", "int", "short"),
+  datatype = c("double", "float", "integer", "short"),
   dim,
   filename,
   readonly
 )
 
 mmatrix(
-  datatype = c("double", "float", "int", "short"),
+  datatype = c("double", "float", "integer", "short"),
   nrow,
   ncol,
   filename,
   readonly
 )
 
-mvector(datatype = c("double", "float", "int"), length, filename, readonly)
+mvector(datatype = c("double", "float", "integer"), length, filename, readonly)
 }
 \arguments{
 \item{datatype}{the data type}

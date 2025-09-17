@@ -43,7 +43,7 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool authoriz
     
     if (file_size != matrix_size) {
       if (!authorize_resize) 
-         throw std::runtime_error("The file size doesn't match the matrix size. Use the \"authorise_resize\" to force a resize.");
+         throw std::runtime_error("The file size doesn't match the matrix size");
       // we are authorized to resize file
       if (verbose_) {
         verbosout_ << "Resizing file from " << file_size << " to " << matrix_size << " bytes." << std::endl;

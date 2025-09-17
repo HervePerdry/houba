@@ -11,7 +11,7 @@ setMethod("rowMeans", c(x = "mmatrix"),
      } else {
        if(!missing(output.type)) 
          ty <- output.type 
-       else if(type(x) %in% c("int","short"))
+       else if(type(x) %in% c("integer","short"))
          ty <- "double"
        else
          ty <- x@datatype

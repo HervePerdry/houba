@@ -23,7 +23,7 @@ setGeneric("as.mmatrix", function(x, datatype, filename) standardGeneric("as.mma
 setMethod("as.mmatrix", "matrix",
    function(x, datatype, filename) { 
      if(missing(datatype)) {
-       datatype <- if(typeof(x) == "double") "double" else "int"
+       datatype <- if(typeof(x) == "double") "double" else "integer"
      }
      r <- mmatrix(datatype, nrow(x), ncol(x), filename)
      copy_values(r, x)

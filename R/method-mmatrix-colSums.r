@@ -33,7 +33,7 @@ setMethod("colSums", c(x = "mmatrix"),
        if(!missing(output.type)) 
          ty <- output.type 
        else if(type(x) %in% integer_types)
-         ty <- "int"
+         ty <- "integer"
        else
          ty <- x@datatype
        ans <- mvector(ty, nc)

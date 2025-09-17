@@ -12,7 +12,7 @@ void cw_inverse(SEXP pM, std::string datatype) {
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     instanc->cw_inverse();
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     instanc->cw_inverse();
   } else if (datatype == "short") {
@@ -31,7 +31,7 @@ void cw_opposite(SEXP pM, std::string datatype) {
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     instanc->cw_opposite();
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     instanc->cw_opposite();
   } else if (datatype == "short") {
@@ -54,7 +54,7 @@ void cw_sum(SEXP pM, std::string datatype, SEXP e2_) {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::NumericVector e2(e2_);
     instanc->cw_sum(e2);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector e2(e2_);
     instanc->cw_sum(e2);
@@ -77,7 +77,7 @@ void cw_minus(SEXP pM, std::string datatype, SEXP e2_) {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::NumericVector e2(e2_);
     instanc->cw_minus(e2);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector e2(e2_);
     instanc->cw_minus(e2);
@@ -100,7 +100,7 @@ void cw_prod(SEXP pM, std::string datatype, SEXP e2_) {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::NumericVector e2(e2_);
     instanc->cw_prod(e2);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector e2(e2_);
     instanc->cw_prod(e2);
@@ -123,7 +123,7 @@ void cw_div(SEXP pM, std::string datatype, SEXP e2_) {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::NumericVector e2(e2_);
     instanc->cw_div(e2);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector e2(e2_);
     instanc->cw_div(e2);
@@ -147,7 +147,7 @@ inline void _cw_sum_(T instanc, SEXP e2, std::string type) {
   } else if(type == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> val(e2);
     instanc->cw_sum(*val);
-  } else if(type == "int") {
+  } else if(type == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> val(e2);
     instanc->cw_sum(*val);
   } else if (type == "short") {
@@ -166,7 +166,7 @@ void cw_sum_mm(SEXP pM, std::string datatype, SEXP e2, std::string e2type) {
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     _cw_sum_(instanc, e2, e2type);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     _cw_sum_(instanc, e2, e2type);
   } else if (datatype == "short") {
@@ -187,7 +187,7 @@ inline void _cw_minus_(T instanc, SEXP e2, std::string type) {
   } else if(type == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> val(e2);
     instanc->cw_minus(*val);
-  } else if(type == "int") {
+  } else if(type == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> val(e2);
     instanc->cw_minus(*val);
   } else if (type == "short") {
@@ -206,7 +206,7 @@ void cw_minus_mm(SEXP pM, std::string datatype, SEXP e2, std::string e2type) {
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     _cw_minus_(instanc, e2, e2type);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     _cw_minus_(instanc, e2, e2type);
   } else if (datatype == "short") {
@@ -227,7 +227,7 @@ inline void _cw_prod_(T instanc, SEXP e2, std::string type) {
   } else if(type == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> val(e2);
     instanc->cw_prod(*val);
-  } else if(type == "int") {
+  } else if(type == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> val(e2);
     instanc->cw_prod(*val);
   } else if (type == "short") {
@@ -246,7 +246,7 @@ void cw_prod_mm(SEXP pM, std::string datatype, SEXP e2, std::string e2type) {
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     _cw_prod_(instanc, e2, e2type);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     _cw_prod_(instanc, e2, e2type);
   } else if (datatype == "short") {
@@ -266,7 +266,7 @@ inline void _cw_div_(T instanc, SEXP e2, std::string type) {
   } else if(type == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> val(e2);
     instanc->cw_div(*val);
-  } else if(type == "int") {
+  } else if(type == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> val(e2);
     instanc->cw_div(*val);
   } else if (type == "short") {
@@ -285,7 +285,7 @@ void cw_div_mm(SEXP pM, std::string datatype, SEXP e2, std::string e2type) {
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     _cw_div_(instanc, e2, e2type);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     _cw_div_(instanc, e2, e2type);
   } else if (datatype == "short") {

@@ -14,7 +14,7 @@ extract_marray <- function(x, L, drop = TRUE) {
   } else {
     if(x@datatype == "float" | x@datatype == "double") {
       T <- array(NA_real_, dims)
-    } else if(x@datatype == "int" | x@datatype == "short") {
+    } else if(x@datatype == "integer" | x@datatype == "short") {
       T <- array(NA_integer_, dims)
     } else {
       stop("Unsupported data type")

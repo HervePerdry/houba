@@ -4,7 +4,7 @@ replace_value_mvector <- function(x, i, value) {
   if(x@readonly) stop("Read-only object")
   I <- as.integer(i) - 1L
   if(x@datatype == "float" | x@datatype == "double") val <- as.double(value)
-  if(x@datatype == "int" | x@datatype == "short" ) val <- as.integer(value)
+  if(x@datatype == "integer" | x@datatype == "short" ) val <- as.integer(value)
   set_values_mmatrix(x@ptr, x@datatype, I, 0L, value)
   x
 }

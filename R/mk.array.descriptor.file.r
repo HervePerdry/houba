@@ -15,4 +15,6 @@ mk.array.descriptor.file <- function(path, dim, type) {
     return(invisible(NULL))
   }
   cat(d, file = desc.file)
+  cat("Created descriptor file", desc.file, "\n")
+  invisible(desc.file)
 }

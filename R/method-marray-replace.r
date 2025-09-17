@@ -31,7 +31,7 @@ replace_value_marray <- function(x, L, value) {
   }
   if(x@datatype == "float" | x@datatype == "double") {
     val <- as.double(value)
-  } else if(x@datatype == "int" | x@datatype == "short") {
+  } else if(x@datatype == "integer" | x@datatype == "short") {
     val <- as.integer(value)
   } else {
     stop("Unsupported data type")

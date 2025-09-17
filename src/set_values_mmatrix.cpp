@@ -12,7 +12,7 @@ void set_values_mmatrix(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rc
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     Rcpp::NumericVector val(values);
     instanc->set_values_matrix(I, J, val);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector val(values);
     instanc->set_values_matrix(I, J, val);
@@ -36,7 +36,7 @@ inline void set_val(T instanc, Rcpp::IntegerVector I, Rcpp::IntegerVector J, SEX
   } else if(valtype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> val(values);
     instanc->set_values_matrix(I, J, *val);
-  } else if(valtype == "int") {
+  } else if(valtype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> val(values);
     instanc->set_values_matrix(I, J, *val);
   } else if (valtype == "short") {
@@ -56,7 +56,7 @@ void set_values_mmatrix_mm(SEXP pM, std::string datatype, Rcpp::IntegerVector I,
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     set_val(instanc, I, J, values, valtype);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     set_val(instanc, I, J, values, valtype);
   } else if (datatype == "short") {

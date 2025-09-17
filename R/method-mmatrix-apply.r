@@ -1,4 +1,5 @@
 #' @title Apply functions over margins of a mmatrix
+#' @name apply
 #'
 #' @description This method generalizes `base::apply` to mmatrix objects
 #'
@@ -62,11 +63,8 @@ setMethod("apply", c(X = "mmatrix"),
      if(simplify) { # determine dimensions of result
        le.ans <- nr.ans * nc.ans
        if(le.ans > savevalue) { # big answer !
-         if(typeof(tmp) == "integer") 
-           ty <- "int"
-         else if(typeof(tmp) == "double") 
-           ty <- "double"
-         else 
+         ty <- typeof(tmp)
+         if( !(ty %in% c("integer", "double")) )
            stop("Result size greater than houba(max.size), with type we can't handle")
          ans <- mmatrix(ty, nr.ans, nc.ans)
          ans[,1] <- tmp

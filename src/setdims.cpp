@@ -11,7 +11,7 @@ void setdims(SEXP pM, std::string datatype, Rcpp::IntegerVector value) {
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     instanc->setDim(value);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     instanc->setDim(value);
   } else if (datatype == "short") {

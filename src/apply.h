@@ -21,7 +21,7 @@ inline void apply_R(SEXP pM, std::string datatype, Rcpp::Vector<TSXP> r_vector, 
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     F(instanc, r_vector);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     F(instanc, r_vector);
   } else if (datatype == "short") {
@@ -46,7 +46,7 @@ inline void apply_mmatrix(SEXP pM, std::string datatype, SEXP pM2, std::string d
   } else if (datatype == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
     apply_mmatrix_2(instanc, pM2, datatype2, F);
-  } else if (datatype == "int") {
+  } else if (datatype == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
     apply_mmatrix_2(instanc, pM2, datatype2, F);
   } else if (datatype == "short") {
@@ -67,7 +67,7 @@ inline void apply_mmatrix_2(Rcpp::XPtr<houba::MMatrix<T>> instanc, SEXP pM2, std
   } else if(datatype2 == "double") {
     Rcpp::XPtr<houba::MMatrix<double>> instanc2(pM2);
     F(instanc, instanc2);
-  } else if(datatype2 == "int") {
+  } else if(datatype2 == "integer") {
     Rcpp::XPtr<houba::MMatrix<int>> instanc2(pM2);
     F(instanc, instanc2);
   } else if (datatype2 == "short") {
