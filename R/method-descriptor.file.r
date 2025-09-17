@@ -17,10 +17,10 @@
 #' A[] <- sample.int(200)
 #' 
 #' # create descriptor file 
-#' descriptor.file(A)
+#' dsc <- descriptor.file(A)
 #' 
-#' # linking it to other object
-#' B <- read.descriptor(A@file, readonly = FALSE)
+#' # linking file to other object
+#' B <- read.descriptor(dsc, readonly = FALSE)
 #' all(as.matrix(A) == as.matrix(B)) # TRUE
 #' 
 #' B[1:10] <- 0

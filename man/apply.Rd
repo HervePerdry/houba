@@ -2,6 +2,7 @@
 % Please edit documentation in R/method-mmatrix-apply.r
 \name{apply}
 \alias{apply}
+\alias{apply,mmatrix-method}
 \title{Apply functions over margins of a mmatrix}
 \usage{
 \S4method{apply}{mmatrix}(X, MARGIN, FUN, ..., simplify = TRUE)
@@ -41,5 +42,5 @@ apply(A, 2, var)
 
 }
 \seealso{
-\code{\link{base::apply}}
+\code{\link[base:apply]{base:apply}}
 }

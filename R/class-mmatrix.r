@@ -19,7 +19,6 @@
 #' Objects can be created by calling \link{mmatrix}.
 #'
 #' @seealso \link{marray-class}, \link{mvector-class}
-#' @seealso \link{read.descriptor}, \link{add.descriptor.file}
 #'
 #' @exportClass mmatrix
 setClass("mmatrix", slots = c(ptr = "externalptr", file = "character", dim = "integer", datatype = "character", readonly = "logical"))

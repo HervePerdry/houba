@@ -1,1 +1,1 @@
-PKG_CPPFLAGS = -I ../inst/include/ -Wall
+PKG_CPPFLAGS = -I ../inst/include/houba/

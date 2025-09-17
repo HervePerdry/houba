@@ -1,7 +1,7 @@
 #' Flushes changes from a memory-mapped matrix
 #'
 #' @rdname flush
-#' @param com a memory mapped object
+#' @param con a memory mapped object
 #' @description Sync makes sure that the data written to the file linked with the object.
 #' @details An error will be raised if the object is read-only, or if the operation failed.
 #'
@@ -14,9 +14,9 @@
 #' @export
 setGeneric('flush', function(con) standardGeneric('flush'))
 
-# object changed to "con" to be compatible with already existing generic "flush" 
-# (particularly usefull with bigmemory)
+# use "con" to be compatible with already existing generic "flush" 
 #' @rdname flush
+#' @export
 setMethod("flush", signature(con = "memoryMapped"),
   function(con) {
     if(isnullptr(con@ptr)) {

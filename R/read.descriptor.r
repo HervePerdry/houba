@@ -15,7 +15,7 @@
 #' # create descriptor file 
 #' dsc <- descriptor.file(A)
 #' 
-#' # linking it to other object
+#' # linking file to other object
 #' B <- read.descriptor(dsc, readonly = FALSE)
 #' all(as.matrix(A) == as.matrix(B)) # TRUE
 #' 

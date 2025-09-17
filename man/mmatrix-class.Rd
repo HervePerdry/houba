@@ -28,6 +28,4 @@ Objects can be created by calling \link{mmatrix}.
 
 \seealso{
 \link{marray-class}, \link{mvector-class}
-
-\link{read.descriptor}, \link{add.descriptor.file}
 }

@@ -10,7 +10,7 @@ flush(con)
 \S4method{flush}{memoryMapped}(con)
 }
 \arguments{
-\item{com}{a memory mapped object}
+\item{con}{a memory mapped object}
 }
 \value{
 None

@@ -20,6 +20,8 @@
 #' @export
 setGeneric("as.mmatrix", function(x, datatype, filename) standardGeneric("as.mmatrix"), package = "houba")
 
+#' @rdname as-marray
+#' @export
 setMethod("as.mmatrix", "matrix",
    function(x, datatype, filename) { 
      if(missing(datatype)) {

@@ -3,15 +3,24 @@
 %   R/method-as-mvector.r
 \name{as.marray}
 \alias{as.marray}
+\alias{as.marray,array-method}
 \alias{as.mmatrix}
+\alias{as.mmatrix,matrix-method}
 \alias{as.mvector}
+\alias{as.mvector,numeric-method}
 \title{Conversion of R objects to memory mapped objects}
 \usage{
 as.marray(x, datatype, filename)
 
+\S4method{as.marray}{array}(x, datatype, filename)
+
 as.mmatrix(x, datatype, filename)
 
+\S4method{as.mmatrix}{matrix}(x, datatype, filename)
+
 as.mvector(x, datatype, filename)
+
+\S4method{as.mvector}{numeric}(x, datatype, filename)
 }
 \arguments{
 \item{x}{an r object}

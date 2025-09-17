@@ -1,5 +1,6 @@
 #' @title Apply functions over margins of a mmatrix
 #' @name apply
+#' @aliases apply,mmatrix-method
 #'
 #' @description This method generalizes `base::apply` to mmatrix objects
 #'
@@ -25,7 +26,7 @@
 #' apply(A, 1, var)
 #' apply(A, 2, var)
 #'
-#' @seealso \code{\link{base::apply}}
+#' @seealso \code{\link[base:apply]{base:apply}}
 #' 
 #' @export
 setMethod("apply", c(X = "mmatrix"), 

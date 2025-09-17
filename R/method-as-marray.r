@@ -1,8 +1,9 @@
-
 #' @rdname as-marray
 #' @export
 setGeneric("as.marray", function(x, datatype, filename) standardGeneric("as.marray"), package = "houba")
 
+#' @rdname as-marray
+#' @export
 setMethod("as.marray", "array",
    function(x, datatype, filename) { 
      if(missing(datatype)) {
