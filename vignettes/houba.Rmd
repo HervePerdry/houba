@@ -1,3 +1,52 @@
+---
+title: "houba"
+subtitle: "Yet another package for memory-mapped objects"
+author: "Juliette Meyniel and Hervé Perdry"
+version: 0.1
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{houba}
+  %\VignettePackage{houba}
+  %\VignetteDepends{houba}
+  %\VignetteDepends{bigmemory}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE, results = "hide", message = FALSE}
+oldoptions <- options()
+oldpar <- par()
+options(width = 85)
+require(houba)
+```
+
+<style type="text/css">
+h1.title {
+  font-size: 200%;
+}
+
+h1 {
+  font-size: 160%;
+  margin: 1em 0 0.25em 0;
+}
+
+h2 {
+  font-size: 130%;
+  margin: 0.25em 0 0.25em 0;
+}
+
+pre {
+  padding: 0px;
+  margin: 0 0 0.5em 0;
+}
+
+div.sourceCode {
+  margin: 0px;
+}
+
+</style>
+
 # Overview
 
 **houba** provides manipulation of large data through memory-mapped files, supporting vectors,
@@ -28,39 +77,16 @@ To create zero-filled objects, associated with new files, use
 
 Here we create a memory-mapped vector of length 100, associated with a temporary file:
 
-
-``` r
+```{r create-file}
 A <- mvector(datatype = "double", length = 100)
 A
 ```
 
-```
-## A mvector of length 100 
-## data type:  double 
-## File: /tmp/RtmpdN7zHt/mmatrix1b5775a9e28f4 
-## --- excerpt
-## [1] 0 0 0 0 0
-```
-
 We can specify the filename for the backing file. Here we create a memory-mapped matrix:
-
-``` r
+```{r create-file2}
 filename <- file.path(tempdir(), "integers120")
 B <- mmatrix(datatype = "integer", nrow = 12, ncol = 10, filename = filename)
 B
-```
-
-```
-## A mmatrix with 12 rows and 10 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/integers120 
-## --- excerpt
-##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    0    0    0    0    0
-## [2,]    0    0    0    0    0
-## [3,]    0    0    0    0    0
-## [4,]    0    0    0    0    0
-## [5,]    0    0    0    0    0
 ```
 
 Similarly, 
@@ -71,42 +97,20 @@ Similarly,
 The methods `as.mvector`, `as.mmatrix` and `as.marray` allow to create a file
 corresponding to the content of a R object.
 
-
-``` r
+```{r from_R}
 # Convert regular R objects to memory-mapped objects
 a <- matrix(1:20, 4, 5)
 A <- as.mmatrix(a, datatype = "float")
 A
 ```
 
-```
-## A mmatrix with 4 rows and 5 cols
-## data type:  float 
-## File: /tmp/RtmpdN7zHt/mmatrix1b5775676e9f3b 
-## --- excerpt
-##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    1    5    9   13   17
-## [2,]    2    6   10   14   18
-## [3,]    3    7   11   15   19
-## [4,]    4    8   12   16   20
-```
-
 If `datatype` is not provided, the method will use `integer` of `double`,
 depending on the type of the R object.
 
-
-``` r
+```{r from_R2}
 v <- 1:10
 V <- as.mvector(v)
 V
-```
-
-```
-## A mvector of length 10 
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b577577d83494 
-## --- excerpt
-## [1] 1 2 3 4 5
 ```
 
 These methods also have an argument `filename`.
@@ -115,13 +119,8 @@ These methods also have an argument `filename`.
 
 You can recover a R object using `as.vector`, `as.matrix` and `as.array`:
 
-
-``` r
+```{r to_R}
 as.vector(V)
-```
-
-```
-##  [1]  1  2  3  4  5  6  7  8  9 10
 ```
 
 ## Mapping pre-existing files
@@ -129,65 +128,33 @@ as.vector(V)
 An existing file can be mapped, as long as is has the good size.
 Here we use the file mapped in `B` created above.
 
-
-``` r
+```{r}
 C <- mvector("int", 120, filename)
 C
 ```
 
-```
-## A read-only mvector of length 120 
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/integers120 
-## --- excerpt
-## [1] 0 0 0 0 0
-```
-
 Providing an incompatible size will raise an error.
-
-``` r
+```{r, error = TRUE, purl = FALSE}
 D <- mvector("int", 100, filename)
-```
-
-```
-## Error: The file size doesn't match the matrix size
 ```
 
 The mvector `C` is read-only, this is the default when mapping an existing file. 
 You can change this by providing the argument `readonly = FALSE` to `mvector`.
 
 As `C` and `B` are mapping the same files, modifying one object should modify the other:
-
-``` r
+```{r}
 B[1:4] <- 1:4
 C
-```
-
-```
-## A read-only mvector of length 120 
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/integers120 
-## --- excerpt
-## [1] 1 2 3 4 0
 ```
 
 However this may not work always well, depending on your system, or when
 a file is mapped through several R sessions. The function `flush` makes sure
 all changes are written on disk:
 
-
-``` r
+```{r flush}
 B[1:4] <- 2:5
 flush(B)
 C
-```
-
-```
-## A read-only mvector of length 120 
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/integers120 
-## --- excerpt
-## [1] 2 3 4 5 0
 ```
 
 ## Descriptor Files
@@ -200,51 +167,16 @@ with the **bigmemory** package.
 To create a descriptor file associated is a mapped file, use `descriptor.file`. We 
 illustrate it here on the matrix `B` created above.
 
-
-``` r
+```{r descriptor_create}
 B
-```
-
-```
-## A mmatrix with 12 rows and 10 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/integers120 
-## --- excerpt
-##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    2    0    0    0    0
-## [2,]    3    0    0    0    0
-## [3,]    4    0    0    0    0
-## [4,]    5    0    0    0    0
-## [5,]    0    0    0    0    0
-```
-
-``` r
 dsc <- descriptor.file(B)
-```
-
-```
-## Created descriptor file /tmp/RtmpdN7zHt/integers120.desc
 ```
 
 Descriptor files can be read with `read.descriptor`:
 
-
-``` r
+```{r descriptor_read}
 D <- read.descriptor(dsc)
 D
-```
-
-```
-## A read-only mmatrix with 12 rows and 10 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt//integers120 
-## --- excerpt
-##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    2    0    0    0    0
-## [2,]    3    0    0    0    0
-## [3,]    4    0    0    0    0
-## [4,]    5    0    0    0    0
-## [5,]    0    0    0    0    0
 ```
 
 ### Compatibility with bigmemory
@@ -252,26 +184,19 @@ D
 The descriptor files created by **houba** can be read with the package **bigmemory**:
 
 We first load the package and read the descriptor file:
-
-``` r
+```{r bigmemory}
 library(bigmemory)
 desc <- dget(dsc)
 ```
 
 We then attach the file:
-
-``` r
+```{r bigmemory2}
 bm <- attach.big.matrix(desc)
 ```
 
 The resulting object maps the same datafile:
-
-``` r
+```{r bigmemory3}
 bm[,1]
-```
-
-```
-##  [1] 2 3 4 5 0 0 0 0 0 0 0 0
 ```
 
 Note that alhougj **houba** allows to create descriptor files for marrays, these won't be 
@@ -285,87 +210,36 @@ If the underlying data file still exists, you can use `restore` to overcome the 
 
 Here we simulate this behaviour on the matrix `B`, using `save.image`.
 
-
-``` r
+```{r}
 B
-```
-
-```
-## A mmatrix with 12 rows and 10 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/integers120 
-## --- excerpt
-##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    2    0    0    0    0
-## [2,]    3    0    0    0    0
-## [3,]    4    0    0    0    0
-## [4,]    5    0    0    0    0
-## [5,]    0    0    0    0    0
-```
-
-``` r
 rdata_file <- tempfile(fileext = ".rda")
 save.image(rdata_file)
 ```
 
 Now we erase `B`:
-
-``` r
+```{r}
 rm(B)
 ```
 
 And we load the saved image:
-
-``` r
+```{r}
 load(rdata_file)
 B
 ```
 
-```
-## A mmatrix with a broken external ptr ! Try using restore()
-```
-
 The pointer in `B` is broken, but can be restored as this:
-
-``` r
+```{r}
 B <- restore(B)
 B
-```
-
-```
-## A mmatrix with 12 rows and 10 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/integers120 
-## --- excerpt
-##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    2    0    0    0    0
-## [2,]    3    0    0    0    0
-## [3,]    4    0    0    0    0
-## [4,]    5    0    0    0    0
-## [5,]    0    0    0    0    0
 ```
 
 ## Copying objects
 
 You can create a copy with `copy`. This will also create a new file. 
 
-
-``` r
+```{r}
 C <- copy(B)
 C
-```
-
-```
-## A mmatrix with 12 rows and 10 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b5775106b0559 
-## --- excerpt
-##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    2    0    0    0    0
-## [2,]    3    0    0    0    0
-## [3,]    4    0    0    0    0
-## [4,]    5    0    0    0    0
-## [5,]    0    0    0    0    0
 ```
 
 This function have an argument `filename`. It can in particular be used to save
@@ -377,77 +251,29 @@ data that are stored in a temporary file.
 
 The dimensions of an object can be accessed through `dim`.
 
-
-``` r
+```{r dim}
 a <- matrix(1:12, 3, 4)
 A <- as.mmatrix(a)
 A
-```
-
-```
-## A mmatrix with 3 rows and 4 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57756bef4a1 
-## --- excerpt
-##      [,1] [,2] [,3] [,4]
-## [1,]    1    4    7   10
-## [2,]    2    5    8   11
-## [3,]    3    6    9   12
-```
-
-``` r
 dim(A)
 ```
 
-```
-## [1] 3 4
-```
-
 You can change the dimensions:
-
-``` r
+```{r dim2}
 dim(A) <- c(4, 3)
 A
 ```
 
-```
-## A mmatrix with 4 rows and 3 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57756bef4a1 
-## --- excerpt
-##      [,1] [,2] [,3]
-## [1,]    1    5    9
-## [2,]    2    6   10
-## [3,]    3    7   11
-## [4,]    4    8   12
-```
-
 Setting the dimensions to `NULL` creates a mvector:
-
-``` r
+```{r dim3}
 dim(A) <- NULL
 A
 ```
 
-```
-## A mvector of length 12 
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57756bef4a1 
-## --- excerpt
-## [1] 1 2 3 4 5
-```
-
 Similarly, you can obtain an marray:
-
-``` r
+```{r dim4}
 dim(A) <- c(2,2,3)
 A
-```
-
-```
-## A marray with dimensions 2 2 3 
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57756bef4a1
 ```
 
 ## Accessing values
@@ -455,31 +281,19 @@ A
 You can access elements of a memory-mapped object just as regular objects.
 
 Let us create a memory-mapped matrix
-
-``` r
+```{r access}
 a <- matrix( sample(0:99, 2500, TRUE), 50, 50)
 A <- as.mmatrix(a)
 ```
 
 Acessing a single element:
-
-``` r
+```{r access2}
 A[1,1]
 ```
 
-```
-## [1] 91
-```
-
 Accessing a row:
-
-``` r
+```{r access3}
 A[1,]
-```
-
-```
-##  [1] 91 36 38 63  8 85 96 80 40  5 29 47 99 25 73 55  5 76 34 20 70 19 37 16 93 37 14
-## [28]  8 60 35 59 23 95 41 32 80 63 84 26 54 74 44 17 62 61 13 22 41 15  8
 ```
 
 The result here is a R object. This behaviour actually depends on its size!
@@ -487,130 +301,56 @@ The default is to return a R object if the result's size is less than
 one million, and else to return a memory-mapped object.  
 
 This can be changed through the option `max.size`, as follows:
-
-``` r
+```{r houba}
 houba(max.size = 20)
 ```
 
-```
-## $max.size
-## [1] 20
-```
-
 And now, accessing to the first row will sends a new memory-mapped object:
-
-``` r
+```{r houba2}
 A[1,]
-```
-
-```
-## A mmatrix with 1 rows and 50 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b577539e86966 
-## --- excerpt
-## [1] 91 36 38 63  8
 ```
 
 ## Assigning values
 
 Again, you can use R syntax to assign values:
 
-
-``` r
+```{r assign}
 A[1,1] <- 0
 A[2,] <- 10
 A
 ```
 
-```
-## A mmatrix with 50 rows and 50 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57755ae2fe28 
-## --- excerpt
-##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    0   36   38   63    8
-## [2,]   10   10   10   10   10
-## [3,]   55   47   36   52   61
-## [4,]   31   52   31    0    8
-## [5,]   91   80   12   28    7
-```
-
 Assignement with another memory-mapped object is also possible:
-
-``` r
+```{r assign2}
 V <- as.mvector(1:50, "int")
 A[3,] <- V
 A
 ```
 
-```
-## A mmatrix with 50 rows and 50 cols
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57755ae2fe28 
-## --- excerpt
-##      [,1] [,2] [,3] [,4] [,5]
-## [1,]    0   36   38   63    8
-## [2,]   10   10   10   10   10
-## [3,]    1    2    3    4    5
-## [4,]   31   52   31    0    8
-## [5,]   91   80   12   28    7
-```
-
 There is no type promotion. Assigning a floating point value to an integer object
 will cast it to integer:
 
-
-``` r
+```{r no-promo}
 A[1,1] <- pi
 A[1,1]
-```
-
-```
-## [1] 3
 ```
 
 ## Arithmetic Operations
 
 Arithmetic operations are available with the usual R syntax.
 
-
-``` r
+```{r arithmetic}
 a <- matrix( sample.int(16), 4, 4)
 A <- as.mmatrix(a, datatype = "float")
 A <- 1 + 2*A
 A
 ```
 
-```
-## A mmatrix with 4 rows and 4 cols
-## data type:  float 
-## File: /tmp/RtmpdN7zHt/mmatrix1b5775778f8ae2 
-## --- excerpt
-##      [,1] [,2] [,3] [,4]
-## [1,]    3   33   15   31
-## [2,]   27   23   19   25
-## [3,]   17   13    7   11
-## [4,]    5   29   21    9
-```
-
 Memory-mapped objects can be used for both operands:
-
-``` r
+```{r arithmetic2}
 B <- A + 2
 C <- A / B
 C
-```
-
-```
-## A mmatrix with 4 rows and 4 cols
-## data type:  float 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57752dfdc759 
-## --- excerpt
-##           [,1]      [,2]      [,3]      [,4]
-## [1,] 0.6000000 0.9428571 0.8823529 0.9393939
-## [2,] 0.9310345 0.9200000 0.9047619 0.9259259
-## [3,] 0.8947368 0.8666667 0.7777778 0.8461539
-## [4,] 0.7142857 0.9354839 0.9130435 0.8181818
 ```
 
 ### There's no type promotion in houba
@@ -618,48 +358,28 @@ There is no type promotion. If the two operands have different types, the type o
 the type of the left operand.
 
 Let's create to vectors with type `float` and `integer`:
-
-``` r
+```{r no-promo2}
 A <- as.mvector( seq(0, 1, length = 11), datatype = "float" )
 B <- as.mvector( 0:10, datatype = "integer" )
 ```
 
 Now `A + B` has type `float`:
 
-
-``` r
+```{r no-promo3}
 A + B
-```
-
-```
-## A mvector of length 11 
-## data type:  float 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57756fe54ec2 
-## --- excerpt
-## [1] 0.0 1.1 2.2 3.3 4.4
 ```
 
 and `B + A` has type `integer`:
 
-
-``` r
+```{r nop4}
 B + A
-```
-
-```
-## A mvector of length 11 
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57754bf665e8 
-## --- excerpt
-## [1] 0 1 2 3 4
 ```
 
 ## In-Place Arithmetic Operations
 
 We can modify the data without creating copies:
 
-
-``` r
+```{r inplace}
 V <- as.mvector(1:20, "float")
 W <- as.mvector(sample.int(20))
 
@@ -673,14 +393,6 @@ inplace.inverse(V)         # Take reciprocal of all elements
 V
 ```
 
-```
-## A mvector of length 20 
-## data type:  float 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57753c18f51b 
-## --- excerpt
-## [1] -1.33333337 -0.08163265 -0.08510638 -0.30769232 -0.07547170
-```
-
 # Row and columns operations
 
 **houba** provides analogs to `rowSums`, `rowMeans`, `colSums`, `colMeans`, and `apply`, 
@@ -688,51 +400,22 @@ for memory-mapped matrices (but not for memory mapped arrays).
 
 ## Sums and means
 
-
-``` r
+```{r cs}
 a <- matrix( sample.int(100), 10, 10)
 A <- as.mmatrix(a)
 
 # Row sums and meands
 rowSums(A)
-```
-
-```
-##  [1] 451 511 649 420 724 523 439 418 480 435
-```
-
-``` r
 rowMeans(A)
-```
-
-```
-##  [1] 45.1 51.1 64.9 42.0 72.4 52.3 43.9 41.8 48.0 43.5
 ```
 
 Here the result is a R object, because its size does not exceed the value
 of the option `max.size`. In the contrary case, it will be a memory-mapped
 object:
 
-
-``` r
+```{r cs2}
 houba(max.size = 5)
-```
-
-```
-## $max.size
-## [1] 5
-```
-
-``` r
 rowSums(A)
-```
-
-```
-## A mvector of length 10 
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57752a4c9af1 
-## --- excerpt
-## [1] 451 511 649 420 724
 ```
 
 ## Applying Functions
@@ -741,61 +424,21 @@ The `apply` method will extract row or lines to R objects. Again, the type of th
 result depends on the `max.size` option.
 
 If the size of the result is larger than `max.size`, a memory mapped object is returned:
-
-``` r
+```{r apply}
 houba(max.size = 5)
-```
-
-```
-## $max.size
-## [1] 5
-```
-
-``` r
 apply(A, 1, sd)
-```
-
-```
-## A mvector of length 10 
-## data type:  double 
-## File: /tmp/RtmpdN7zHt/mmatrix1b57755edc24f6 
-## --- excerpt
-## [1] 30.96755 23.42577 26.69353 32.83629 22.12691
 ```
 The data type of this object will be `double` or `integer`, depending on the 
 values returned by the function. For example, the `sum` function will return
 integers:
-
-``` r
+```{r apply2}
 apply(A, 1, sum)
 ```
 
-```
-## A mvector of length 10 
-## data type:  integer 
-## File: /tmp/RtmpdN7zHt/mmatrix1b5775329fd99d 
-## --- excerpt
-## [1] 451 511 649 420 724
-```
-
 And if the size of the result is smaller than `max.size`, a R object is returned:
-
-``` r
+```{r apply3}
 houba(max.size = 1e6)
-```
-
-```
-## $max.size
-## [1] 1e+06
-```
-
-``` r
 apply(A, 1, sd)
-```
-
-```
-##  [1] 30.96755 23.42577 26.69353 32.83629 22.12691 27.54411 25.34846 37.51089 29.20046
-## [10] 27.11805
 ```
 
 # Contributing to houba
@@ -805,6 +448,10 @@ or contributions. The source of the package is on [github](https://github.com/He
 
 Houba, hop! 
 
-
+```{r, echo = FALSE, results = "hide", message = FALSE}
+options(oldoptions)
+unlink(filename)
+unlink(dsc)
+```
 
 

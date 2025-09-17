@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Juliette Meyniel and Hervé Perdry" />
+
+<meta name="date" content="2025-09-17" />
+
+<title>houba</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">houba</h1>
+<h3 class="subtitle">Yet another package for memory-mapped objects</h3>
+<h4 class="author">Juliette Meyniel and Hervé Perdry</h4>
+<h4 class="date">2025-09-17</h4>
+
+
+
+<style type="text/css">
+h1.title {
+  font-size: 200%;
+}
+
+h1 {
+  font-size: 160%;
+  margin: 1em 0 0.25em 0;
+}
+
+h2 {
+  font-size: 130%;
+  margin: 0.25em 0 0.25em 0;
+}
+
+pre {
+  padding: 0px;
+  margin: 0 0 0.5em 0;
+}
+
+div.sourceCode {
+  margin: 0px;
+}
+
+</style>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p><strong>houba</strong> provides manipulation of large data through
+memory-mapped files, supporting vectors, matrices, and arrays. This
+allows to work with large datasets by keeping them on disk.</p>
+<p><strong>houba</strong> defines three S4 classes:</p>
+<ul>
+<li><code>mvector</code> for memory-mapped vectors</li>
+<li><code>mmatrix</code> for memory-mapped matrices<br />
+</li>
+<li><code>marray</code> for memory-mapped arrays</li>
+</ul>
+<p>Currently, it supports <code>float</code>, <code>double</code>,
+<code>integer</code> and <code>char</code> data types.</p>
+<p><strong>houba</strong> allows to extract sub-vectors or sub-matrices,
+and to make assignments. It also performs component wise arithmetic
+operations (currently no matrix arithmetic). In-place arithmetic
+operations are supported. <code>rowSums</code>, <code>colSums</code>,
+<code>rowMeans</code>, <code>colMeans</code> methods are defined for
+memory-mapped matrices.</p>
+<p>A minimal compatibility with the <strong>bigmemory</strong> package
+is provided through descriptor files.</p>
+</div>
+<div id="creating-memory-mapped-objects" class="section level1">
+<h1>Creating memory-mapped objects</h1>
+<div id="creating-objects-associated-to-new-files" class="section level2">
+<h2>Creating objects associated to new files</h2>
+<p>To create zero-filled objects, associated with new files, use
+<code>mvector</code>, <code>mmatrix</code> and <code>marray</code>.</p>
+<p>Here we create a memory-mapped vector of length 100, associated with
+a temporary file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">mvector</span>(<span class="at">datatype =</span> <span class="st">&quot;double&quot;</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## A mvector of length 100 
+## data type:  double 
+## File: /tmp/RtmpdN7zHt/mmatrix1b5775a86e185 
+## --- excerpt
+## [1] 0 0 0 0 0</code></pre>
+<p>We can specify the filename for the backing file. Here we create a
+memory-mapped matrix:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>filename <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;integers120&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">mmatrix</span>(<span class="at">datatype =</span> <span class="st">&quot;integer&quot;</span>, <span class="at">nrow =</span> <span class="dv">12</span>, <span class="at">ncol =</span> <span class="dv">10</span>, <span class="at">filename =</span> filename)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>B</span></code></pre></div>
+<pre><code>## A mmatrix with 12 rows and 10 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/integers120 
+## --- excerpt
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    0    0    0    0    0
+## [2,]    0    0    0    0    0
+## [3,]    0    0    0    0    0
+## [4,]    0    0    0    0    0
+## [5,]    0    0    0    0    0</code></pre>
+<p>Similarly, <code>marray(&quot;float&quot;, c(10, 20, 3))</code> a 10 by 20 by 3
+array.</p>
+</div>
+<div id="conversion-from-an-r-object" class="section level2">
+<h2>Conversion from an R object</h2>
+<p>The methods <code>as.mvector</code>, <code>as.mmatrix</code> and
+<code>as.marray</code> allow to create a file corresponding to the
+content of a R object.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert regular R objects to memory-mapped objects</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">as.mmatrix</span>(a, <span class="at">datatype =</span> <span class="st">&quot;float&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## A mmatrix with 4 rows and 5 cols
+## data type:  float 
+## File: /tmp/RtmpdN7zHt/mmatrix1b577516a1a97f 
+## --- excerpt
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    5    9   13   17
+## [2,]    2    6   10   14   18
+## [3,]    3    7   11   15   19
+## [4,]    4    8   12   16   20</code></pre>
+<p>If <code>datatype</code> is not provided, the method will use
+<code>integer</code> of <code>double</code>, depending on the type of
+the R object.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">as.mvector</span>(v)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>V</span></code></pre></div>
+<pre><code>## A mvector of length 10 
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b577557d4dc67 
+## --- excerpt
+## [1] 1 2 3 4 5</code></pre>
+<p>These methods also have an argument <code>filename</code>.</p>
+</div>
+<div id="conversion-to-an-r-object" class="section level2">
+<h2>Conversion to an R object</h2>
+<p>You can recover a R object using <code>as.vector</code>,
+<code>as.matrix</code> and <code>as.array</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.vector</span>(V)</span></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+</div>
+<div id="mapping-pre-existing-files" class="section level2">
+<h2>Mapping pre-existing files</h2>
+<p>An existing file can be mapped, as long as is has the good size. Here
+we use the file mapped in <code>B</code> created above.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">mvector</span>(<span class="st">&quot;int&quot;</span>, <span class="dv">120</span>, filename)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>C</span></code></pre></div>
+<pre><code>## A read-only mvector of length 120 
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/integers120 
+## --- excerpt
+## [1] 0 0 0 0 0</code></pre>
+<p>Providing an incompatible size will raise an error.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">mvector</span>(<span class="st">&quot;int&quot;</span>, <span class="dv">100</span>, filename)</span></code></pre></div>
+<pre><code>## Error: The file size doesn&#39;t match the matrix size</code></pre>
+<p>The mvector <code>C</code> is read-only, this is the default when
+mapping an existing file. You can change this by providing the argument
+<code>readonly = FALSE</code> to <code>mvector</code>.</p>
+<p>As <code>C</code> and <code>B</code> are mapping the same files,
+modifying one object should modify the other:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>B[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>C</span></code></pre></div>
+<pre><code>## A read-only mvector of length 120 
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/integers120 
+## --- excerpt
+## [1] 1 2 3 4 0</code></pre>
+<p>However this may not work always well, depending on your system, or
+when a file is mapped through several R sessions. The function
+<code>flush</code> makes sure all changes are written on disk:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>B[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">flush</span>(B)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>C</span></code></pre></div>
+<pre><code>## A read-only mvector of length 120 
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/integers120 
+## --- excerpt
+## [1] 2 3 4 5 0</code></pre>
+</div>
+<div id="descriptor-files" class="section level2">
+<h2>Descriptor Files</h2>
+<p>Descriptor files aim to provide a minimal compatibility with the
+<strong>bigmemory</strong> package.</p>
+<div id="basic-usage" class="section level3">
+<h3>Basic usage</h3>
+<p>To create a descriptor file associated is a mapped file, use
+<code>descriptor.file</code>. We illustrate it here on the matrix
+<code>B</code> created above.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>B</span></code></pre></div>
+<pre><code>## A mmatrix with 12 rows and 10 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/integers120 
+## --- excerpt
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    2    0    0    0    0
+## [2,]    3    0    0    0    0
+## [3,]    4    0    0    0    0
+## [4,]    5    0    0    0    0
+## [5,]    0    0    0    0    0</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dsc <span class="ot">&lt;-</span> <span class="fu">descriptor.file</span>(B)</span></code></pre></div>
+<pre><code>## Created descriptor file /tmp/RtmpdN7zHt/integers120.desc</code></pre>
+<p>Descriptor files can be read with <code>read.descriptor</code>:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">read.descriptor</span>(dsc)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>D</span></code></pre></div>
+<pre><code>## A read-only mmatrix with 12 rows and 10 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt//integers120 
+## --- excerpt
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    2    0    0    0    0
+## [2,]    3    0    0    0    0
+## [3,]    4    0    0    0    0
+## [4,]    5    0    0    0    0
+## [5,]    0    0    0    0    0</code></pre>
+</div>
+<div id="compatibility-with-bigmemory" class="section level3">
+<h3>Compatibility with bigmemory</h3>
+<p>The descriptor files created by <strong>houba</strong> can be read
+with the package <strong>bigmemory</strong>:</p>
+<p>We first load the package and read the descriptor file:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bigmemory)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>desc <span class="ot">&lt;-</span> <span class="fu">dget</span>(dsc)</span></code></pre></div>
+<p>We then attach the file:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>bm <span class="ot">&lt;-</span> <span class="fu">attach.big.matrix</span>(desc)</span></code></pre></div>
+<p>The resulting object maps the same datafile:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>bm[,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>##  [1] 2 3 4 5 0 0 0 0 0 0 0 0</code></pre>
+<p>Note that alhougj <strong>houba</strong> allows to create descriptor
+files for marrays, these won’t be accepted by <strong>bigmemory</strong>
+which doesn’t handle arrays.</p>
+</div>
+</div>
+<div id="restoring-broken-pointers" class="section level2">
+<h2>Restoring Broken Pointers</h2>
+<p>When restoring data from a previous session, pointers to external
+objects are broken, making objects unsuable. If the underlying data file
+still exists, you can use <code>restore</code> to overcome the
+problem.</p>
+<p>Here we simulate this behaviour on the matrix <code>B</code>, using
+<code>save.image</code>.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>B</span></code></pre></div>
+<pre><code>## A mmatrix with 12 rows and 10 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/integers120 
+## --- excerpt
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    2    0    0    0    0
+## [2,]    3    0    0    0    0
+## [3,]    4    0    0    0    0
+## [4,]    5    0    0    0    0
+## [5,]    0    0    0    0    0</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>rdata_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.rda&quot;</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save.image</span>(rdata_file)</span></code></pre></div>
+<p>Now we erase <code>B</code>:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(B)</span></code></pre></div>
+<p>And we load the saved image:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(rdata_file)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>B</span></code></pre></div>
+<pre><code>## A mmatrix with a broken external ptr ! Try using restore()</code></pre>
+<p>The pointer in <code>B</code> is broken, but can be restored as
+this:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">restore</span>(B)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>B</span></code></pre></div>
+<pre><code>## A mmatrix with 12 rows and 10 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/integers120 
+## --- excerpt
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    2    0    0    0    0
+## [2,]    3    0    0    0    0
+## [3,]    4    0    0    0    0
+## [4,]    5    0    0    0    0
+## [5,]    0    0    0    0    0</code></pre>
+</div>
+<div id="copying-objects" class="section level2">
+<h2>Copying objects</h2>
+<p>You can create a copy with <code>copy</code>. This will also create a
+new file.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">copy</span>(B)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>C</span></code></pre></div>
+<pre><code>## A mmatrix with 12 rows and 10 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b5775db860f0 
+## --- excerpt
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    2    0    0    0    0
+## [2,]    3    0    0    0    0
+## [3,]    4    0    0    0    0
+## [4,]    5    0    0    0    0
+## [5,]    0    0    0    0    0</code></pre>
+<p>This function have an argument <code>filename</code>. It can in
+particular be used to save data that are stored in a temporary file.</p>
+</div>
+</div>
+<div id="data-manipulation" class="section level1">
+<h1>Data manipulation</h1>
+<div id="changing-dimensions" class="section level2">
+<h2>Changing dimensions</h2>
+<p>The dimensions of an object can be accessed through
+<code>dim</code>.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">as.mmatrix</span>(a)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## A mmatrix with 3 rows and 4 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b577565374b9e 
+## --- excerpt
+##      [,1] [,2] [,3] [,4]
+## [1,]    1    4    7   10
+## [2,]    2    5    8   11
+## [3,]    3    6    9   12</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A)</span></code></pre></div>
+<pre><code>## [1] 3 4</code></pre>
+<p>You can change the dimensions:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## A mmatrix with 4 rows and 3 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b577565374b9e 
+## --- excerpt
+##      [,1] [,2] [,3]
+## [1,]    1    5    9
+## [2,]    2    6   10
+## [3,]    3    7   11
+## [4,]    4    8   12</code></pre>
+<p>Setting the dimensions to <code>NULL</code> creates a mvector:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## A mvector of length 12 
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b577565374b9e 
+## --- excerpt
+## [1] 1 2 3 4 5</code></pre>
+<p>Similarly, you can obtain an marray:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## A marray with dimensions 2 2 3 
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b577565374b9e</code></pre>
+</div>
+<div id="accessing-values" class="section level2">
+<h2>Accessing values</h2>
+<p>You can access elements of a memory-mapped object just as regular
+objects.</p>
+<p>Let us create a memory-mapped matrix</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">99</span>, <span class="dv">2500</span>, <span class="cn">TRUE</span>), <span class="dv">50</span>, <span class="dv">50</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">as.mmatrix</span>(a)</span></code></pre></div>
+<p>Acessing a single element:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">1</span>,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] 44</code></pre>
+<p>Accessing a row:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">1</span>,]</span></code></pre></div>
+<pre><code>##  [1] 44 37 35 18 80 54 32 44  4 85  6  1  8 83 39 61 20  5 58 69 63 75 27 83 40 70 84
+## [28] 69  5 14 74 96  4 60  3 87 53 41 87 31  7 15 54 58  7 65 26 71 55 49</code></pre>
+<p>The result here is a R object. This behaviour actually depends on its
+size! The default is to return a R object if the result’s size is less
+than one million, and else to return a memory-mapped object.</p>
+<p>This can be changed through the option <code>max.size</code>, as
+follows:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">houba</span>(<span class="at">max.size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>## $max.size
+## [1] 20</code></pre>
+<p>And now, accessing to the first row will sends a new memory-mapped
+object:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">1</span>,]</span></code></pre></div>
+<pre><code>## A mmatrix with 1 rows and 50 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b5775686d3de 
+## --- excerpt
+## [1] 44 37 35 18 80</code></pre>
+</div>
+<div id="assigning-values" class="section level2">
+<h2>Assigning values</h2>
+<p>Again, you can use R syntax to assign values:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">1</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">2</span>,] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## A mmatrix with 50 rows and 50 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b57757cbde20 
+## --- excerpt
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    0   37   35   18   80
+## [2,]   10   10   10   10   10
+## [3,]    2   60   84   60   23
+## [4,]   83   24   47   62   65
+## [5,]    3   89   54   84   24</code></pre>
+<p>Assignement with another memory-mapped object is also possible:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">as.mvector</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="st">&quot;int&quot;</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">3</span>,] <span class="ot">&lt;-</span> V</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## A mmatrix with 50 rows and 50 cols
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b57757cbde20 
+## --- excerpt
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    0   37   35   18   80
+## [2,]   10   10   10   10   10
+## [3,]    1    2    3    4    5
+## [4,]   83   24   47   62   65
+## [5,]    3   89   54   84   24</code></pre>
+<p>There is no type promotion. Assigning a floating point value to an
+integer object will cast it to integer:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">1</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> pi</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">1</span>,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+</div>
+<div id="arithmetic-operations" class="section level2">
+<h2>Arithmetic Operations</h2>
+<p>Arithmetic operations are available with the usual R syntax.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">sample.int</span>(<span class="dv">16</span>), <span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">as.mmatrix</span>(a, <span class="at">datatype =</span> <span class="st">&quot;float&quot;</span>)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>A</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## A mmatrix with 4 rows and 4 cols
+## data type:  float 
+## File: /tmp/RtmpdN7zHt/mmatrix1b577548386c76 
+## --- excerpt
+##      [,1] [,2] [,3] [,4]
+## [1,]   27    9    3   11
+## [2,]    7   33   13   17
+## [3,]   23   31   29    5
+## [4,]   25   19   15   21</code></pre>
+<p>Memory-mapped objects can be used for both operands:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> A <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> A <span class="sc">/</span> B</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>C</span></code></pre></div>
+<pre><code>## A mmatrix with 4 rows and 4 cols
+## data type:  float 
+## File: /tmp/RtmpdN7zHt/mmatrix1b57755cad95b6 
+## --- excerpt
+##           [,1]      [,2]      [,3]      [,4]
+## [1,] 0.9310345 0.8181818 0.6000000 0.8461539
+## [2,] 0.7777778 0.9428571 0.8666667 0.8947368
+## [3,] 0.9200000 0.9393939 0.9354839 0.7142857
+## [4,] 0.9259259 0.9047619 0.8823529 0.9130435</code></pre>
+<div id="theres-no-type-promotion-in-houba" class="section level3">
+<h3>There’s no type promotion in houba</h3>
+<p>There is no type promotion. If the two operands have different types,
+the type of the result is the type of the left operand.</p>
+<p>Let’s create to vectors with type <code>float</code> and
+<code>integer</code>:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">as.mvector</span>( <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> <span class="dv">11</span>), <span class="at">datatype =</span> <span class="st">&quot;float&quot;</span> )</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">as.mvector</span>( <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">datatype =</span> <span class="st">&quot;integer&quot;</span> )</span></code></pre></div>
+<p>Now <code>A + B</code> has type <code>float</code>:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">+</span> B</span></code></pre></div>
+<pre><code>## A mvector of length 11 
+## data type:  float 
+## File: /tmp/RtmpdN7zHt/mmatrix1b57757141b44 
+## --- excerpt
+## [1] 0.0 1.1 2.2 3.3 4.4</code></pre>
+<p>and <code>B + A</code> has type <code>integer</code>:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>B <span class="sc">+</span> A</span></code></pre></div>
+<pre><code>## A mvector of length 11 
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b57756c1cdcce 
+## --- excerpt
+## [1] 0 1 2 3 4</code></pre>
+</div>
+</div>
+<div id="in-place-arithmetic-operations" class="section level2">
+<h2>In-Place Arithmetic Operations</h2>
+<p>We can modify the data without creating copies:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">as.mvector</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="st">&quot;float&quot;</span>)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">as.mvector</span>(<span class="fu">sample.int</span>(<span class="dv">20</span>))</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="fu">inplace.sum</span>(V, <span class="dv">1</span>)          <span class="co"># Add 1 to all elements</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="fu">inplace.prod</span>(V, W)         <span class="co"># Multiply elements of V by elements of W</span></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a><span class="fu">inplace.minus</span>(V, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))   <span class="co"># Subtract c(1,2) from all elements (recycling)</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a><span class="fu">inplace.div</span>(V, <span class="dv">4</span>)          <span class="co"># Divide all elements by 4</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a><span class="fu">inplace.opposite</span>(V)        <span class="co"># Take opposite of all elements</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a><span class="fu">inplace.inverse</span>(V)         <span class="co"># Take reciprocal of all elements</span></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>V</span></code></pre></div>
+<pre><code>## A mvector of length 20 
+## data type:  float 
+## File: /tmp/RtmpdN7zHt/mmatrix1b577510699558 
+## --- excerpt
+## [1] -0.17391305 -0.40000001 -0.05063291 -0.04819277 -0.04210526</code></pre>
+</div>
+</div>
+<div id="row-and-columns-operations" class="section level1">
+<h1>Row and columns operations</h1>
+<p><strong>houba</strong> provides analogs to <code>rowSums</code>,
+<code>rowMeans</code>, <code>colSums</code>, <code>colMeans</code>, and
+<code>apply</code>, for memory-mapped matrices (but not for memory
+mapped arrays).</p>
+<div id="sums-and-means" class="section level2">
+<h2>Sums and means</h2>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">sample.int</span>(<span class="dv">100</span>), <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">as.mmatrix</span>(a)</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Row sums and meands</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums</span>(A)</span></code></pre></div>
+<pre><code>##  [1] 414 417 734 511 443 581 582 523 360 485</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowMeans</span>(A)</span></code></pre></div>
+<pre><code>##  [1] 41.4 41.7 73.4 51.1 44.3 58.1 58.2 52.3 36.0 48.5</code></pre>
+<p>Here the result is a R object, because its size does not exceed the
+value of the option <code>max.size</code>. In the contrary case, it will
+be a memory-mapped object:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">houba</span>(<span class="at">max.size =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## $max.size
+## [1] 5</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums</span>(A)</span></code></pre></div>
+<pre><code>## A mvector of length 10 
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b577576bafbee 
+## --- excerpt
+## [1] 414 417 734 511 443</code></pre>
+</div>
+<div id="applying-functions" class="section level2">
+<h2>Applying Functions</h2>
+<p>The <code>apply</code> method will extract row or lines to R objects.
+Again, the type of the result depends on the <code>max.size</code>
+option.</p>
+<p>If the size of the result is larger than <code>max.size</code>, a
+memory mapped object is returned:</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">houba</span>(<span class="at">max.size =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## $max.size
+## [1] 5</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(A, <span class="dv">1</span>, sd)</span></code></pre></div>
+<pre><code>## A mvector of length 10 
+## data type:  double 
+## File: /tmp/RtmpdN7zHt/mmatrix1b57754340b88c 
+## --- excerpt
+## [1] 29.28481 32.07647 29.98963 28.58690 30.81143</code></pre>
+<p>The data type of this object will be <code>double</code> or
+<code>integer</code>, depending on the values returned by the function.
+For example, the <code>sum</code> function will return integers:</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(A, <span class="dv">1</span>, sum)</span></code></pre></div>
+<pre><code>## A mvector of length 10 
+## data type:  integer 
+## File: /tmp/RtmpdN7zHt/mmatrix1b5775675d6cb 
+## --- excerpt
+## [1] 414 417 734 511 443</code></pre>
+<p>And if the size of the result is smaller than <code>max.size</code>,
+a R object is returned:</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">houba</span>(<span class="at">max.size =</span> <span class="fl">1e6</span>)</span></code></pre></div>
+<pre><code>## $max.size
+## [1] 1e+06</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(A, <span class="dv">1</span>, sd)</span></code></pre></div>
+<pre><code>##  [1] 29.28481 32.07647 29.98963 28.58690 30.81143 27.26190 21.82659 29.26906 25.78544
+## [10] 28.09211</code></pre>
+</div>
+</div>
+<div id="contributing-to-houba" class="section level1">
+<h1>Contributing to houba</h1>
+<p>You may e-mail the author if for bug reports, feature requests, or
+contributions. The source of the package is on <a href="https://github.com/HervePerdry/houba">github</a>.</p>
+<p>Houba, hop!</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
