@@ -51,6 +51,9 @@ inplace.div(x, y)
 
 \item{y}{a R object or a memory mapped object}
 }
+\value{
+None
+}
 \description{
 In-place arithmetic operations
 }

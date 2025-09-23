@@ -22,6 +22,9 @@
 
 \item{output.type}{type of the result, if it's a mvector (see details)}
 }
+\value{
+a mvector or a R vector, depending on the size of the result.
+}
 \description{
 Methods generalizing the base methods to mmatrix objects
 }
@@ -29,7 +32,7 @@ Methods generalizing the base methods to mmatrix objects
 If the size of the result is greater
 than \code{houba(max.size)}, then it will be a mvector instead of R object.
 In this case its type will be determined using 'output.type'. If 'output.type'
-is missing, a coherent choice will be made.
+is missing, a coherent choice will be made (integer or double).
 }
 \examples{
 a <- matrix(1:20, 4, 5)

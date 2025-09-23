@@ -12,8 +12,8 @@ Authors@R: c(
 Maintainer: Hervé Perdry <herve.perdry@universite-paris-saclay.fr>
 Description: Manipulate data through memory-mapped files, as vectors, matrices or arrays.
     Basic arithmetic functions are implemented, but currently no matrix arithmetic.
-    Can write and read descriptor files for compatibility with the "bigmemory" package.
-License: CeCILL-2 | file LICENSE
+    Can write and read descriptor files for compatibility with the 'bigmemory' package.
+License: CeCILL-2 
 Encoding: UTF-8
 Depends: methods
 Imports: Rcpp (>= 1.0.11)

@@ -12,6 +12,9 @@ type(x)
 \arguments{
 \item{x}{a memory mapped object}
 }
+\value{
+a string
+}
 \description{
 Type of a memory-mapped object
 }

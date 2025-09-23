@@ -9,6 +9,8 @@
 #' @details These functions will modify \code{x} in-place, performing
 #' the operation indicated by their name.
 #'
+#' @return None
+#'
 #' @examples x <- as.mvector( 2**(1:3) )
 #' inplace.inverse(x)
 #' inplace.opposite(x)

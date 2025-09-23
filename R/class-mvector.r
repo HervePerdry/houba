@@ -50,5 +50,7 @@ setMethod("show", "mvector",
 #' @description returns the length of a mvector
 #' @param x mvector
 #'
+#' @return an integer
+#'
 #' @export
 setMethod("length", "mvector", function(x) x@length)

@@ -1,7 +1,8 @@
-mk.array.descriptor.file <- function(path, dim, type) {
+mk.array.descriptor.file <- function(path, dim, type, verbose) {
   dir <- dirname(path)
   fil <- basename(path)
-  
+  if(dir == tempdir()) warning("Creating a descriptor file for an object stored in tmp directory")
+
   d <- sprintf("new(\"big.matrix.descriptor\", description = list(filename = \"%s\", ", fil)
   d <- paste0(d, sprintf("dirname = \"%s\",\n ", dir))
   d <- paste0(d, "dim = c(") 
@@ -15,6 +16,5 @@ mk.array.descriptor.file <- function(path, dim, type) {
     return(invisible(NULL))
   }
   cat(d, file = desc.file)
-  cat("Created descriptor file", desc.file, "\n")
   invisible(desc.file)
 }

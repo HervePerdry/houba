@@ -4,7 +4,7 @@
 #include <sstream> // for std::ostringstream verbosout_
 #include <vector>
 
-#include "mio.hpp"
+#include "mio/mio.hpp"
 
 /**
  * @namespace houba

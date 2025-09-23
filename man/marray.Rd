@@ -21,7 +21,12 @@ mmatrix(
   readonly
 )
 
-mvector(datatype = c("double", "float", "integer"), length, filename, readonly)
+mvector(
+  datatype = c("double", "float", "integer", "short"),
+  length,
+  filename,
+  readonly
+)
 }
 \arguments{
 \item{datatype}{the data type}

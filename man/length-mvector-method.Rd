@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{mvector}
 }
+\value{
+an integer
+}
 \description{
 returns the length of a mvector
 }

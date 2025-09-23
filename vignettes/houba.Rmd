@@ -67,6 +67,13 @@ methods are defined for memory-mapped matrices.
 
 A minimal compatibility with the **bigmemory** package is provided through descriptor files.
 
+**NOTE 1** A current limitation of **houba** is that it relies on R integers for indices, thus
+vectors of length larger than 2,147,483,647 can't be manipulated. Same limitations apply to
+matrices and arrays dimensions.
+
+**NOTE 2** **houba** relies on the C++ header only library mio by vimpunk, which is under
+MIT Licence : <https://github.com/vimpunk/mio>.
+
 # Creating memory-mapped objects
 
 
