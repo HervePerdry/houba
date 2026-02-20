@@ -451,6 +451,33 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// set_values_mvector
+void set_values_mvector(SEXP pM, std::string datatype, Rcpp::IntegerVector I, SEXP values);
+RcppExport SEXP _houba_set_values_mvector(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type I(ISEXP);
+    Rcpp::traits::input_parameter< SEXP >::type values(valuesSEXP);
+    set_values_mvector(pM, datatype, I, values);
+    return R_NilValue;
+END_RCPP
+}
+// set_values_mvector_mm
+void set_values_mvector_mm(SEXP pM, std::string datatype, Rcpp::IntegerVector I, SEXP values, std::string valtype);
+RcppExport SEXP _houba_set_values_mvector_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP valuesSEXP, SEXP valtypeSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type I(ISEXP);
+    Rcpp::traits::input_parameter< SEXP >::type values(valuesSEXP);
+    Rcpp::traits::input_parameter< std::string >::type valtype(valtypeSEXP);
+    set_values_mvector_mm(pM, datatype, I, values, valtype);
+    return R_NilValue;
+END_RCPP
+}
 // setdims
 void setdims(SEXP pM, std::string datatype, Rcpp::IntegerVector value);
 RcppExport SEXP _houba_setdims(SEXP pMSEXP, SEXP datatypeSEXP, SEXP valueSEXP) {
@@ -500,6 +527,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_houba_set_values_marray_ma", (DL_FUNC) &_houba_set_values_marray_ma, 5},
     {"_houba_set_values_mmatrix", (DL_FUNC) &_houba_set_values_mmatrix, 5},
     {"_houba_set_values_mmatrix_mm", (DL_FUNC) &_houba_set_values_mmatrix_mm, 6},
+    {"_houba_set_values_mvector", (DL_FUNC) &_houba_set_values_mvector, 4},
+    {"_houba_set_values_mvector_mm", (DL_FUNC) &_houba_set_values_mvector_mm, 5},
     {"_houba_setdims", (DL_FUNC) &_houba_setdims, 3},
     {NULL, NULL, 0}
 };

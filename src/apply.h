@@ -32,6 +32,30 @@ inline void apply_R(SEXP pM, std::string datatype, Rcpp::Vector<TSXP> r_vector, 
   }
 }
 
+template<typename FTYPE>
+inline void apply_R(SEXP pM, std::string datatype, SEXP r_vec, FTYPE F) {
+  if (datatype == "float") {
+    Rcpp::XPtr<houba::MMatrix<float>> instanc(pM);
+    Rcpp::NumericVector r_vector(r_vec);
+    F(instanc, r_vector);
+  } else if (datatype == "double") {
+    Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
+    Rcpp::NumericVector r_vector(r_vec);
+    F(instanc, r_vector);
+  } else if (datatype == "integer") {
+    Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
+    Rcpp::IntegerVector r_vector(r_vec);
+    F(instanc, r_vector);
+  } else if (datatype == "short") {
+    Rcpp::XPtr<houba::MMatrix<int16_t>> instanc(pM);
+    Rcpp::IntegerVector r_vector(r_vec);
+    F(instanc, r_vector);
+  } else {
+    throw std::runtime_error("Unsupported datatype for now !");
+  }
+}
+
+
 // pM = pointeur vers une MMatrix
 // datatype = type de cette MMatrix
 // pM2 = pointeur vers une MMatrix

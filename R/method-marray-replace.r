@@ -80,9 +80,9 @@ setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "numeric"
 
 #' @rdname extract
 setMethod("[<-", c(x = "marray", i = "numeric", j = "missing", value = "numeric"),
-  function(x, i, j, ..., value) {
+  function(x, i, j, ..., value) { 
     if(nargs() == 3L) { # appel de type x[i] <- value
-      extract_mvector(x, i)
+      replace_value_mvector(x, i, value)
     } else {
       if(...length() != length(x@dim) - 2L)
         stop("Incorrect number of dimensions")
@@ -174,9 +174,9 @@ setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "memoryMa
 
 #' @rdname extract
 setMethod("[<-", c(x = "marray", i = "numeric", j = "missing", value = "memoryMapped"),
-  function(x, i, j, ..., value) {
+  function(x, i, j, ..., value) { 
     if(nargs() == 3L) { # appel de type x[i] <- value
-      extract_mvector(x, i)
+      replace_value_mvector_mm(x, i, value)
     } else {
       if(...length() != length(x@dim) - 2L)
         stop("Incorrect number of dimensions")

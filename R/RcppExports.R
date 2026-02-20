@@ -141,6 +141,14 @@ set_values_mmatrix_mm <- function(pM, datatype, I, J, values, valtype) {
     invisible(.Call(`_houba_set_values_mmatrix_mm`, pM, datatype, I, J, values, valtype))
 }
 
+set_values_mvector <- function(pM, datatype, I, values) {
+    invisible(.Call(`_houba_set_values_mvector`, pM, datatype, I, values))
+}
+
+set_values_mvector_mm <- function(pM, datatype, I, values, valtype) {
+    invisible(.Call(`_houba_set_values_mvector_mm`, pM, datatype, I, values, valtype))
+}
+
 setdims <- function(pM, datatype, value) {
     invisible(.Call(`_houba_setdims`, pM, datatype, value))
 }
