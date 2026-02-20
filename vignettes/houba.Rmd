@@ -51,6 +51,8 @@ div.sourceCode {
 
 **houba** provides manipulation of large data through memory-mapped files, supporting vectors,
 matrices, and arrays. This allows to work with large datasets by keeping them on disk.
+It is also possible to work with objects in memory, which can be useful for manipulating
+matrices of floats, for example.
 
 **houba** defines three S4 classes:
 
@@ -97,7 +99,17 @@ B
 ```
 
 Similarly, 
-`marray("float", c(10, 20, 3))` a 10 by 20 by 3 array.
+`marray("float", c(10, 20, 3))` creates a 10 by 20 by 3 array.
+
+## Creating objects in memory
+
+If we give `filename = ""` to `mvector`, `mmatrix` or `marray`, the object will be 
+created by allocating memory:
+
+```{r create-memory}```
+C <- mmatrix(datatype = "float", nrow = 5, ncol = 10, filename = "")
+C
+```
 
 ## Conversion from an R object
 
@@ -303,11 +315,14 @@ Accessing a row:
 A[1,]
 ```
 
-The result here is a R object. This behaviour actually depends on its size!
+The result here is a R object. When the object is a associated to a file,
+fhis behaviour actually depends on its size!
 The default is to return a R object if the result's size is less than 
-one million, and else to return a memory-mapped object.  
+one million, and else to return a memory-mapped object. The aim of this
+behaviour is to avoid the proliferation of small temporary files, when
+examining data.
 
-This can be changed through the option `max.size`, as follows:
+The limiting size can be changed through the option `max.size`, as follows:
 ```{r houba}
 houba(max.size = 20)
 ```
@@ -316,6 +331,12 @@ And now, accessing to the first row will sends a new memory-mapped object:
 ```{r houba2}
 A[1,]
 ```
+
+You can set `max.size = 0` to always get a memory-mapped object.
+
+Note that when the object is in memory (it has been created with `filename = ""`),
+then the result will always be an object of the same type. Use `as.vector`, `as.matrix`
+or `as.array` for conversion to an R object.
 
 ## Assigning values
 

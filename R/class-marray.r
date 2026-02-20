@@ -34,7 +34,11 @@ setMethod("show", "marray",
         cat("A ")
       cat("marray with dimensions", paste(object@dim, sep =", "), "\n")
       cat("data type: ", object@datatype, "\n")
-      cat("File:", object@file, "\n")
+      if(object@file == "") {
+        cat("Location: memory\n")
+      } else {
+        cat("Location: file ", object@file, "\n")
+      }
     }
   }
 )

@@ -3,11 +3,15 @@ extract_mmatrix <- function(x, i, j, drop = TRUE) {
   J <- as.integer(j) - 1L
   # target size
   tsize <- length(I) * length(J)
-  if(tsize > houba("max.size")) {
+  if(x@file == "") { # it's memory so... keep it so
+    T <- mmatrix(x@datatype, length(I), length(J), "")
+    extract_mmatrix_to_mmatrix(x@ptr, x@datatype, I, J, T@ptr)
+    T
+  } else if(tsize > houba("max.size")) { # it's on disk, and large -> new file
     T <- mmatrix(x@datatype, length(I), length(J))
     extract_mmatrix_to_mmatrix(x@ptr, x@datatype, I, J, T@ptr)
     T
-  } else {
+  } else { # it's on disk, and small -> convert to R object
     if(x@datatype == "float" | x@datatype == "double") {
       T <- matrix(NA_real_, length(I), length(J))
     } else if(x@datatype == "integer" | x@datatype == "short") {
@@ -27,7 +31,11 @@ extract_mvector <- function(x, i) {
   I <- as.integer(i) - 1L
   # target size
   tsize <- length(I) 
-  if(tsize > houba("max.size")) {
+  if(x@file == "") {
+    T <- mvector(x@datatype, tsize, "")
+    extract_mvector_to_mvector(x@ptr, x@datatype, I, T@ptr)
+    T
+  } else if(tsize > houba("max.size")) {
     T <- mvector(x@datatype, tsize)
     extract_mvector_to_mvector(x@ptr, x@datatype, I, T@ptr)
     T

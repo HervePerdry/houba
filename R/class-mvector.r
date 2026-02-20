@@ -34,13 +34,14 @@ setMethod("show", "mvector",
         cat("A ")
       cat("mvector of length", object@length, "\n")
       cat("data type: ", object@datatype, "\n")
-      cat("File:", object@file, "\n")
+      if(object@file == "") {
+        cat("Location: memory\n")
+      } else {
+        cat("Location: file ", object@file, "\n")
+      }
       cat("--- excerpt\n")
-      if( (savevalue <- houba("max.size")) < 5 )
-        houba(max.size = 5)
       n <- min(5,object@length)
-      print(object[seq_len(n)])
-      houba(max.size = savevalue)
+      print(as.vector(object[seq_len(n)]))
     }
   }
 )

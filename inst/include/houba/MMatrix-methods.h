@@ -3,6 +3,7 @@
 
 #include <fstream> // for ofstream, loading the file
 #include <sstream> // for verbosout
+#include <iostream> 
 #include <stdexcept>
 #include <system_error> // for std::error_code
 #include <filesystem>
@@ -13,18 +14,33 @@ namespace houba {
 
 // Helper function for the c°
 template <typename T>
-void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool authorize_resize) {
+void MMatrix<T>::FileHandler(size_t matrix_size, bool authorize_resize) {
+
+  // If empty path: just allocate memory !
+  if(path_.size() == 0) {
+    // matrix_size has been computed in chars
+    try { 
+      char * char_ptr = new char[matrix_size]();
+      // recast
+      data_ptr_ = reinterpret_cast<T *>(char_ptr);
+    } catch(const std::bad_alloc& e) {
+      throw std::runtime_error("Failed to allocate memory");
+    }
+    // we are done. matrix_file_ is left uninitialized, we take care to not use it when path is empty
+    return;  
+  }
+
   /* FIRST : check if file exists, if it does not, create one of the good size*/
-  const char * path_c = path.c_str();
+  const char * path_c = path_.c_str();
   std::FILE * check = std::fopen(path_c, "rb"); // open en readonly 
 
   if (!check) { // file does not exist, create it and set its size 
     if(verbose_) {
-      verbosout_ << "The file " << path << " does not exist, creating one ...  ";
+      verbosout_ << "The file " << path_ << " does not exist, creating one ...  ";
     }
-    std::ofstream newfile(path, std::ios::binary); // to load with \0
+    std::ofstream newfile(path_, std::ios::binary); // to load with \0
     if (!newfile || !newfile.is_open())
-      throw std::runtime_error("Failed to open the file;");
+      throw std::runtime_error("Failed to open the file");
     /* Writing a null byte to the end of the file after using seekp to the before last byte will
     ensure we have a non-empty file of the desired size */
     newfile.seekp(matrix_size - 1);
@@ -36,10 +52,10 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool authoriz
     // file does exist !
     std::fclose(check); // closed
     if (verbose_) {
-      verbosout_ << "Using and potentially overwritting already existing " << path << std::endl;
+      verbosout_ << "Using and potentially overwritting already existing " << path_ << std::endl;
     }
     // get its size
-    size_t file_size = std::filesystem::file_size(path);
+    size_t file_size = std::filesystem::file_size(path_);
     
     if (file_size != matrix_size) {
       if (!authorize_resize) 
@@ -48,12 +64,12 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool authoriz
       if (verbose_) {
         verbosout_ << "Resizing file from " << file_size << " to " << matrix_size << " bytes." << std::endl;
       }
-      std::filesystem::resize_file(path, matrix_size);
+      std::filesystem::resize_file(path_, matrix_size);
     }
   }
 
   std::error_code error;
-  matrix_file_ = mio::make_mmap_sink(path, 0, mio::map_entire_file, error);
+  matrix_file_ = mio::make_mmap_sink(path_, 0, mio::map_entire_file, error);
   
   if (error) {
     std::string errMsg = "Error code " + std::to_string(error.value())
@@ -68,7 +84,7 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool authoriz
   data_ptr_ = reinterpret_cast<T *>(matrix_file_.data());
 
   if (verbose_) {
-    verbosout_ << "An MMatrix was successfuly created.\nfrom file :" << path << "\n and with "<< dim_.size() << " dims : [";
+    verbosout_ << "An MMatrix was successfuly created.\nfrom file :" << path_ << "\n and with "<< dim_.size() << " dims : [";
     verbosout_ << nrow_  << ", " << ncol_ << "] (nrow, ncol) \n";
   }
 }
@@ -81,7 +97,7 @@ MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose, bo
   if (!size_) 
     throw std::invalid_argument("ncol or nrow is equal to 0, cannot map an empty file !");
   size_t matrix_size = size_ * sizeof(T);
-  FileHandler(path, matrix_size, authorize_resize);
+  FileHandler(matrix_size, authorize_resize);
 }
 
 
@@ -102,13 +118,18 @@ MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool verbose, bo
     nrow_ = dim_[0];
     ncol_ = dim_[1];
   }
-  FileHandler(path, matrix_size, authorize_resize);
+  FileHandler(matrix_size, authorize_resize);
 }
 
 // Destructor flushing changes to disk before unmapping
 template <typename T>
 MMatrix<T>::~MMatrix() {
   if (verbose_) verbosout_ << "Unmapping mmatrix " << path_ << std::endl;
+  if(path_.size() == 0) {
+    char * char_ptr = reinterpret_cast<char *>(data_ptr_);
+    delete char_ptr;
+    return;
+  }
   std::error_code error;
   if (matrix_file_.is_mapped())
   {
@@ -291,6 +312,18 @@ void MMatrix<T>::copy_values(Tvec & values) {
 }
 
 // ------------------- set values ---------------------
+// vector
+template <typename T>
+template <typename intVec, typename Tvec>
+void MMatrix<T>::set_values_vector(const intVec & I, Tvec & values) {
+  size_t vs = values.size();
+  size_t k = 0;
+  for(size_t i : I) {
+    if(i >= size_) throw std::out_of_range("Index out of range");
+    data_ptr_[i] = values[ (k++) % vs ];
+  }
+}
+
 // matrix
 template <typename T>
 template <typename intVec, typename Tvec>
@@ -516,6 +549,7 @@ void MMatrix<T>::cw_opposite() {
 
 template <typename T>
 void MMatrix<T>::flush() {
+  if(path_.size() == 0) return; // nothing to do
   std::error_code error;
   if (matrix_file_.is_mapped()) {
     matrix_file_.sync(error);

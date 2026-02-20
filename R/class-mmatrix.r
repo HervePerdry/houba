@@ -34,14 +34,15 @@ setMethod("show", "mmatrix",
         cat("A ")
       cat("mmatrix with", nrow(object), "rows and", ncol(object), "cols\n")
       cat("data type: ", object@datatype, "\n")
-      cat("File:", object@file, "\n")
+      if(object@file == "") {
+        cat("Location: memory\n")
+      } else {
+        cat("Location: file ", object@file, "\n")
+      }
       cat("--- excerpt\n")
-      if( (savevalue <- houba("max.size")) < 25 )
-        houba(max.size = 25)
       n <- min(5,nrow(object))
       m <- min(5,ncol(object))
-      print(object[seq_len(n), seq_len(m)])
-      houba(max.size = savevalue)
+      print(as.matrix(object[seq_len(n), seq_len(m)]))
     }
   }
 )

@@ -7,7 +7,11 @@ extract_marray <- function(x, L, drop = TRUE) {
     tsize <- tsize * length(L[[i]])
   }
   dims <- sapply(L, length)
-  if(tsize > houba("max.size")) {
+  if(x@file == "") { # array is in memory: target in memory
+    T <- marray(x@datatype, dims, "")
+    extract_marray_to_marray(x@ptr, x@datatype, L, T@ptr)
+    T
+  } else if(tsize > houba("max.size")) {
     T <- marray(x@datatype, dims)
     extract_marray_to_marray(x@ptr, x@datatype, L, T@ptr)
     T

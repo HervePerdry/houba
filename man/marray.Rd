@@ -48,14 +48,17 @@ a memory mapped object, of class 'mvector', 'mmatrix' or 'marray'
 }
 \description{
 These functions create memory mapped vectors, matrices or arrays, 
-possibly from an existing file.
+possibly from an existing file. It is also possible to create objects in memory,
+by passing the argument \code{filename = ""}.
 }
 \details{
 Currently \code{datatype} can only be double, float, int, or short. Short will always be a 16 bits 
 integer (int16_t).
 
 If \code{filename} is missing, a temporary filename will be generated using \code{tempfile}.
-In the contrary case, is the file exists, it will be opened (if its size is compatible with the dimension
+If it is an empty string, the object will be created by allocating memory.
+Otherwise, \code{filename} must be a valid path file; 
+if the file exists, it will be opened (if its size is compatible with the dimension
 of the object); if the file does not exist, it will be created.
 
 If \code{readonly} is missing, it will be set to \code{TRUE} when opening an existing file, and

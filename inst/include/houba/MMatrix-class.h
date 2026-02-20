@@ -22,14 +22,15 @@ class MMatrix
 {
 protected:
     /**
-     * @fn void FileHandler(std::string path, size_t matrix_size, bool authorize_resize)
-     * @brief Helper function called by the constructor to open (and potentially resize) or create a file, after checking it's existence and validity
+     * @fn void FileHandler(size_t matrix_size, bool authorize_resize)
+     * @brief Helper function called by the constructor to open (and potentially resize) or create a file, after checking 
+     * its existence and validity. If path_ is empty, allocates memory instead
      *
      * @param path an std::string referencing the absolute path to the file in need of checking
      * @param matrix_size a size_t containing the size of the MMatrix's data in bytes
      * @param authorize_resize a boolean used to allow resizing of the file if it is smaller or greater than matrix_size
      */
-    void FileHandler(std::string path, size_t matrix_size, bool authorize_resize);
+    void FileHandler(size_t matrix_size, bool authorize_resize);
 
 public:
     /** Constructor for a "matrix-style" call
@@ -102,6 +103,10 @@ public:
     // copy values "as a vector" (with recycling)
     template <typename Tvec>
     void copy_values(Tvec & values);
+
+    // setting values for vectors (or matrices or arrays seen as a vector)
+    template <typename intVec, typename Tvec>
+    void set_values_vector(const intVec & I, Tvec & values);
 
     // setting values for matrices
     template <typename intVec, typename Tvec>
