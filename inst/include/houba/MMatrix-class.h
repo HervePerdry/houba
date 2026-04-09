@@ -33,6 +33,7 @@ protected:
     void FileHandler(size_t matrix_size, bool authorize_resize);
 
 public:
+    using value_type = T;
     /** Constructor for a "matrix-style" call
      * @brief Constructor only for 2 dimensions matrices, opening or creating the file before mapping it.
      *
