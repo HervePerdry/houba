@@ -83,6 +83,7 @@ setMethod("+", c(e1 = "mmatrixOrMarray", e2 = "mmatrixOrMarray"),
 )
 
 ## ---- substraction  ----
+## comme la soustraction n'est pas commutative on est amené à définir plus de méthodes que pour l'addition
 
 #' @rdname Arithmetic
 setMethod("-", c(e1 = "mmatrixOrMarray", e2 = "mvectorOrNumeric"), 
@@ -126,8 +127,8 @@ setMethod("-", c(e1 = "mmatrixOrMarray", e2 = "array"),
 #' @rdname Arithmetic
 setMethod("-", c(e1 = "matrix", e2 = "mmatrix"), 
   function(e1, e2) {
-    if(!same.dim(e1@dim, dim(e2))) stop("non-conformable arrays")
-    a <- mmatrix(e2@datatype, e2@dim)
+    if(!same.dim(dim(e1), e2@dim)) stop("non-conformable arrays")
+    a <- mmatrix(e2@datatype, e2@dim[1], e2@dim[2])
     copy_values(a, e1)
     inplace.minus(a, e2)
     a
@@ -137,7 +138,7 @@ setMethod("-", c(e1 = "matrix", e2 = "mmatrix"),
 #' @rdname Arithmetic
 setMethod("-", c(e1 = "array", e2 = "marray"), 
   function(e1, e2) {
-    if(!same.dim(e1@dim, dim(e2))) stop("non-conformable arrays")
+    if(!same.dim(dim(e1), e2@dim)) stop("non-conformable arrays")
     a <- marray(e2@datatype, e2@dim)
     copy_values(a, e1)
     inplace.minus(a, e2)
@@ -217,6 +218,7 @@ setMethod("*", c(e1 = "mmatrixOrMarray", e2 = "mmatrixOrMarray"),
 )
 
 ## ---- division  ----
+# meme commentaire que pour la soustraction !
 
 #' @rdname Arithmetic
 setMethod("/", c(e1 = "mmatrixOrMarray", e2 = "mvectorOrNumeric"), 
@@ -260,8 +262,8 @@ setMethod("/", c(e1 = "mmatrixOrMarray", e2 = "array"),
 #' @rdname Arithmetic
 setMethod("/", c(e1 = "matrix", e2 = "mmatrix"), 
   function(e1, e2) {
-    if(!same.dim(e1@dim, dim(e2))) stop("non-conformable arrays")
-    a <- mmatrix(e2@datatype, e2@dim)
+    if(!same.dim(dim(e1), e2@dim)) stop("non-conformable arrays")
+    a <- mmatrix(e2@datatype, e2@dim[1], e2@dim[2])
     copy_values(a, e1)
     inplace.div(a, e2)
     a
@@ -271,7 +273,7 @@ setMethod("/", c(e1 = "matrix", e2 = "mmatrix"),
 #' @rdname Arithmetic
 setMethod("/", c(e1 = "array", e2 = "marray"), 
   function(e1, e2) {
-    if(!same.dim(e1@dim, dim(e2))) stop("non-conformable arrays")
+    if(!same.dim(dim(e1), e2@dim)) stop("non-conformable arrays")
     a <- marray(e2@datatype, e2@dim)
     copy_values(a, e1)
     inplace.div(a, e2)

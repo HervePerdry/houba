@@ -9,3 +9,4 @@ setClassUnion("mvectorOrNumeric",
 
 setClassUnion("numericOrArray", 
               members = c("numeric", "array"))
+

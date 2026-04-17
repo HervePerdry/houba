@@ -39,7 +39,7 @@ inplace.opposite <- function(x) {
 inplace.sum <- function(x, y) UseMethod("inplace.sum")
 
 #' @rdname inplace
-setMethod("inplace.sum", c(x = "memoryMapped", y = "numeric"),
+setMethod("inplace.sum", c(x = "memoryMapped", y = "numericOrArray"),
   function(x, y) {
     if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
@@ -67,7 +67,7 @@ setMethod("inplace.sum", c(x = "memoryMapped", y = "memoryMapped"),
 inplace.minus <- function(x, y) UseMethod("inplace.minus")
 
 #' @rdname inplace
-setMethod("inplace.minus", c(x = "memoryMapped", y = "numeric"),
+setMethod("inplace.minus", c(x = "memoryMapped", y = "numericOrArray"),
   function(x, y) {
     if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
@@ -95,7 +95,7 @@ setMethod("inplace.minus", c(x = "memoryMapped", y = "memoryMapped"),
 inplace.prod <- function(x, y) UseMethod("inplace.prod")
 
 #' @rdname inplace
-setMethod("inplace.prod", c(x = "memoryMapped", y = "numeric"),
+setMethod("inplace.prod", c(x = "memoryMapped", y = "numericOrArray"),
   function(x, y) {
     if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
@@ -122,7 +122,7 @@ setMethod("inplace.prod", c(x = "memoryMapped", y = "memoryMapped"),
 inplace.div <- function(x, y) UseMethod("inplace.div")
 
 #' @rdname inplace
-setMethod("inplace.div", c(x = "memoryMapped", y = "numeric"),
+setMethod("inplace.div", c(x = "memoryMapped", y = "numericOrArray"),
   function(x, y) {
     if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
