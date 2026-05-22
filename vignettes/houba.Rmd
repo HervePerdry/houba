@@ -218,7 +218,7 @@ The resulting object maps the same datafile:
 bm[,1]
 ```
 
-Note that alhougj **houba** allows to create descriptor files for marrays, these won't be 
+Note that although **houba** allows to create descriptor files for marrays, these won't be 
 accepted by **bigmemory** which doesn't handle arrays.
 
 ## Restoring Broken Pointers

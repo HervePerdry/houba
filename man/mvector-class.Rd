@@ -19,6 +19,8 @@ S4 class for manipulating memory-mapped files as vectors
 \item{\code{datatype}}{\code{character} giving the C++ underlying datatype.}
 
 \item{\code{readonly}}{\code{logical} Indicates if the vector if read-only.}
+
+\item{\code{names}}{optional vector of names}
 }}
 
 \section{Objects from the Class}{

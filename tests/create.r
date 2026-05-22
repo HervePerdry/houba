@@ -52,7 +52,7 @@ C[,,1] <- 7
 C[,2,] <- B[5]
 C[1] <- 8
 C[2] <- B[1]
-stopifnot( all(as.array(C[,,1]) == c(8L, 12L, 1L, 1L, 7L, 7L)) )
+stopifnot( all(as.vector(C[,,1]) == c(8L, 12L, 1L, 1L, 7L, 7L)) )
 
 # just one test for an object in memory
 C <- marray("int", 2:4, "")
@@ -60,7 +60,7 @@ C[,,1] <- 7
 C[,2,] <- B[5]
 C[1] <- 8
 C[2] <- B[1]
-stopifnot( all(as.array(C[,,1]) == c(8L, 12L, 1L, 1L, 7L, 7L)) )
+stopifnot( all(as.vector(C[,,1]) == c(8L, 12L, 1L, 1L, 7L, 7L)) )
 
 
 # int16 mmatrix ----------------------

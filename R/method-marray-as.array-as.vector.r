@@ -18,7 +18,9 @@ as.array.marray <- function(x, ...) {
   if(isnullptr(x@ptr)) {
     stop("This mvector has a broken ptr, try re-mapping it with restore()")
   } else {
-    MMatrixToRArray(x@ptr, x@datatype)
+    R <- MMatrixToRArray(x@ptr, x@datatype)
+    dimnames(R) <- x@dimnames
+    R
   }
 }
 

@@ -14,6 +14,7 @@
 #' @slot datatype
 #' \code{character} giving the C++ underlying datatype.
 #' @slot readonly \code{logical} Indicates if the array if read-only.
+#' @slot dimnames optional dimnames (just as for a R array).
 #' 
 #' @section Objects from the Class:
 #' Objects can be created by calling \link{marray}.
@@ -21,7 +22,8 @@
 #' @seealso \link{mmatrix-class}, \link{mvector-class}
 #'
 #' @exportClass marray
-setClass("marray", slots = c(ptr = "externalptr", file = "character", dim = "integer", datatype = "character", readonly = "logical"))
+setClass("marray", slots = c(ptr = "externalptr", file = "character", dim = "integer", datatype = "character", 
+          readonly = "logical", dimnames = "listOrNULL"))
 
 setMethod("show", "marray",
   function(object) {

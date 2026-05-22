@@ -26,7 +26,11 @@ replace_value_marray <- function(x, L, value) {
   if(d != length(x@dim)) stop("Incorrect number of dimensions\n")
   tsize <- 1L # target size
   for(i in seq_along(L)) {
-    L[[i]] <- as.integer(L[[i]]) - 1L
+    if(!is.numeric(L[[i]]))
+      L[[i]] <- match(L[[i]], x@dimnames[[i]]) - 1L
+    else
+      L[[i]] <- as.integer(L[[i]]) - 1L
+
     tsize <- tsize * length(L[[i]])
   }
   if(x@datatype == "float" | x@datatype == "double") {
@@ -43,7 +47,7 @@ replace_value_marray <- function(x, L, value) {
 # ------------------ replacement is an R object --------------------
 
 #' @rdname extract
-setMethod("[<-", c(x = "marray", i = "numeric", j = "numeric", value = "numeric"),
+setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "numericOrCharacter", value = "numeric"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
       stop("Incorrect number of dimensions")
@@ -61,7 +65,7 @@ setMethod("[<-", c(x = "marray", i = "numeric", j = "numeric", value = "numeric"
 )
 
 #' @rdname extract
-setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "numeric"),
+setMethod("[<-", c(x = "marray", i = "missing", j = "numericOrCharacter", value = "numeric"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
       stop("Incorrect number of dimensions")
@@ -79,7 +83,7 @@ setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "numeric"
 )
 
 #' @rdname extract
-setMethod("[<-", c(x = "marray", i = "numeric", j = "missing", value = "numeric"),
+setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "missing", value = "numeric"),
   function(x, i, j, ..., value) { 
     if(nargs() == 3L) { # appel de type x[i] <- value
       replace_value_mvector(x, i, value)
@@ -137,7 +141,7 @@ replace_value_marray_ma <- function(x, L, value) {
 }
 
 #' @rdname extract
-setMethod("[<-", c(x = "marray", i = "numeric", j = "numeric", value = "memoryMapped"),
+setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "numericOrCharacter", value = "memoryMapped"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
       stop("Incorrect number of dimensions")
@@ -155,7 +159,7 @@ setMethod("[<-", c(x = "marray", i = "numeric", j = "numeric", value = "memoryMa
 )
 
 #' @rdname extract
-setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "memoryMapped"),
+setMethod("[<-", c(x = "marray", i = "missing", j = "numericOrCharacter", value = "memoryMapped"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
       stop("Incorrect number of dimensions")
@@ -173,7 +177,7 @@ setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "memoryMa
 )
 
 #' @rdname extract
-setMethod("[<-", c(x = "marray", i = "numeric", j = "missing", value = "memoryMapped"),
+setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "missing", value = "memoryMapped"),
   function(x, i, j, ..., value) { 
     if(nargs() == 3L) { # appel de type x[i] <- value
       replace_value_mvector_mm(x, i, value)

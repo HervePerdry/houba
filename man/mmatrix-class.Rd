@@ -19,6 +19,8 @@ S4 class for manipulating memory-mapped files as matrices
 \item{\code{datatype}}{\code{character} giving the C++ underlying datatype.}
 
 \item{\code{readonly}}{\code{logical} Indicates if the array is read-only.}
+
+\item{\code{dimnames}}{optional dimnames (just as for a R matrix).}
 }}
 
 \section{Objects from the Class}{

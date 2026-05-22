@@ -3,18 +3,26 @@ extract_marray <- function(x, L, drop = TRUE) {
   if(d != length(x@dim)) stop("Incorrect number of dimensions\n")
   tsize <- 1L # target size
   for(i in seq_along(L)) {
-    L[[i]] <- as.integer(L[[i]]) - 1L
+    if(!is.numeric(L[[i]])) 
+      L[[i]] <- match(L[[i]], x@dimnames[[i]])
+    else 
+      L[[i]] <- as.integer(L[[i]])
+
     tsize <- tsize * length(L[[i]])
   }
+  L0 <- L
+  L <- lapply(L, \(x) x- 1L)
   dims <- sapply(L, length)
   if(x@file == "") { # array is in memory: target in memory
     T <- marray(x@datatype, dims, "")
     extract_marray_to_marray(x@ptr, x@datatype, L, T@ptr)
-    T
+    dimnames(T) <- dimnames_extract(x@dimnames, L0)
+    drop_dimensions(T, drop)
   } else if(tsize > houba("max.size")) {
     T <- marray(x@datatype, dims)
     extract_marray_to_marray(x@ptr, x@datatype, L, T@ptr)
-    T
+    dimnames(T) <- dimnames_extract(x@dimnames, L0)
+    drop_dimensions(T, drop)
   } else {
     if(x@datatype == "float" | x@datatype == "double") {
       T <- array(NA_real_, dims)
@@ -24,15 +32,8 @@ extract_marray <- function(x, L, drop = TRUE) {
       stop("Unsupported data type")
     }
     extract_marray_to_R(x@ptr, x@datatype, L, T)
-    if(drop & any(dims == 1)) {
-      dims <- dims[ dims > 1 ]
-      if(length(dim) > 0) 
-        array(as.vector(T), dims)
-      else 
-        as.vector(T)
-    } else {
-      T
-    }
+    dimnames(T) <- dimnames_extract(x@dimnames, L0)
+    if(drop) drop(T) else T
   }
 }
 
@@ -52,7 +53,7 @@ myMissing <- function(x) {
 }
 
 #' @rdname extract 
-setMethod("[", c(x = "marray", i = "numeric", j = "numeric", drop = "ANY"),
+setMethod("[", c(x = "marray", i = "numericOrCharacter", j = "numericOrCharacter", drop = "ANY"),
   function(x, i, j, ..., drop) {
     if(...length() != length(x@dim) - 2L)
       stop("Incorrect number of dimensions")
@@ -70,7 +71,7 @@ setMethod("[", c(x = "marray", i = "numeric", j = "numeric", drop = "ANY"),
 )
 
 #' @rdname extract 
-setMethod("[", c(x = "marray", i = "missing", j = "numeric", drop = "ANY"),
+setMethod("[", c(x = "marray", i = "missing", j = "numericOrCharacter", drop = "ANY"),
   function(x, i, j, ..., drop) { 
     if(...length() != length(x@dim) - 2L)
       stop("Incorrect number of dimensions")
@@ -88,7 +89,7 @@ setMethod("[", c(x = "marray", i = "missing", j = "numeric", drop = "ANY"),
 )
 
 #' @rdname extract 
-setMethod("[", c(x = "marray", i = "numeric", j = "missing", drop = "ANY"),
+setMethod("[", c(x = "marray", i = "numericOrCharacter", j = "missing", drop = "ANY"),
   function(x, i, j, ..., drop) {
     if(nargs() == 2L) { # appel de type x[i]
       extract_mvector(x, i)

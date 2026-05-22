@@ -5,16 +5,16 @@
 \alias{inplace.inverse}
 \alias{inplace.opposite}
 \alias{inplace.sum}
-\alias{inplace.sum,memoryMapped,numeric-method}
+\alias{inplace.sum,memoryMapped,numericOrArray-method}
 \alias{inplace.sum,memoryMapped,memoryMapped-method}
 \alias{inplace.minus}
-\alias{inplace.minus,memoryMapped,numeric-method}
+\alias{inplace.minus,memoryMapped,numericOrArray-method}
 \alias{inplace.minus,memoryMapped,memoryMapped-method}
 \alias{inplace.prod}
-\alias{inplace.prod,memoryMapped,numeric-method}
+\alias{inplace.prod,memoryMapped,numericOrArray-method}
 \alias{inplace.prod,memoryMapped,memoryMapped-method}
 \alias{inplace.div}
-\alias{inplace.div,memoryMapped,numeric-method}
+\alias{inplace.div,memoryMapped,numericOrArray-method}
 \alias{inplace.div,memoryMapped,memoryMapped-method}
 \title{In-place arithmetic operations}
 \usage{
@@ -24,25 +24,25 @@ inplace.opposite(x)
 
 inplace.sum(x, y)
 
-\S4method{inplace.sum}{memoryMapped,numeric}(x, y)
+\S4method{inplace.sum}{memoryMapped,numericOrArray}(x, y)
 
 \S4method{inplace.sum}{memoryMapped,memoryMapped}(x, y)
 
 inplace.minus(x, y)
 
-\S4method{inplace.minus}{memoryMapped,numeric}(x, y)
+\S4method{inplace.minus}{memoryMapped,numericOrArray}(x, y)
 
 \S4method{inplace.minus}{memoryMapped,memoryMapped}(x, y)
 
 inplace.prod(x, y)
 
-\S4method{inplace.prod}{memoryMapped,numeric}(x, y)
+\S4method{inplace.prod}{memoryMapped,numericOrArray}(x, y)
 
 \S4method{inplace.prod}{memoryMapped,memoryMapped}(x, y)
 
 inplace.div(x, y)
 
-\S4method{inplace.div}{memoryMapped,numeric}(x, y)
+\S4method{inplace.div}{memoryMapped,numericOrArray}(x, y)
 
 \S4method{inplace.div}{memoryMapped,memoryMapped}(x, y)
 }

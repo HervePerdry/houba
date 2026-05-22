@@ -14,6 +14,7 @@
 #' @slot datatype
 #' \code{character} giving the C++ underlying datatype.
 #' @slot readonly \code{logical} Indicates if the array is read-only.
+#' @slot dimnames optional dimnames (just as for a R matrix).
 #' 
 #' @section Objects from the Class:
 #' Objects can be created by calling \link{mmatrix}.
@@ -21,7 +22,8 @@
 #' @seealso \link{marray-class}, \link{mvector-class}
 #'
 #' @exportClass mmatrix
-setClass("mmatrix", slots = c(ptr = "externalptr", file = "character", dim = "integer", datatype = "character", readonly = "logical"))
+setClass("mmatrix", slots = c(ptr = "externalptr", file = "character", dim = "integer", 
+   datatype = "character", readonly = "logical", dimnames = "listOrNULL"))
 
 setMethod("show", "mmatrix",
   function(object) {

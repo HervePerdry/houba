@@ -14,6 +14,7 @@
 #' @slot datatype
 #' \code{character} giving the C++ underlying datatype.
 #' @slot readonly \code{logical} Indicates if the vector if read-only.
+#' @slot names optional vector of names
 #' 
 #' @section Objects from the Class:
 #' Objects can be created by calling \link{mvector}.
@@ -21,7 +22,8 @@
 #' @seealso \link{marray-class}, \link{mmatrix-class}
 #'
 #' @exportClass mvector
-setClass("mvector", slots = c(ptr = "externalptr", file = "character", length = "integer", datatype = "character", readonly = "logical"))
+setClass("mvector", slots = c(ptr = "externalptr", file = "character", length = "integer", 
+          datatype = "character", readonly = "logical", names = "characterOrNULL"))
 
 setMethod("show", "mvector",
   function(object) {

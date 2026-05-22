@@ -4,7 +4,9 @@ as.matrix.mmatrix <- function(x, ...) {
   if(isnullptr(x@ptr)) {
     stop("This mmatrix has a broken ptr, try re-mapping it with restore()")
   } else {
-    MMatrixToRMatrix(x@ptr, x@datatype)
+    R <- MMatrixToRMatrix(x@ptr, x@datatype)
+    dimnames(R) <- x@dimnames
+    R
   }
 }
 

@@ -10,7 +10,8 @@ marray(
   datatype = c("double", "float", "integer", "short"),
   dim,
   filename,
-  readonly
+  readonly,
+  dimnames
 )
 
 mmatrix(
@@ -18,14 +19,16 @@ mmatrix(
   nrow,
   ncol,
   filename,
-  readonly
+  readonly,
+  dimnames
 )
 
 mvector(
   datatype = c("double", "float", "integer", "short"),
   length,
   filename,
-  readonly
+  readonly,
+  names
 )
 }
 \arguments{
@@ -37,11 +40,15 @@ mvector(
 
 \item{readonly}{(optional) if \code{TRUE}, the object will be read-only.}
 
+\item{dimnames}{(optional) a list of dimension names for mmatrix and marray}
+
 \item{nrow}{number of rows of mmatrix}
 
 \item{ncol}{number of columns of mmatrix}
 
 \item{length}{length of mvector}
+
+\item{names}{(optional) a vector of names for mvector}
 }
 \value{
 a memory mapped object, of class 'mvector', 'mmatrix' or 'marray'
@@ -63,6 +70,8 @@ of the object); if the file does not exist, it will be created.
 
 If \code{readonly} is missing, it will be set to \code{TRUE} when opening an existing file, and
 to \code{FALSE} when the file is created by the function.
+
+If \code{dimnames} is missing, it will be considered as 'NULL'
 }
 \examples{
 a <- mmatrix("float", 4, 3)

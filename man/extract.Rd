@@ -4,75 +4,75 @@
 %   R/method-mvector-replace.r, R/method-subsetting.r
 \name{extract}
 \alias{extract}
-\alias{[<-,marray,numeric,numeric,numeric-method}
-\alias{[<-,marray,missing,numeric,numeric-method}
-\alias{[<-,marray,numeric,missing,numeric-method}
+\alias{[<-,marray,numericOrCharacter,numericOrCharacter,numeric-method}
+\alias{[<-,marray,missing,numericOrCharacter,numeric-method}
+\alias{[<-,marray,numericOrCharacter,missing,numeric-method}
 \alias{[<-,marray,missing,missing,numeric-method}
-\alias{[<-,marray,numeric,numeric,memoryMapped-method}
-\alias{[<-,marray,missing,numeric,memoryMapped-method}
-\alias{[<-,marray,numeric,missing,memoryMapped-method}
+\alias{[<-,marray,numericOrCharacter,numericOrCharacter,memoryMapped-method}
+\alias{[<-,marray,missing,numericOrCharacter,memoryMapped-method}
+\alias{[<-,marray,numericOrCharacter,missing,memoryMapped-method}
 \alias{[<-,marray,missing,missing,memoryMapped-method}
-\alias{[,marray,numeric,numeric-method}
-\alias{[,marray,missing,numeric-method}
-\alias{[,marray,numeric,missing-method}
+\alias{[,marray,numericOrCharacter,numericOrCharacter-method}
+\alias{[,marray,missing,numericOrCharacter-method}
+\alias{[,marray,numericOrCharacter,missing-method}
 \alias{[,marray,missing,missing-method}
-\alias{[<-,mmatrix,numeric,numeric,numeric-method}
-\alias{[<-,mmatrix,missing,numeric,numeric-method}
-\alias{[<-,mmatrix,numeric,missing,numeric-method}
+\alias{[<-,mmatrix,numericOrCharacter,numericOrCharacter,numeric-method}
+\alias{[<-,mmatrix,missing,numericOrCharacter,numeric-method}
+\alias{[<-,mmatrix,numericOrCharacter,missing,numeric-method}
 \alias{[<-,mmatrix,missing,missing,numeric-method}
-\alias{[<-,mmatrix,numeric,numeric,memoryMapped-method}
-\alias{[<-,mmatrix,missing,numeric,memoryMapped-method}
-\alias{[<-,mmatrix,numeric,missing,memoryMapped-method}
+\alias{[<-,mmatrix,numericOrCharacter,numericOrCharacter,memoryMapped-method}
+\alias{[<-,mmatrix,missing,numericOrCharacter,memoryMapped-method}
+\alias{[<-,mmatrix,numericOrCharacter,missing,memoryMapped-method}
 \alias{[<-,mmatrix,missing,missing,memoryMapped-method}
 \alias{[<-,mvector,numeric,missing,numeric-method}
 \alias{[<-,mvector,missing,missing,numeric-method}
 \alias{[<-,mvector,numeric,missing,memoryMapped-method}
 \alias{[<-,mvector,missing,missing,memoryMapped-method}
-\alias{[,mmatrix,numeric,numeric-method}
-\alias{[,mmatrix,missing,numeric-method}
-\alias{[,mmatrix,numeric,missing-method}
+\alias{[,mmatrix,numericOrCharacter,numericOrCharacter-method}
+\alias{[,mmatrix,missing,numericOrCharacter-method}
+\alias{[,mmatrix,numericOrCharacter,missing-method}
 \alias{[,mmatrix,missing,missing-method}
 \alias{[,mvector,numeric,missing-method}
 \alias{[,mvector,missing,missing-method}
 \title{Read/write access to memory-mapped objects}
 \usage{
-\S4method{[}{marray,numeric,numeric,numeric}(x, i, j, ...) <- value
+\S4method{[}{marray,numericOrCharacter,numericOrCharacter,numeric}(x, i, j, ...) <- value
 
-\S4method{[}{marray,missing,numeric,numeric}(x, i, j, ...) <- value
+\S4method{[}{marray,missing,numericOrCharacter,numeric}(x, i, j, ...) <- value
 
-\S4method{[}{marray,numeric,missing,numeric}(x, i, j, ...) <- value
+\S4method{[}{marray,numericOrCharacter,missing,numeric}(x, i, j, ...) <- value
 
 \S4method{[}{marray,missing,missing,numeric}(x, i, j, ...) <- value
 
-\S4method{[}{marray,numeric,numeric,memoryMapped}(x, i, j, ...) <- value
+\S4method{[}{marray,numericOrCharacter,numericOrCharacter,memoryMapped}(x, i, j, ...) <- value
 
-\S4method{[}{marray,missing,numeric,memoryMapped}(x, i, j, ...) <- value
+\S4method{[}{marray,missing,numericOrCharacter,memoryMapped}(x, i, j, ...) <- value
 
-\S4method{[}{marray,numeric,missing,memoryMapped}(x, i, j, ...) <- value
+\S4method{[}{marray,numericOrCharacter,missing,memoryMapped}(x, i, j, ...) <- value
 
 \S4method{[}{marray,missing,missing,memoryMapped}(x, i, j, ...) <- value
 
-\S4method{[}{marray,numeric,numeric}(x, i, j, ..., drop = TRUE)
+\S4method{[}{marray,numericOrCharacter,numericOrCharacter}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{marray,missing,numeric}(x, i, j, ..., drop = TRUE)
+\S4method{[}{marray,missing,numericOrCharacter}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{marray,numeric,missing}(x, i, j, ..., drop = TRUE)
+\S4method{[}{marray,numericOrCharacter,missing}(x, i, j, ..., drop = TRUE)
 
 \S4method{[}{marray,missing,missing}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{mmatrix,numeric,numeric,numeric}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,numericOrCharacter,numericOrCharacter,numeric}(x, i, j, ...) <- value
 
-\S4method{[}{mmatrix,missing,numeric,numeric}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,missing,numericOrCharacter,numeric}(x, i, j, ...) <- value
 
-\S4method{[}{mmatrix,numeric,missing,numeric}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,numericOrCharacter,missing,numeric}(x, i, j, ...) <- value
 
 \S4method{[}{mmatrix,missing,missing,numeric}(x, i, j, ...) <- value
 
-\S4method{[}{mmatrix,numeric,numeric,memoryMapped}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,numericOrCharacter,numericOrCharacter,memoryMapped}(x, i, j, ...) <- value
 
-\S4method{[}{mmatrix,missing,numeric,memoryMapped}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,missing,numericOrCharacter,memoryMapped}(x, i, j, ...) <- value
 
-\S4method{[}{mmatrix,numeric,missing,memoryMapped}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,numericOrCharacter,missing,memoryMapped}(x, i, j, ...) <- value
 
 \S4method{[}{mmatrix,missing,missing,memoryMapped}(x, i, j, ...) <- value
 
@@ -84,11 +84,11 @@
 
 \S4method{[}{mvector,missing,missing,memoryMapped}(x, i, j, ...) <- value
 
-\S4method{[}{mmatrix,numeric,numeric}(x, i, j, ..., drop = TRUE)
+\S4method{[}{mmatrix,numericOrCharacter,numericOrCharacter}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{mmatrix,missing,numeric}(x, i, j, ..., drop = TRUE)
+\S4method{[}{mmatrix,missing,numericOrCharacter}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{mmatrix,numeric,missing}(x, i, j, ..., drop = TRUE)
+\S4method{[}{mmatrix,numericOrCharacter,missing}(x, i, j, ..., drop = TRUE)
 
 \S4method{[}{mmatrix,missing,missing}(x, i, j, ..., drop = TRUE)
 

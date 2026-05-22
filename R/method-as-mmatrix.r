@@ -27,7 +27,7 @@ setMethod("as.mmatrix", "matrix",
      if(missing(datatype)) {
        datatype <- if(typeof(x) == "double") "double" else "integer"
      }
-     r <- mmatrix(datatype, nrow(x), ncol(x), filename)
+     r <- mmatrix(datatype, nrow(x), ncol(x), filename, dimnames = dimnames(x))
      copy_values(r, x)
    }
 )

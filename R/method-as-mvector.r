@@ -9,7 +9,7 @@ setMethod("as.mvector", "numeric",
      if(missing(datatype)) {
        datatype <- if(typeof(x) == "double") "double" else "integer"
      }
-     r <- mvector(datatype, length(x), filename)
+     r <- mvector(datatype, length(x), filename, names = names(x))
      copy_values(r, x)
    }
 )

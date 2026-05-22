@@ -9,7 +9,7 @@ setMethod("as.marray", "array",
      if(missing(datatype)) {
        datatype <- if(typeof(x) == "double") "double" else "integer"
      }
-     r <- marray(datatype, dim(x), filename)
+     r <- marray(datatype, dim(x), filename, dinames = dimnames(x))
      copy_values(r, x)
    }
 )
