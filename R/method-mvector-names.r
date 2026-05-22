@@ -1,4 +1,4 @@
-#' @rdname names
+#' @rdname dimnames
 #' @export
 setReplaceMethod("names", c(x = "mvector", value = "characterOrNULL"),
   function(x, value) {
@@ -8,7 +8,7 @@ setReplaceMethod("names", c(x = "mvector", value = "characterOrNULL"),
   }
 )
 
-#' @rdname names
+#' @rdname dimnames
 #'
 #' @export
 setMethod("names", signature(x = "mvector"), function(x) x@names)

@@ -5,6 +5,8 @@ as.vector.mvector <- function(x, mode = "any") {
     stop("This mvector has a broken ptr, try re-mapping it with restore()")
   } else {
     V <- MMatrixToRMatrix(x@ptr, x@datatype)
-    as.vector(V)
+    V <- as.vector(V)
+    names(V) <- x@names
+    V
   }
 }

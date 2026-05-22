@@ -32,17 +32,17 @@ setGeneric("descriptor.file", function(object) standardGeneric("descriptor.file"
 #' @rdname descriptor
 setMethod("descriptor.file", "mmatrix",
 function(object) {
-  mk.descriptor.file(object@file, object@dim[1], object@dim[2], object@datatype)
+  mk.descriptor.file(object@file, object@dim[1], object@dim[2], object@datatype, object@dimnames)
 })
 
 #' @rdname descriptor
 setMethod("descriptor.file", "mvector",
 function(object) {
-  mk.descriptor.file(object@file, object@length, 1L, object@datatype)
+  mk.descriptor.file(object@file, object@length, 1L, object@datatype, list(object@names, NULL))
 })
 
 #' @rdname descriptor
 setMethod("descriptor.file", "marray",
 function(object) {
-  mk.array.descriptor.file(object@file, object@dim, object@datatype)
+  mk.array.descriptor.file(object@file, object@dim, object@datatype, object@dimnames)
 })

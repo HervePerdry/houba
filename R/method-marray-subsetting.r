@@ -92,7 +92,7 @@ setMethod("[", c(x = "marray", i = "missing", j = "numericOrCharacter", drop = "
 setMethod("[", c(x = "marray", i = "numericOrCharacter", j = "missing", drop = "ANY"),
   function(x, i, j, ..., drop) {
     if(nargs() == 2L) { # appel de type x[i]
-      extract_mvector(x, i)
+      extract_mmatrix_as_mvector(x, i)
     } else {
       if(...length() != length(x@dim) - 2L)
         stop("Incorrect number of dimensions")

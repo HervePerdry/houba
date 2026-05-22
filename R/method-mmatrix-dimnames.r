@@ -1,15 +1,11 @@
-#' Get or set the dimension names of a mmatrix object
+#' Get or set the (dimension) names of a memory-mapped object
 #'
-#' @param x A mmatrix object.
+#' @param x A memory-mapped object.
 #' @param value A list of character vectors (one for each dimension) or \code{NULL}.
 #'
-#' @name dimnames-set
-#' @rdname dimnames
-#'
-#' @aliases dimnames<-,mmatrix-method
-#' 
 #' @return Return values are similar to the base methods.
 #' 
+#' @rdname dimnames
 #' @export
 setReplaceMethod("dimnames", c(x = "mmatrix", value = "listOrNULL"),
   function(x, value) {
@@ -21,7 +17,6 @@ setReplaceMethod("dimnames", c(x = "mmatrix", value = "listOrNULL"),
 
 #' @name dimnames
 #' @rdname dimnames
-#' @aliases dinames,mmatrix-method
 #'
 #' @export
 setMethod("dimnames", signature(x = "mmatrix"), function(x) x@dimnames)

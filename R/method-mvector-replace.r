@@ -2,7 +2,11 @@
 
 replace_value_mvector <- function(x, i, value) {
   if(x@readonly) stop("Read-only object")
-  I <- as.integer(i) - 1L
+  if(!is.numeric(i)) 
+    I <- match(i, x@names) - 1L
+  else
+    I <- as.integer(i) - 1L
+
   if(x@datatype == "float" | x@datatype == "double") {
     val <- as.double(value)
   } else if(x@datatype == "integer" | x@datatype == "short") {
@@ -15,7 +19,7 @@ replace_value_mvector <- function(x, i, value) {
 }
 
 #' @rdname extract 
-setMethod("[<-", c(x = "mvector", i = "numeric", j = "missing", value = "numeric"),
+setMethod("[<-", c(x = "mvector", i = "numericOrCharacter", j = "missing", value = "numeric"),
   function(x, i, j, ..., value) replace_value_mvector(x, i, value)
 )
 
@@ -27,13 +31,17 @@ setMethod("[<-", c(x = "mvector", i = "missing", j = "missing", value = "numeric
 # -------------------- replacement is a mvector / mmatrix
 replace_value_mvector_mm <- function(x, i, value) {
   if(x@readonly) stop("Read-only object")
-  I <- as.integer(i) - 1L
+  if(!is.numeric(i)) 
+    I <- match(i, x@names) - 1L
+  else
+    I <- as.integer(i) - 1L
+
   set_values_mvector_mm(x@ptr, x@datatype, I, value@ptr, value@datatype)
   x
 }
 
 #' @rdname extract 
-setMethod("[<-", c(x = "mvector", i = "numeric", j = "missing", value = "memoryMapped"),
+setMethod("[<-", c(x = "mvector", i = "numericOrCharacter", j = "missing", value = "memoryMapped"),
   function(x, i, j, ..., value) replace_value_mvector_mm(x, i, value)
 )
 

@@ -39,16 +39,21 @@ read.descriptor <- function(descriptor, readonly) {
     dim <- as.integer(parsed_desc$dim)
   else
     dim <- as.integer(c(parsed_desc$nrow, parsed_desc$ncol))
- 
+
+  rownames <- parsed_desc$rowNames 
+  colnames <- parsed_desc$colNames 
+  dimnames <- parsed_desc$dimnames 
+
   ptr <- link_marray(datatype, file, dim)
 
   if (isnullptr(ptr)) stop("Failed to map the memory mapped object !")
   # if matrix with 1 col, I open it as a mvector
   if(length(dim) > 2) {
-    new("marray", ptr = ptr, file = file, dim = dim, datatype = datatype, readonly = readonly)
+    new("marray", ptr = ptr, file = file, dim = dim, datatype = datatype, readonly = readonly, dimnames = dimnames)
   } else if(dim[2] == 1L) {
-    new("mvector", ptr = ptr, file = file, length = dim[1], datatype = datatype, readonly = readonly)
+    new("mvector", ptr = ptr, file = file, length = dim[1], datatype = datatype, readonly = readonly, names = rownames)
   } else {
-    new("mmatrix", ptr = ptr, file = file, dim = dim, datatype = datatype, readonly = readonly)
+    dimnames <- if(is.null(rownames) && is.null(colnames)) NULL else list(rownames, colnames)
+    new("mmatrix", ptr = ptr, file = file, dim = dim, datatype = datatype, readonly = readonly, dimnames = dimnames)
   }
 }

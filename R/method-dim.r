@@ -27,7 +27,7 @@ setReplaceMethod("dim", c(x = "memoryMapped", value = "numeric"),
     if(length(value) == 1L) { # vecteur
       value <- c(value, 1L)
       setdims(x@ptr, x@datatype, value)
-      new("mvector", ptr = x@ptr, file = x@file, length = value[1], datatype = x@datatype, readonly = x@readonly, names = NULL)
+      new("mvector", ptr = x@ptr, file = x@file, length = value[1L], datatype = x@datatype, readonly = x@readonly, names = NULL)
     } else if(length(value) == 2L) { # matrix
       setdims(x@ptr, x@datatype, value)
       new("mmatrix", ptr = x@ptr, file = x@file, dim = value, datatype = x@datatype, readonly = x@readonly, dimnames = NULL)
@@ -44,7 +44,7 @@ setReplaceMethod("dim", c(x = "memoryMapped", value = "NULL"),
     if(is(x, "mvector")) return(x)
     value <- c(as.integer(prod(x@dim)), 1L)
     setdims(x@ptr, x@datatype, value)
-    new("mvector", ptr = x@ptr, file = x@file, length = value[1], datatype = x@datatype, readonly = x@readonly, names = NULL)
+    new("mvector", ptr = x@ptr, file = x@file, length = value[1L], datatype = x@datatype, readonly = x@readonly, names = NULL)
   }
 )
 

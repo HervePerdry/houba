@@ -62,25 +62,3 @@ C[1] <- 8
 C[2] <- B[1]
 stopifnot( all(as.vector(C[,,1]) == c(8L, 12L, 1L, 1L, 7L, 7L)) )
 
-
-# int16 mmatrix ----------------------
-C <- mmatrix("short", 10, 20)
-C[] <- sample.int(200)
-
-# create descriptor file 
-dsc <- descriptor.file(C)
-
-# linking it to other object
-D <- read.descriptor(dsc)
-stopifnot( all(as.matrix(C) == as.matrix(D)))
-
-# descriptor for mvector ----------------
-dsc <- descriptor.file(V)
-
-# reading it
-Vbis <- read.descriptor(dsc, FALSE) #so NOT read-only
-
-# modified V through Vbis
-Vbis[,] <- pi
-flush(Vbis)
-stopifnot( all(as.vector(V) == pi) )

@@ -29,19 +29,19 @@ extract_mmatrix <- function(x, i, j, drop = TRUE) {
   }
 }
 
-extract_mvector <- function(x, i) {
+# ceci est un duplicat de extract_mvector sauf pour la gestion des noms...
+# cette variante est appelée quand on fait x[1:2] sur une matrice, par exemple
+extract_mmatrix_as_mvector <- function(x, i) {
   I <- as.integer(i) - 1L
   # target size
   tsize <- length(I) 
   if(x@file == "") {
     T <- mvector(x@datatype, tsize, "")
     extract_mvector_to_mvector(x@ptr, x@datatype, I, T@ptr)
-    names(T) <- names_extract(x@names, i)
     T
   } else if(tsize > houba("max.size")) {
     T <- mvector(x@datatype, tsize)
     extract_mvector_to_mvector(x@ptr, x@datatype, I, T@ptr)
-    names(T) <- names_extract(x@names, i)
     T
   } else {
     if(x@datatype == "float" | x@datatype == "double") {
@@ -52,7 +52,6 @@ extract_mvector <- function(x, i) {
       stop("Unsupported data type")
     }
     extract_mvector_to_R(x@ptr, x@datatype, I, T)
-    names(T) <- names_extract(x@names, i)
     T
   }
 }
@@ -77,7 +76,7 @@ setMethod("[", c(x = "mmatrix", i = "missing", j = "numericOrCharacter", drop = 
 setMethod("[", c(x = "mmatrix", i = "numericOrCharacter", j = "missing", drop = "ANY"),
   function(x, i, j, ..., drop) {
     if(nargs() == 2L) { # appel de type x[i]
-      extract_mvector(x, i)
+      extract_mmatrix_as_mvector(x, i)
     } else {
       if(...length() > 0) stop("Bad number of dimensions")
       extract_mmatrix(x, i, 1:ncol(x), drop)
@@ -94,24 +93,4 @@ setMethod("[", c(x = "mmatrix", i = "missing", j = "missing", drop = "ANY"),
 )
 
 
-
-# -------------- methode pour les vecteurs, j toujours missing
-              
-#' @rdname extract 
-setMethod("[", c(x = "mvector", i = "numeric", j = "missing", drop = "ANY"),
-  function(x, i, j, ..., drop) {
-    if(...length() > 0) stop("Bad number of dimensions")
-    extract_mvector(x, i)
-  }
-)
-
-# ceci fait une copie (selon la valeur de houba("max.size"))... pourquoi pas.
-
-#' @rdname extract
-setMethod("[", c(x = "mvector", i = "missing", j = "missing", drop = "ANY"),
-  function(x, i, j, ..., drop) {
-    if(...length() > 0) stop("Bad number of dimensions")
-    extract_mvector(x, 1:x@length)
-  }
-)
 
