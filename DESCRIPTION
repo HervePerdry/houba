@@ -1,8 +1,8 @@
 Package: houba
 Type: Package
 Title: Manipulation of (Large) Memory-Mapped Objects (Vectors, Matrices and Arrays)
-Version: 0.1.1
-Date: 2026-02-20
+Version: 0.1.2
+Date: 2026-06-26
 Authors@R: c(
     person("Hervé", "Perdry", 
     email = "herve.perdry@universite-paris-saclay.fr",

@@ -2,10 +2,12 @@
 
 replace_value_mvector <- function(x, i, value) {
   if(x@readonly) stop("Read-only object")
-  if(!is.numeric(i)) 
+  if(!is.numeric(i)) {
     I <- match(i, x@names) - 1L
-  else
+  } else {
+    if(any(i < 0)) i <- seq_along(x)[i]
     I <- as.integer(i) - 1L
+  }
 
   if(x@datatype == "float" | x@datatype == "double") {
     val <- as.double(value)
@@ -31,11 +33,12 @@ setMethod("[<-", c(x = "mvector", i = "missing", j = "missing", value = "numeric
 # -------------------- replacement is a mvector / mmatrix
 replace_value_mvector_mm <- function(x, i, value) {
   if(x@readonly) stop("Read-only object")
-  if(!is.numeric(i)) 
+  if(!is.numeric(i)) {
     I <- match(i, x@names) - 1L
-  else
+  } else {
+    if(any(i < 0)) i <- seq_along(x)[i]
     I <- as.integer(i) - 1L
-
+  }
   set_values_mvector_mm(x@ptr, x@datatype, I, value@ptr, value@datatype)
   x
 }

@@ -26,11 +26,14 @@ replace_value_marray <- function(x, L, value) {
   if(d != length(x@dim)) stop("Incorrect number of dimensions\n")
   tsize <- 1L # target size
   for(i in seq_along(L)) {
-    if(!is.numeric(L[[i]]))
+    if(!is.numeric(L[[i]])) {
       L[[i]] <- match(L[[i]], x@dimnames[[i]]) - 1L
-    else
+    } else {
       L[[i]] <- as.integer(L[[i]]) - 1L
-
+      if(any(L[[i]] < 0)) {
+        L[[i]] <- (1:x@dim[i])[ L[[i]] ]
+      }
+    }
     tsize <- tsize * length(L[[i]])
   }
   if(x@datatype == "float" | x@datatype == "double") {
@@ -47,7 +50,7 @@ replace_value_marray <- function(x, L, value) {
 # ------------------ replacement is an R object --------------------
 
 #' @rdname extract
-setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "numericOrCharacter", value = "numeric"),
+setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "numericOrCharacter", value = "numericOrArray"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
       stop("Incorrect number of dimensions")
@@ -65,7 +68,7 @@ setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "numericOrCharact
 )
 
 #' @rdname extract
-setMethod("[<-", c(x = "marray", i = "missing", j = "numericOrCharacter", value = "numeric"),
+setMethod("[<-", c(x = "marray", i = "missing", j = "numericOrCharacter", value = "numericOrArray"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
       stop("Incorrect number of dimensions")
@@ -83,7 +86,7 @@ setMethod("[<-", c(x = "marray", i = "missing", j = "numericOrCharacter", value 
 )
 
 #' @rdname extract
-setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "missing", value = "numeric"),
+setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "missing", value = "numericOrArray"),
   function(x, i, j, ..., value) { 
     if(nargs() == 3L) { # appel de type x[i] <- value
       replace_value_mvector(x, i, value)
@@ -105,7 +108,7 @@ setMethod("[<-", c(x = "marray", i = "numericOrCharacter", j = "missing", value 
 )
 
 #' @rdname extract 
-setMethod("[<-", c(x = "marray", i = "missing", j = "missing", value = "numeric"),
+setMethod("[<-", c(x = "marray", i = "missing", j = "missing", value = "numericOrArray"),
   function(x, i, j, ..., value) {
     # length = 0 correspond à un appel x[] <- value
     if(...length() == 0) {
@@ -133,7 +136,14 @@ replace_value_marray_ma <- function(x, L, value) {
   if(d != length(x@dim)) stop("Incorrect number of dimensions\n")
   tsize <- 1L # target size
   for(i in seq_along(L)) {
-    L[[i]] <- as.integer(L[[i]]) - 1L
+    if(!is.numeric(L[[i]])) {
+      L[[i]] <- match(L[[i]], x@dimnames[[i]]) - 1L
+    } else {
+      L[[i]] <- as.integer(L[[i]]) - 1L
+      if(any(L[[i]] < 0)) {
+        L[[i]] <- (1:x@dim[i])[ L[[i]] ]
+      }
+    }
     tsize <- tsize * length(L[[i]])
   }
   set_values_marray_ma(x@ptr, x@datatype, L, value@ptr, value@datatype)

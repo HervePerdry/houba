@@ -1,6 +1,9 @@
 extract_mmatrix <- function(x, i, j, drop = TRUE) {
   if(!is.numeric(i)) i <- match(i, x@dimnames[[1]])
   if(!is.numeric(j)) j <- match(j, x@dimnames[[2]])
+  if(any(i < 0)) i <- (1:x@dim[1])[i]
+  if(any(j < 0)) j <- (1:x@dim[2])[j]
+
   I <- as.integer(i) - 1L
   J <- as.integer(j) - 1L
   # target size
@@ -32,6 +35,7 @@ extract_mmatrix <- function(x, i, j, drop = TRUE) {
 # ceci est un duplicat de extract_mvector sauf pour la gestion des noms...
 # cette variante est appelée quand on fait x[1:2] sur une matrice, par exemple
 extract_mmatrix_as_mvector <- function(x, i) {
+  if(any(i < 0)) i <- (1:length(x))[i]
   I <- as.integer(i) - 1L
   # target size
   tsize <- length(I) 

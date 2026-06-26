@@ -2,13 +2,13 @@
 % Please edit documentation in R/method-marray-replace.r,
 %   R/method-marray-subsetting.r, R/method-mmatrix-replace.r,
 %   R/method-mmatrix-subsetting.r, R/method-mvector-replace.r,
-%   R/method-mvector-subsetting.r, R/method-subsetting.r
+%   R/method-mvector-subsetting.r
 \name{extract}
 \alias{extract}
-\alias{[<-,marray,numericOrCharacter,numericOrCharacter,numeric-method}
-\alias{[<-,marray,missing,numericOrCharacter,numeric-method}
-\alias{[<-,marray,numericOrCharacter,missing,numeric-method}
-\alias{[<-,marray,missing,missing,numeric-method}
+\alias{[<-,marray,numericOrCharacter,numericOrCharacter,numericOrArray-method}
+\alias{[<-,marray,missing,numericOrCharacter,numericOrArray-method}
+\alias{[<-,marray,numericOrCharacter,missing,numericOrArray-method}
+\alias{[<-,marray,missing,missing,numericOrArray-method}
 \alias{[<-,marray,numericOrCharacter,numericOrCharacter,memoryMapped-method}
 \alias{[<-,marray,missing,numericOrCharacter,memoryMapped-method}
 \alias{[<-,marray,numericOrCharacter,missing,memoryMapped-method}
@@ -17,10 +17,10 @@
 \alias{[,marray,missing,numericOrCharacter-method}
 \alias{[,marray,numericOrCharacter,missing-method}
 \alias{[,marray,missing,missing-method}
-\alias{[<-,mmatrix,numericOrCharacter,numericOrCharacter,numeric-method}
-\alias{[<-,mmatrix,missing,numericOrCharacter,numeric-method}
-\alias{[<-,mmatrix,numericOrCharacter,missing,numeric-method}
-\alias{[<-,mmatrix,missing,missing,numeric-method}
+\alias{[<-,mmatrix,numericOrCharacter,numericOrCharacter,numericOrArray-method}
+\alias{[<-,mmatrix,missing,numericOrCharacter,numericOrArray-method}
+\alias{[<-,mmatrix,numericOrCharacter,missing,numericOrArray-method}
+\alias{[<-,mmatrix,missing,missing,numericOrArray-method}
 \alias{[<-,mmatrix,numericOrCharacter,numericOrCharacter,memoryMapped-method}
 \alias{[<-,mmatrix,missing,numericOrCharacter,memoryMapped-method}
 \alias{[<-,mmatrix,numericOrCharacter,missing,memoryMapped-method}
@@ -35,16 +35,15 @@
 \alias{[<-,mvector,missing,missing,memoryMapped-method}
 \alias{[,mvector,numericOrCharacter,missing-method}
 \alias{[,mvector,missing,missing-method}
-\alias{[,mvector,numeric,missing-method}
 \title{Read/write access to memory-mapped objects}
 \usage{
-\S4method{[}{marray,numericOrCharacter,numericOrCharacter,numeric}(x, i, j, ...) <- value
+\S4method{[}{marray,numericOrCharacter,numericOrCharacter,numericOrArray}(x, i, j, ...) <- value
 
-\S4method{[}{marray,missing,numericOrCharacter,numeric}(x, i, j, ...) <- value
+\S4method{[}{marray,missing,numericOrCharacter,numericOrArray}(x, i, j, ...) <- value
 
-\S4method{[}{marray,numericOrCharacter,missing,numeric}(x, i, j, ...) <- value
+\S4method{[}{marray,numericOrCharacter,missing,numericOrArray}(x, i, j, ...) <- value
 
-\S4method{[}{marray,missing,missing,numeric}(x, i, j, ...) <- value
+\S4method{[}{marray,missing,missing,numericOrArray}(x, i, j, ...) <- value
 
 \S4method{[}{marray,numericOrCharacter,numericOrCharacter,memoryMapped}(x, i, j, ...) <- value
 
@@ -62,13 +61,13 @@
 
 \S4method{[}{marray,missing,missing}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{mmatrix,numericOrCharacter,numericOrCharacter,numeric}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,numericOrCharacter,numericOrCharacter,numericOrArray}(x, i, j, ...) <- value
 
-\S4method{[}{mmatrix,missing,numericOrCharacter,numeric}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,missing,numericOrCharacter,numericOrArray}(x, i, j, ...) <- value
 
-\S4method{[}{mmatrix,numericOrCharacter,missing,numeric}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,numericOrCharacter,missing,numericOrArray}(x, i, j, ...) <- value
 
-\S4method{[}{mmatrix,missing,missing,numeric}(x, i, j, ...) <- value
+\S4method{[}{mmatrix,missing,missing,numericOrArray}(x, i, j, ...) <- value
 
 \S4method{[}{mmatrix,numericOrCharacter,numericOrCharacter,memoryMapped}(x, i, j, ...) <- value
 
@@ -95,18 +94,6 @@
 \S4method{[}{mvector,missing,missing,memoryMapped}(x, i, j, ...) <- value
 
 \S4method{[}{mvector,numericOrCharacter,missing}(x, i, j, ..., drop = TRUE)
-
-\S4method{[}{mvector,missing,missing}(x, i, j, ..., drop = TRUE)
-
-\S4method{[}{mmatrix,numericOrCharacter,numericOrCharacter}(x, i, j, ..., drop = TRUE)
-
-\S4method{[}{mmatrix,missing,numericOrCharacter}(x, i, j, ..., drop = TRUE)
-
-\S4method{[}{mmatrix,numericOrCharacter,missing}(x, i, j, ..., drop = TRUE)
-
-\S4method{[}{mmatrix,missing,missing}(x, i, j, ..., drop = TRUE)
-
-\S4method{[}{mvector,numeric,missing}(x, i, j, ..., drop = TRUE)
 
 \S4method{[}{mvector,missing,missing}(x, i, j, ..., drop = TRUE)
 }

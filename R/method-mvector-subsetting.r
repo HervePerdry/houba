@@ -1,6 +1,10 @@
-# ici x pourrait être une matrice ou un array (appel x[1:10]...)
 extract_mvector <- function(x, i) {
-  if(!is.numeric(i)) i <- match(i, x@names)
+  if(!is.numeric(i)) {
+    i <- match(i, x@names)
+  } else {
+    if(any(i < 0)) i <- seq_along(x)[i]
+  }
+
   I <- as.integer(i) - 1L
   # target size
   tsize <- length(I) 
@@ -30,7 +34,6 @@ extract_mvector <- function(x, i) {
 
 # -------------- methodes pour les vecteurs, j toujours missing
             
-# Cette méthode est aussi utilisée pour les matrices quand on fait un appel x[1:2] par exemple
 #' @rdname extract 
 setMethod("[", c(x = "mvector", i = "numericOrCharacter", j = "missing", drop = "ANY"),
   function(x, i, j, ..., drop) {

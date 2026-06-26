@@ -3,9 +3,9 @@
 %   R/method-mmatrix-dimnames.r, R/method-mvector-names.r
 \name{dimnames<-,marray,listOrNULL-method}
 \alias{dimnames<-,marray,listOrNULL-method}
-\alias{dimnames}
+\alias{dimnames,marray-method}
 \alias{dimnames<-,mmatrix,listOrNULL-method}
-\alias{dinames,mmatrix-method}
+\alias{dimnames,mmatrix-method}
 \alias{names<-,mvector,characterOrNULL-method}
 \alias{names,mvector-method}
 \title{Get or set the (dimension) names of a memory-mapped object}

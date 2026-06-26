@@ -3,11 +3,14 @@ extract_marray <- function(x, L, drop = TRUE) {
   if(d != length(x@dim)) stop("Incorrect number of dimensions\n")
   tsize <- 1L # target size
   for(i in seq_along(L)) {
-    if(!is.numeric(L[[i]])) 
+    if(!is.numeric(L[[i]])) {
       L[[i]] <- match(L[[i]], x@dimnames[[i]])
-    else 
+    } else {
       L[[i]] <- as.integer(L[[i]])
-
+      if(any(L[[i]] < 0)) {
+        L[[i]] <- (1:x@dim[i])[ L[[i]] ]
+      }
+    }
     tsize <- tsize * length(L[[i]])
   }
   L0 <- L
