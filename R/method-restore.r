@@ -8,7 +8,8 @@
 #' @return a memory-mapped object
 #'
 #' @examples a <- matrix(1:24, 4, 6)
-#' A <- as.mmatrix(a, "float")
+#' matrixfile <- tempfile("mmatrix")
+#' A <- as.mmatrix(a, "float", matrixfile)
 #' rdsfile <- tempfile(fileext = ".rds")
 #' saveRDS(A, rdsfile)
 #' A <- readRDS(rdsfile)

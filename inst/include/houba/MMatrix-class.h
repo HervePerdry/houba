@@ -28,9 +28,9 @@ protected:
      *
      * @param path an std::string referencing the absolute path to the file in need of checking
      * @param matrix_size a size_t containing the size of the MMatrix's data in bytes
-     * @param authorize_resize a boolean used to allow resizing of the file if it is smaller or greater than matrix_size
+     * @param tmpfile a boolean. If true, the function will throw an error if file alrealy exists.
      */
-    void FileHandler(size_t matrix_size, bool authorize_resize);
+    void FileHandler(size_t matrix_size, bool tmpfile);
 
 public:
     using value_type = T;
@@ -40,20 +40,20 @@ public:
      * @param path an std::string referencing the absolute path to the file
      * @param nrow a size_t
      * @param ncol a size_t
+     * @param tmpfile a boolean. If true, file will be erased when the object is destructed.
      * @param verbose a boolean true by default used to silence the class (if true, will add logs to verbosout_)
-     * @param authorize_resize a boolean false by default used to allow resizing of the file if it is smaller or greater than matrix_size
      */
-    MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose = true, bool authorize_resize = false);
+    MMatrix(std::string path, size_t nrow, size_t ncol, bool tmpfile = false, bool verbose = true);
 
     /** Constructor for a "array-style" call
      * @brief Constructor for multidimensional matrices, opening or creating the file before mapping it.
      *
      * @param path an std::string referencing the absolute path to the file
      * @param dims a std::vector<size_t> 
+     * @param tmpfile a boolean. If true, file will be erased when the object is destructed.
      * @param verbose a boolean true by default used to silence the class (if true, will add logs to verbosout_)
-     * @param authorize_resize a boolean false by default used to allow resizing of the file if it is smaller or greater than matrix_size
      */    
-    MMatrix(std::string path, std::vector<size_t> dims, bool verbose = true, bool authorize_resize = false);
+    MMatrix(std::string path, std::vector<size_t> dims, bool tmpfile = false, bool verbose = true);
      /** Destructor
      * @brief Destructor flushing changes to the disk before unmapping
      **/
@@ -198,6 +198,9 @@ protected:
      * @details read and write also
      */
     T *data_ptr_;
+
+    // Bool for tmp file
+    bool tmpfile_;
 
     // Boolean used to silence the class 
     bool verbose_;

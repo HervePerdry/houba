@@ -321,21 +321,22 @@ BEGIN_RCPP
 END_RCPP
 }
 // link_marray
-SEXP link_marray(std::string datatype, std::string file, Rcpp::IntegerVector dim);
-RcppExport SEXP _houba_link_marray(SEXP datatypeSEXP, SEXP fileSEXP, SEXP dimSEXP) {
+SEXP link_marray(std::string datatype, std::string file, Rcpp::IntegerVector dim, bool tmpfile);
+RcppExport SEXP _houba_link_marray(SEXP datatypeSEXP, SEXP fileSEXP, SEXP dimSEXP, SEXP tmpfileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
     Rcpp::traits::input_parameter< std::string >::type file(fileSEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type dim(dimSEXP);
-    rcpp_result_gen = Rcpp::wrap(link_marray(datatype, file, dim));
+    Rcpp::traits::input_parameter< bool >::type tmpfile(tmpfileSEXP);
+    rcpp_result_gen = Rcpp::wrap(link_marray(datatype, file, dim, tmpfile));
     return rcpp_result_gen;
 END_RCPP
 }
 // link_mmatrix
-SEXP link_mmatrix(std::string datatype, std::string file, size_t nrow, size_t ncol);
-RcppExport SEXP _houba_link_mmatrix(SEXP datatypeSEXP, SEXP fileSEXP, SEXP nrowSEXP, SEXP ncolSEXP) {
+SEXP link_mmatrix(std::string datatype, std::string file, size_t nrow, size_t ncol, bool tmpfile);
+RcppExport SEXP _houba_link_mmatrix(SEXP datatypeSEXP, SEXP fileSEXP, SEXP nrowSEXP, SEXP ncolSEXP, SEXP tmpfileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -343,7 +344,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type file(fileSEXP);
     Rcpp::traits::input_parameter< size_t >::type nrow(nrowSEXP);
     Rcpp::traits::input_parameter< size_t >::type ncol(ncolSEXP);
-    rcpp_result_gen = Rcpp::wrap(link_mmatrix(datatype, file, nrow, ncol));
+    Rcpp::traits::input_parameter< bool >::type tmpfile(tmpfileSEXP);
+    rcpp_result_gen = Rcpp::wrap(link_mmatrix(datatype, file, nrow, ncol, tmpfile));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -529,8 +531,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_houba_extract_mvector_to_mvector", (DL_FUNC) &_houba_extract_mvector_to_mvector, 4},
     {"_houba_flush_", (DL_FUNC) &_houba_flush_, 2},
     {"_houba_isnullptr", (DL_FUNC) &_houba_isnullptr, 1},
-    {"_houba_link_marray", (DL_FUNC) &_houba_link_marray, 3},
-    {"_houba_link_mmatrix", (DL_FUNC) &_houba_link_mmatrix, 4},
+    {"_houba_link_marray", (DL_FUNC) &_houba_link_marray, 4},
+    {"_houba_link_mmatrix", (DL_FUNC) &_houba_link_mmatrix, 5},
     {"_houba_print_debug", (DL_FUNC) &_houba_print_debug, 2},
     {"_houba_rowSums_R_double", (DL_FUNC) &_houba_rowSums_R_double, 3},
     {"_houba_rowSums_R_int", (DL_FUNC) &_houba_rowSums_R_int, 3},

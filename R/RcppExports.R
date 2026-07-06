@@ -101,12 +101,12 @@ isnullptr <- function(pointer) {
     .Call(`_houba_isnullptr`, pointer)
 }
 
-link_marray <- function(datatype, file, dim) {
-    .Call(`_houba_link_marray`, datatype, file, dim)
+link_marray <- function(datatype, file, dim, tmpfile = FALSE) {
+    .Call(`_houba_link_marray`, datatype, file, dim, tmpfile)
 }
 
-link_mmatrix <- function(datatype, file, nrow, ncol) {
-    .Call(`_houba_link_mmatrix`, datatype, file, nrow, ncol)
+link_mmatrix <- function(datatype, file, nrow, ncol, tmpfile = FALSE) {
+    .Call(`_houba_link_mmatrix`, datatype, file, nrow, ncol, tmpfile)
 }
 
 print_debug <- function(pM, datatype) {

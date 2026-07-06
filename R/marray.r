@@ -37,10 +37,15 @@
 #' @export
 marray <- function(datatype = c("double", "float", "integer", "short"), dim, filename, readonly, dimnames) {
   datatype <- match.arg(datatype)
-  if(missing(filename)) filename <- tempfile("mmatrix")
+  if(missing(filename)) {
+    filename <- tempfile("mmatrix")
+    tmpfile <- TRUE
+  } else {
+    tmpfilme <- FALSE
+  }
   if(missing(readonly)) readonly <- file.exists(filename)
   dimnames <- if(missing(dimnames)) NULL else dimnames_check(dimnames, as.integer(dim))
-  ptr <- link_marray(datatype, filename, dim)
+  ptr <- link_marray(datatype, filename, dim, tmpfile)
   if(isnullptr(ptr)) stop("Failed to map the marray")
   new("marray", ptr = ptr, file = filename, dim = as.integer(dim), datatype = datatype, readonly = readonly)
 }

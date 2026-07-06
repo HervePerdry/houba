@@ -14,7 +14,7 @@ namespace houba {
 
 // Helper function for the c°
 template <typename T>
-void MMatrix<T>::FileHandler(size_t matrix_size, bool authorize_resize) {
+void MMatrix<T>::FileHandler(size_t matrix_size, bool tmpfile) {
 
   // If empty path: just allocate memory !
   if(path_.size() == 0) {
@@ -51,20 +51,20 @@ void MMatrix<T>::FileHandler(size_t matrix_size, bool authorize_resize) {
   } else {
     // file does exist !
     std::fclose(check); // closed
+    if(tmpfile) { // if it exists can't be tmpfile
+      throw std::runtime_error("File already exists, can't be tmp file");
+    }
     if (verbose_) {
       verbosout_ << "Using and potentially overwritting already existing " << path_ << std::endl;
     }
     // get its size
     size_t file_size = std::filesystem::file_size(path_);
     
-    if (file_size != matrix_size) {
-      if (!authorize_resize) 
-         throw std::runtime_error("The file size doesn't match the matrix size");
-      // we are authorized to resize file
-      if (verbose_) {
-        verbosout_ << "Resizing file from " << file_size << " to " << matrix_size << " bytes." << std::endl;
-      }
+    if(file_size != matrix_size) {
+      throw std::runtime_error("The file size doesn't match the matrix size");
+      /* if are authorized to resize file
       std::filesystem::resize_file(path_, matrix_size);
+      */
     }
   }
 
@@ -91,21 +91,21 @@ void MMatrix<T>::FileHandler(size_t matrix_size, bool authorize_resize) {
 
 // Constructor FOR A 2 DIM MMATRIX
 template <typename T>
-MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose, bool authorize_resize) :
-                    ncol_(ncol), nrow_(nrow), dim_{nrow, ncol}, path_(path), verbose_(verbose) {
+MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool tmpfile, bool verbose) :
+                    ncol_(ncol), nrow_(nrow), dim_{nrow, ncol}, path_(path), tmpfile_(tmpfile), verbose_(verbose) {
   size_ = ncol * nrow;
   if (!size_) 
     throw std::invalid_argument("ncol or nrow is equal to 0, cannot map an empty file !");
   size_t matrix_size = size_ * sizeof(T);
-  FileHandler(matrix_size, authorize_resize);
+  FileHandler(matrix_size, tmpfile);
 }
 
 
 // constructor for array
 // ! if it is not a matrix (dim.size != 2) ncol & nrow ARE NOT USED !!!
 template <typename T>
-MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool verbose, bool authorize_resize) :
-                    ncol_(0), nrow_(0), dim_{dims}, path_(path), verbose_(verbose) {
+MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool tmpfile, bool verbose) :
+                    ncol_(0), nrow_(0), dim_{dims}, path_(path), tmpfile_(tmpfile), verbose_(verbose) {
   size_ = 1;
   for (size_t d : dims) {
     size_ *= d;
@@ -118,27 +118,30 @@ MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool verbose, bo
     nrow_ = dim_[0];
     ncol_ = dim_[1];
   }
-  FileHandler(matrix_size, authorize_resize);
+  FileHandler(matrix_size, tmpfile);
 }
 
 // Destructor flushing changes to disk before unmapping
 template <typename T>
 MMatrix<T>::~MMatrix() {
   if (verbose_) verbosout_ << "Unmapping mmatrix " << path_ << std::endl;
-  if(path_.size() == 0) {
+  if(path_.size() == 0) { // empty path: free memory
     char * char_ptr = reinterpret_cast<char *>(data_ptr_);
     delete char_ptr;
     return;
   }
   std::error_code error;
-  if (matrix_file_.is_mapped())
-  {
+  if (matrix_file_.is_mapped()) {
     matrix_file_.sync(error);
     if (error && verbose_) {
       // here no exception not to disturb the unstacking
       verbosout_ << "ERROR : in MMatrix destructor : Failed to unsync the file " << path_ << ": " << error.message() << '\n';
     }
     matrix_file_.unmap();
+    // removing file if temp file
+    if(tmpfile_) {
+      std::filesystem::remove(path_);
+    }
   }
 }
 
