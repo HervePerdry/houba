@@ -9,8 +9,8 @@
 ## Features 
 
 * added possibility to use dimension names
-* added posibility to subset with negative indices
+* added possibility to use negative indices
 
 ## Corrections
 
-* corrected a bug in some arithmetic methods
+* corrected a bug in some arithmetic methods (dispatching was failing)

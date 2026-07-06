@@ -60,7 +60,7 @@ inline void apply_R(SEXP pM, std::string datatype, SEXP r_vec, FTYPE F) {
 // datatype = type de cette MMatrix
 // pM2 = pointeur vers une MMatrix
 // datatype2 = type de cette MMatrix
-// F = un objet avec un operateur ()(MMatrix, MMatrix) [templated] (cf exemple dans colSums.cpp)a
+// F = un objet avec un operateur ()(MMatrix, MMatrix) [templated] (cf exemple dans colSums.cpp)
 // le template va appeler F( M, M2 ) avec M et M2 les matrices pointées par pM et pM2
 template<typename FTYPE>
 inline void apply_mmatrix(SEXP pM, std::string datatype, SEXP pM2, std::string datatype2, FTYPE F) {
@@ -101,4 +101,29 @@ inline void apply_mmatrix_2(Rcpp::XPtr<houba::MMatrix<T>> instanc, SEXP pM2, std
     throw std::runtime_error("Unsupported datatype for now !");
   }
 }
+
+// Quand pM et pM2 ont le même datatype
+template<typename FTYPE>
+inline void apply_mmatrix(SEXP pM, std::string datatype, SEXP pM2, FTYPE F) {
+  if (datatype == "float") { 
+    Rcpp::XPtr<houba::MMatrix<float>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<float>> instanc2(pM2);
+    F(instanc, instanc2);
+  } else if (datatype == "double") {
+    Rcpp::XPtr<houba::MMatrix<double>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<double>> instanc2(pM2);
+    F(instanc, instanc2);
+  } else if (datatype == "integer") {
+    Rcpp::XPtr<houba::MMatrix<int>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<int>> instanc2(pM2);
+    F(instanc, instanc2);
+  } else if (datatype == "short") {
+    Rcpp::XPtr<houba::MMatrix<int16_t>> instanc(pM);
+    Rcpp::XPtr<houba::MMatrix<int16_t>> instanc2(pM2);
+    F(instanc, instanc2);
+  } else {
+    throw std::runtime_error("Unsupported datatype for now !");
+  }
+}
+
 #endif

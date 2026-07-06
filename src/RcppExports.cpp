@@ -490,6 +490,18 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// transpose_to
+void transpose_to(SEXP pM, std::string datatype, SEXP result);
+RcppExport SEXP _houba_transpose_to(SEXP pMSEXP, SEXP datatypeSEXP, SEXP resultSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type result(resultSEXP);
+    transpose_to(pM, datatype, result);
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_houba_MMatrixToRArray", (DL_FUNC) &_houba_MMatrixToRArray, 2},
@@ -530,6 +542,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_houba_set_values_mvector", (DL_FUNC) &_houba_set_values_mvector, 4},
     {"_houba_set_values_mvector_mm", (DL_FUNC) &_houba_set_values_mvector_mm, 5},
     {"_houba_setdims", (DL_FUNC) &_houba_setdims, 3},
+    {"_houba_transpose_to", (DL_FUNC) &_houba_transpose_to, 3},
     {NULL, NULL, 0}
 };
 

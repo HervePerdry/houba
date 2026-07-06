@@ -153,3 +153,7 @@ setdims <- function(pM, datatype, value) {
     invisible(.Call(`_houba_setdims`, pM, datatype, value))
 }
 
+transpose_to <- function(pM, datatype, result) {
+    invisible(.Call(`_houba_transpose_to`, pM, datatype, result))
+}
+
