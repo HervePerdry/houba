@@ -349,17 +349,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// print_debug
-void print_debug(SEXP pM, std::string datatype);
-RcppExport SEXP _houba_print_debug(SEXP pMSEXP, SEXP datatypeSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
-    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
-    print_debug(pM, datatype);
-    return R_NilValue;
-END_RCPP
-}
 // rowSums_R_double
 void rowSums_R_double(SEXP pM, std::string datatype, Rcpp::NumericVector result);
 RcppExport SEXP _houba_rowSums_R_double(SEXP pMSEXP, SEXP datatypeSEXP, SEXP resultSEXP) {
@@ -533,7 +522,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_houba_isnullptr", (DL_FUNC) &_houba_isnullptr, 1},
     {"_houba_link_marray", (DL_FUNC) &_houba_link_marray, 4},
     {"_houba_link_mmatrix", (DL_FUNC) &_houba_link_mmatrix, 5},
-    {"_houba_print_debug", (DL_FUNC) &_houba_print_debug, 2},
     {"_houba_rowSums_R_double", (DL_FUNC) &_houba_rowSums_R_double, 3},
     {"_houba_rowSums_R_int", (DL_FUNC) &_houba_rowSums_R_int, 3},
     {"_houba_rowSums_mvector", (DL_FUNC) &_houba_rowSums_mvector, 4},

@@ -1,14 +1,15 @@
 #ifndef MMATRIX_METHOD_H
 #define MMATRIX_METHOD_H
 
-#include <fstream> // for ofstream, loading the file
-#include <sstream> // for verbosout
 #include <iostream> 
+#include <fstream>
 #include <stdexcept>
 #include <system_error> // for std::error_code
 #include <filesystem>
 
 #include "mio/mio.hpp"
+
+// #define _houbadebugstream_ std::cout
 
 namespace houba {
 
@@ -35,9 +36,10 @@ void MMatrix<T>::FileHandler(size_t matrix_size, bool tmpfile) {
   std::FILE * check = std::fopen(path_c, "rb"); // open en readonly 
 
   if (!check) { // file does not exist, create it and set its size 
-    if(verbose_) {
-      verbosout_ << "The file " << path_ << " does not exist, creating one ...  ";
-    }
+#ifdef _houbadebugstream_
+  _houbadebugstream_ << "File " << path_ << " does not exist, creating it\n";
+#endif
+
     std::ofstream newfile(path_, std::ios::binary); // to load with \0
     if (!newfile || !newfile.is_open())
       throw std::runtime_error("Failed to open the file");
@@ -47,16 +49,18 @@ void MMatrix<T>::FileHandler(size_t matrix_size, bool tmpfile) {
     newfile.put('\0');
     // mio will reopen it
     newfile.close();
-    if (verbose_) verbosout_ << "Done !" << std::endl;
+#ifdef _houbadebugstream_
+  _houbadebugstream_ << "Done !" << std::endl;
+#endif
   } else {
     // file does exist !
     std::fclose(check); // closed
     if(tmpfile) { // if it exists can't be tmpfile
       throw std::runtime_error("File already exists, can't be tmp file");
     }
-    if (verbose_) {
-      verbosout_ << "Using and potentially overwritting already existing " << path_ << std::endl;
-    }
+#ifdef _houbadebugstream_
+  _houbadebugstream_ << "Using already existing file " << path_ << std::endl;
+#endif
     // get its size
     size_t file_size = std::filesystem::file_size(path_);
     
@@ -83,16 +87,15 @@ void MMatrix<T>::FileHandler(size_t matrix_size, bool tmpfile) {
 
   data_ptr_ = reinterpret_cast<T *>(matrix_file_.data());
 
-  if (verbose_) {
-    verbosout_ << "An MMatrix was successfuly created.\nfrom file :" << path_ << "\n and with "<< dim_.size() << " dims : [";
-    verbosout_ << nrow_  << ", " << ncol_ << "] (nrow, ncol) \n";
-  }
+#ifdef _houbadebugstream_
+  _houbadebugstream_ << "File handler created wit path " << path_ << " and size " << matrix_size << "\n";
+#endif
 }
 
 // Constructor FOR A 2 DIM MMATRIX
 template <typename T>
-MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool tmpfile, bool verbose) :
-                    ncol_(ncol), nrow_(nrow), dim_{nrow, ncol}, path_(path), tmpfile_(tmpfile), verbose_(verbose) {
+MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool tmpfile) :
+                    ncol_(ncol), nrow_(nrow), dim_{nrow, ncol}, path_(path), tmpfile_(tmpfile) {
   size_ = ncol * nrow;
   if (!size_) 
     throw std::invalid_argument("ncol or nrow is equal to 0, cannot map an empty file !");
@@ -104,8 +107,8 @@ MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool tmpfile, bo
 // constructor for array
 // ! if it is not a matrix (dim.size != 2) ncol & nrow ARE NOT USED !!!
 template <typename T>
-MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool tmpfile, bool verbose) :
-                    ncol_(0), nrow_(0), dim_{dims}, path_(path), tmpfile_(tmpfile), verbose_(verbose) {
+MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool tmpfile) :
+                    ncol_(0), nrow_(0), dim_{dims}, path_(path), tmpfile_(tmpfile) {
   size_ = 1;
   for (size_t d : dims) {
     size_ *= d;
@@ -114,7 +117,6 @@ MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool tmpfile, bo
   size_t matrix_size = size_ * sizeof(T);
 
   if (dim_.size() == 2) {
-    if (verbose_) verbosout_ << "You are creating a matrix (2dims) with the array style c°.\n";
     nrow_ = dim_[0];
     ncol_ = dim_[1];
   }
@@ -124,7 +126,9 @@ MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool tmpfile, bo
 // Destructor flushing changes to disk before unmapping
 template <typename T>
 MMatrix<T>::~MMatrix() {
-  if (verbose_) verbosout_ << "Unmapping mmatrix " << path_ << std::endl;
+#ifdef _houbadebugstream_
+  _houbadebugstream_ << "Unmapping file " << path_ << "\n";
+#endif
   if(path_.size() == 0) { // empty path: free memory
     char * char_ptr = reinterpret_cast<char *>(data_ptr_);
     delete char_ptr;
@@ -133,58 +137,61 @@ MMatrix<T>::~MMatrix() {
   std::error_code error;
   if (matrix_file_.is_mapped()) {
     matrix_file_.sync(error);
-    if (error && verbose_) {
-      // here no exception not to disturb the unstacking
-      verbosout_ << "ERROR : in MMatrix destructor : Failed to unsync the file " << path_ << ": " << error.message() << '\n';
+#ifdef _houbadebugstream_
+    if(error) {
+      _houbadebugstream_ << "ERROR : in MMatrix destructor : Failed to unsync the file " << path_ << ": " << error.message() << '\n';
     }
+#endif
     matrix_file_.unmap();
     // removing file if temp file
     if(tmpfile_) {
+#ifdef _houbadebugstream_
+  _houbadebugstream_ << "Removing (tmp) file " << path_ << "\n";
+#endif
       std::filesystem::remove(path_);
+    } else {
+#ifdef _houbadebugstream_
+  _houbadebugstream_ << "Not removing file " << path_ << "\n";
+#endif
     }
   }
 }
 
-// Getters for nrow, ncol, size, path, data_ptr, dim, verbose
+// Getters for nrow, ncol, size, path, data_ptr, dim
 template <typename T>
 size_t MMatrix<T>::nrow() const
 {
   return nrow_;
 }
+
 template <typename T>
 size_t MMatrix<T>::ncol() const
 {
   return ncol_;
 }
+
 template <typename T>
 size_t MMatrix<T>::size() const
 {
   return size_;
 }
+
 template <typename T>
 std::string MMatrix<T>::path() const
 {
   return path_;
 }
+
 template <typename T>
 std::vector<size_t> MMatrix<T>::dim() const {
   return dim_;
 }
+
 template <typename T>
 T *MMatrix<T>::data() const
 {
   return data_ptr_;
 }
-template <typename T>
-bool MMatrix<T>::verbose() const
-{
-  return verbose_;
-}
-template <typename T>
-std::string MMatrix<T>::getVerbosout() const {
-  return verbosout_.str();
-}
-
 
 // Setter for dimension
 template <typename T>
@@ -558,8 +565,10 @@ void MMatrix<T>::flush() {
     matrix_file_.sync(error);
     if (error)
       throw std::runtime_error("Failed to flush changes to the file " + path_ + ": " + error.message());
-  } else if(verbose_) {
-    verbosout_ << "ERROR : cannot call the sync process because the file is not mapped !\n";
+  } else {
+#ifdef _houbadebugstream_ 
+    _houbadebugstream_ << "Cannot call sync process because file " << path_ <<  " is not mapped !\n";
+#endif
   }
 }
 

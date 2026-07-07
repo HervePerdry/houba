@@ -109,10 +109,6 @@ link_mmatrix <- function(datatype, file, nrow, ncol, tmpfile = FALSE) {
     .Call(`_houba_link_mmatrix`, datatype, file, nrow, ncol, tmpfile)
 }
 
-print_debug <- function(pM, datatype) {
-    invisible(.Call(`_houba_print_debug`, pM, datatype))
-}
-
 rowSums_R_double <- function(pM, datatype, result) {
     invisible(.Call(`_houba_rowSums_R_double`, pM, datatype, result))
 }

@@ -20,6 +20,7 @@ class trans {
       if(nr != result->ncol() || nc != result->nrow())
         throw std::runtime_error("Dimensions mismatch");
 
+      // to be sure to avoid calling a method
       T * p_result = &((*result)[0]);
       T * p_mat = &((*mat)[0]);
 

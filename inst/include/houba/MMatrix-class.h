@@ -41,9 +41,8 @@ public:
      * @param nrow a size_t
      * @param ncol a size_t
      * @param tmpfile a boolean. If true, file will be erased when the object is destructed.
-     * @param verbose a boolean true by default used to silence the class (if true, will add logs to verbosout_)
      */
-    MMatrix(std::string path, size_t nrow, size_t ncol, bool tmpfile = false, bool verbose = true);
+    MMatrix(std::string path, size_t nrow, size_t ncol, bool tmpfile = false);
 
     /** Constructor for a "array-style" call
      * @brief Constructor for multidimensional matrices, opening or creating the file before mapping it.
@@ -51,9 +50,8 @@ public:
      * @param path an std::string referencing the absolute path to the file
      * @param dims a std::vector<size_t> 
      * @param tmpfile a boolean. If true, file will be erased when the object is destructed.
-     * @param verbose a boolean true by default used to silence the class (if true, will add logs to verbosout_)
      */    
-    MMatrix(std::string path, std::vector<size_t> dims, bool tmpfile = false, bool verbose = true);
+    MMatrix(std::string path, std::vector<size_t> dims, bool tmpfile = false);
      /** Destructor
      * @brief Destructor flushing changes to the disk before unmapping
      **/
@@ -68,8 +66,6 @@ public:
     std::string path() const; /**< Getter for @ref path_. @return std::string */
     std::vector<size_t> dim() const; /**< Getter for @ref dims_. @return std::vector<size_t> */
     T *data() const; /**< Getter for @ref data_. @return a pointer to the first byte of data*/
-    bool verbose() const; /**< Getter for @ref verbose_. @return bool */
-    std::string getVerbosout() const; /**< Getter for @ref verbosout_ content. @return std::string */
 
     // Setter for dimension
     template <typename intVec> 
@@ -202,11 +198,6 @@ protected:
     // Bool for tmp file
     bool tmpfile_;
 
-    // Boolean used to silence the class 
-    bool verbose_;
-
-    // used for logging
-    std::ostringstream verbosout_;
 };
 
 } // end namespace houba

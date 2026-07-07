@@ -4,9 +4,9 @@ mvector <- function(datatype = c("double", "float", "integer", "short"), length,
   datatype <- match.arg(datatype)
   if(missing(filename)) {
     filename <- tempfile("mmatrix")
-    tmpfile <- FALSE
-  } else {
     tmpfile <- TRUE
+  } else {
+    tmpfile <- FALSE
   }
   if(missing(readonly)) readonly <- file.exists(filename)
   # on the C++ size mvector are mmatrices with ncol = 1
